@@ -1,8 +1,15 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
+import { 
+  Fish, Home, ArrowRightLeft, Truck, User, LifeBuoy, 
+  Navigation, Search, AlertTriangle, MoreVertical, MapPin 
+} from 'lucide-react';
 import mapImg from '../assets/images/map/map-dong-bang-song-cu-long.png';
 
 const LandingPage = () => {
+  const navigate = useNavigate();
+
   // === Dữ liệu Bản đồ ===
   const locations = [
     { type: 'processing', x: 20, y: 72, label: 'Cà Mau' },
@@ -27,23 +34,21 @@ const LandingPage = () => {
     <div className="flex h-screen bg-gray-50 font-sans text-gray-800">
       
       {/* ================= SIDEBAR ================= */}
-      <aside className="w-64 bg-[#0a192f] text-white flex flex-col flex-shrink-0">
+      <aside className="w-64 bg-[#0a192f] text-white flex flex-col shrink-0">
         <div className="h-16 flex items-center px-6 border-b border-gray-700">
-          <svg className="w-6 h-6 text-teal-400 mr-2" fill="currentColor" viewBox="0 0 24 24">
-            <path d="M12 2L2 22h20L12 2zm0 6l5 10H7l5-10z" />
-          </svg>
+          {/* <Fish size={24} strokeWidth={2} className="text-teal-400 mr-2" /> */}
           <span className="text-xl font-bold tracking-wide">AquaTrade Hub</span>
         </div>
 
         <nav className="flex-1 px-4 py-6 space-y-2">
-          {/* <NavItem icon={<HomeIcon />} label="Trang chủ" />
-          <NavItem icon={<ExchangeIcon />} label="Sàn Giao dịch" active />
-          <NavItem icon={<LogisticsIcon />} label="Tối ưu Logistics" />
-          <NavItem icon={<UserIcon />} label="Tài khoản" />
-          <NavItem icon={<SupportIcon />} label="Hỗ trợ" /> */}
+          <NavItem icon={<Home size={20} />} label="Trang chủ" />
+          <NavItem icon={<ArrowRightLeft size={20} />} label="Sàn Giao dịch" active />
+          <NavItem icon={<Truck size={20} />} label="Tối ưu Logistics" />
+          <NavItem icon={<User size={20} />} label="Tài khoản" />
+          <NavItem icon={<LifeBuoy size={20} />} label="Hỗ trợ" />
           
-          <div className="border-t border-gray-700 mt-2 pt-2">
-            <NavItem icon={<TrackIcon />} label="Theo dõi xe" badge="Mới" />
+          <div className="border-t border-gray-700 mt-4 pt-4">
+            <NavItem icon={<Navigation size={20} />} label="Theo dõi xe" badge="Mới" />
           </div>
         </nav>
 
@@ -71,7 +76,7 @@ const LandingPage = () => {
       <main className="flex-1 flex flex-col overflow-hidden">
         
         {/* Top Header */}
-        <header className="h-16 bg-white border-b flex items-center justify-between px-8 flex-shrink-0">
+        <header className="h-16 bg-white border-b flex items-center justify-between px-8 shrink-0">
           <div className="flex space-x-6 text-sm font-medium text-gray-500">
             <a href="#" className="hover:text-teal-600">Trang chủ</a>
             <a href="#" className="text-teal-600 border-b-2 border-teal-600 pb-1">Sàn Giao dịch</a>
@@ -84,9 +89,9 @@ const LandingPage = () => {
               <input 
                 type="text" 
                 placeholder="Tìm kiếm..." 
-                className="bg-gray-100 border-none rounded-full px-4 py-1.5 text-sm focus:ring-2 focus:ring-teal-500 outline-none w-64"
+                className="bg-gray-100 border-none rounded-full pl-4 pr-10 py-1.5 text-sm focus:ring-2 focus:ring-teal-500 outline-none w-64"
               />
-              <svg className="w-4 h-4 text-gray-400 absolute right-3 top-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+              <Search size={16} className="absolute right-4 top-2 text-gray-400" />
             </div>
             <div className="w-8 h-8 bg-orange-200 text-orange-600 rounded-full flex items-center justify-center font-bold">
               U
@@ -100,7 +105,7 @@ const LandingPage = () => {
           <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
             
             {/* Cột Trái: Bản đồ Tối ưu Vận tải */}
-            <section className="bg-white rounded-xl shadow-sm border border-gray-100 p-5 flex flex-col h-[450px]">
+            <section className="bg-white rounded-xl shadow-sm border border-gray-100 p-5 flex flex-col h-112.5">
               <div className="flex justify-between items-center mb-3">
                 <h2 className="text-lg font-bold text-gray-800">Bản đồ Tối ưu Vận tải</h2>
                 <select className="border border-gray-200 rounded px-2 py-1 text-xs text-gray-600 outline-none">
@@ -119,7 +124,6 @@ const LandingPage = () => {
                   wheel={{ step: 0.1 }}
                 >
                   {(utils) => {
-                    // Lấy biến scale hiện tại (tùy version thư viện mà nó nằm trong state hoặc transformState)
                     const currentScale = utils.state?.scale || utils.transformState?.scale || 1;
 
                     return (
@@ -138,7 +142,7 @@ const LandingPage = () => {
                               className="w-full h-full object-cover select-none pointer-events-none"
                             />
 
-                            {/* SVG Tuyến đường (Đường kẻ không cần scale ngược vì nó mỏng sẵn) */}
+                            {/* SVG Tuyến đường */}
                             <svg className="absolute inset-0 w-full h-full z-0 pointer-events-none" viewBox="0 0 100 100" preserveAspectRatio="none">
                               {routes.map((route, index) => (
                                 <path
@@ -158,12 +162,12 @@ const LandingPage = () => {
                               ))}
                             </svg>
 
-                            {/* Điểm đánh dấu (Markers) - Cấp prop scale để nó thu nhỏ lại */}
+                            {/* Điểm đánh dấu (Markers) */}
                             {locations.map((loc, index) => (
                               loc.label && <Marker key={`marker-${index}`} type={loc.type} x={loc.x} y={loc.y} label={loc.label} scale={currentScale} />
                             ))}
 
-                            {/* Nhãn Xe (InfoLabels) - Cấp prop scale để nó thu nhỏ lại */}
+                            {/* Nhãn Xe (InfoLabels) */}
                             <InfoLabel x={28} y={75} title="Xe 1" color="text-blue-700" scale={currentScale}>
                               <div className="flex flex-col gap-0.5">
                                 <span><span className="font-bold text-blue-700">Xe 1:</span> Cà Mau {'->'} Hub Bạc Liêu</span>
@@ -196,7 +200,7 @@ const LandingPage = () => {
             </section>
 
             {/* Cột Phải: Sức khỏe Thị trường */}
-            <section className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 flex flex-col h-[450px]">
+            <section className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 flex flex-col h-112.5">
               <div className="flex justify-between items-start mb-4">
                 <div>
                   <h2 className="text-lg font-bold text-gray-800">Sức khỏe Thị trường hôm nay</h2>
@@ -243,7 +247,7 @@ const LandingPage = () => {
 
           <div className="bg-orange-50 border border-orange-200 rounded-lg p-4 flex justify-between items-center">
             <div className="flex items-center text-orange-700">
-              <svg className="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" /></svg>
+              <AlertTriangle size={20} className="mr-2 shrink-0" />
               <span className="font-medium text-sm">Cảnh báo hàng sắp hỏng tại trạm thu gom Phú Tân!</span>
             </div>
             <button className="px-4 py-1.5 bg-teal-600 text-white text-sm font-medium rounded hover:bg-teal-700 transition">
@@ -255,7 +259,7 @@ const LandingPage = () => {
             <div className="flex justify-between items-center mb-4">
               <h2 className="text-lg font-bold text-gray-800">Danh sách Đơn hàng mới</h2>
               <button className="text-gray-400 hover:text-gray-600">
-                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z" /></svg>
+                <MoreVertical size={20} />
               </button>
             </div>
             <div className="overflow-x-auto">
@@ -307,7 +311,6 @@ const Legend = ({ position }) => {
   );
 };
 
-// ĐÃ THÊM LOGIC: 1 / scale
 const Marker = ({ type, x, y, label, scale = 1 }) => {
   const colors = {
     processing: 'border-red-500 bg-white text-red-500',
@@ -322,14 +325,13 @@ const Marker = ({ type, x, y, label, scale = 1 }) => {
       style={{ left: `${x}%`, top: `${y}%`, transform: `translate(-50%, -100%) scale(${inverseScale})` }}
     >
       <div className={`flex items-center justify-center p-0.5 border-2 rounded-full shadow-sm ${colors[type]} group-hover:scale-110 transition-transform cursor-pointer`}>
-        <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5z" /></svg>
+        <MapPin size={14} fill="currentColor" />
       </div>
       {label && <span className="mt-0.5 px-1 py-0.5 text-[10px] font-bold text-gray-800 bg-white/90 border border-gray-100 rounded shadow-sm whitespace-nowrap">{label}</span>}
     </div>
   );
 };
 
-// ĐÃ THÊM LOGIC: 1 / scale
 const InfoLabel = ({ x, y, title, color, scale = 1, children }) => {
   const inverseScale = 1 / scale;
 
@@ -339,7 +341,7 @@ const InfoLabel = ({ x, y, title, color, scale = 1, children }) => {
       style={{ left: `${x}%`, top: `${y}%`, transform: `translate(-50%, -50%) scale(${inverseScale})` }}
     >
       <div className="px-2 py-1 bg-white/90 backdrop-blur-sm border border-gray-300 rounded-full shadow-sm text-[10px] font-bold text-gray-700 flex items-center gap-1 group-hover:border-teal-500 group-hover:shadow-md transition-all">
-        <svg className={`w-3 h-3 ${color}`} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" /></svg>
+        <Truck size={12} className={color} />
         {title}
       </div>
 
@@ -352,7 +354,7 @@ const InfoLabel = ({ x, y, title, color, scale = 1, children }) => {
 
 const NavItem = ({ icon, label, active, badge }) => (
   <a href="#" className={`flex items-center px-4 py-2.5 rounded-lg transition-colors ${active ? 'bg-teal-900 text-teal-400' : 'text-gray-300 hover:bg-gray-800 hover:text-white'}`}>
-    <div className="w-5 h-5 mr-3">{icon}</div>
+    <div className="mr-3">{icon}</div>
     <span className="flex-1 text-sm font-medium">{label}</span>
     {badge && <span className="text-xs bg-orange-500 text-white px-2 py-0.5 rounded-full">{badge}</span>}
   </a>
@@ -401,7 +403,7 @@ const ChartCard = ({ title }) => (
     <div className="flex justify-between items-center mb-4">
       <h3 className="font-bold text-gray-800 text-sm">{title}</h3>
       <button className="text-gray-400 hover:text-gray-600">
-        <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z" /></svg>
+        <MoreVertical size={20} />
       </button>
     </div>
     <div className="flex-1 bg-gray-50 border border-dashed border-gray-200 flex items-center justify-center text-gray-400 text-sm rounded">
@@ -409,7 +411,5 @@ const ChartCard = ({ title }) => (
     </div>
   </div>
 );
-
-const TrackIcon = () => <svg fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" /><path strokeLinecap="round" strokeLinejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" /></svg>;
 
 export default LandingPage;
