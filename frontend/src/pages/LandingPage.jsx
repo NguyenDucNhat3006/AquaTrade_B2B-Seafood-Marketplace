@@ -41,12 +41,12 @@ const LandingPage = () => {
         </div>
 
         <nav className="flex-1 px-4 py-6 space-y-2">
-          <NavItem icon={<Home size={20} />} label="Trang chủ" />
-          <NavItem icon={<ArrowRightLeft size={20} />} label="Sàn Giao dịch" active />
-          <NavItem icon={<Truck size={20} />} label="Tối ưu Logistics" />
-          <NavItem icon={<User size={20} />} label="Tài khoản" />
-          <NavItem icon={<LifeBuoy size={20} />} label="Hỗ trợ" />
-          
+          <NavItem icon={<Home size={20} />} label="Trang chủ" active />
+          <NavItem icon={<ArrowRightLeft size={20} />} label="Sàn Giao dịch" />
+          {/* <NavItem icon={<Truck size={20} />} label="Tối ưu Logistics" /> */}
+          {/* <NavItem icon={<User size={20} />} label="Tài khoản" /> */}
+          {/* <NavItem icon={<LifeBuoy size={20} />} label="Hỗ trợ" /> */}
+
           <div className="border-t border-gray-700 mt-4 pt-4">
             <NavItem icon={<Navigation size={20} />} label="Theo dõi xe" badge="Mới" />
           </div>
@@ -78,11 +78,11 @@ const LandingPage = () => {
         {/* Top Header */}
         <header className="h-16 bg-white border-b flex items-center justify-between px-8 shrink-0">
           <div className="flex space-x-6 text-sm font-medium text-gray-500">
-            <a href="#" className="hover:text-teal-600">Trang chủ</a>
-            <a href="#" className="text-teal-600 border-b-2 border-teal-600 pb-1">Sàn Giao dịch</a>
-            <a href="#" className="hover:text-teal-600">Tối ưu Logistics</a>
-            <a href="#" className="hover:text-teal-600">Tài khoản</a>
-            <a href="#" className="hover:text-teal-600">Hỗ trợ</a>
+            <a href="#" className="text-teal-600 border-b-2 border-teal-600 pb-1">Trang chủ</a>
+            <a href="#" className="hover:text-teal-600">Sàn Giao dịch</a>
+            {/* <a href="#" className="hover:text-teal-600">Tối ưu Logistics</a> */}
+            {/* <a href="#" className="hover:text-teal-600">Tài khoản</a> */}
+            {/* <a href="#" className="hover:text-teal-600">Hỗ trợ</a> */}
           </div>
           <div className="flex items-center space-x-4">
             <div className="relative">
