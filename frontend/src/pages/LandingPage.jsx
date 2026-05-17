@@ -10,42 +10,18 @@ import mapImg from '../assets/images/map/map-dong-bang-song-cu-long.png';
 const LandingPage = () => {
   const navigate = useNavigate();
 
-  // === Dữ liệu Bản đồ ===
-  const locations = [
-    { type: 'processing', x: 20, y: 72, label: 'Cà Mau' },
-    { type: 'coldstorage', x: 36.5, y: 69, label: 'Hub Bạc Liêu' },
-    { type: 'processing', x: 12, y: 76, label: 'Phú Tân' },
-    { type: 'coldstorage', x: 37, y: 44, label: 'Cần Thơ' },
-    { type: 'consumption', x: 64, y: 29, label: 'Long An' },
-    { type: 'coldstorage', x: 45, y: 55, label: '' },
-    { type: 'consumption', x: 55, y: 38, label: '' },
-  ];
-
-  const routes = [
-    { points: [locations[0], locations[1], locations[3]], color: 'text-blue-700' },
-    { points: [locations[2], locations[5], locations[6], locations[4]], color: 'text-green-600' },
-  ];
-
-  const getPathData = (points) => {
-    return points.map((p, i) => `${i === 0 ? 'M' : 'L'} ${p.x} ${p.y}`).join(' ');
-  };
-
   return (
     <div className="flex h-screen bg-gray-50 font-sans text-gray-800">
       
       {/* ================= SIDEBAR ================= */}
       <aside className="w-64 bg-[#0a192f] text-white flex flex-col shrink-0">
         <div className="h-16 flex items-center px-6 border-b border-gray-700">
-          {/* <Fish size={24} strokeWidth={2} className="text-teal-400 mr-2" /> */}
           <span className="text-xl font-bold tracking-wide">AquaTrade Hub</span>
         </div>
 
         <nav className="flex-1 px-4 py-6 space-y-2">
           <NavItem icon={<Home size={20} />} label="Trang chủ" active />
           <NavItem icon={<ArrowRightLeft size={20} />} label="Sàn Giao dịch" />
-          {/* <NavItem icon={<Truck size={20} />} label="Tối ưu Logistics" /> */}
-          {/* <NavItem icon={<User size={20} />} label="Tài khoản" /> */}
-          {/* <NavItem icon={<LifeBuoy size={20} />} label="Hỗ trợ" /> */}
 
           <div className="border-t border-gray-700 mt-4 pt-4">
             <NavItem icon={<Navigation size={20} />} label="Theo dõi xe" badge="Mới" />
@@ -79,10 +55,7 @@ const LandingPage = () => {
         <header className="h-16 bg-white border-b flex items-center justify-between px-8 shrink-0">
           <div className="flex space-x-6 text-sm font-medium text-gray-500">
             <a href="#" className="text-teal-600 border-b-2 border-teal-600 pb-1">Trang chủ</a>
-            <a href="#" className="hover:text-teal-600">Sàn Giao dịch</a>
-            {/* <a href="#" className="hover:text-teal-600">Tối ưu Logistics</a> */}
-            {/* <a href="#" className="hover:text-teal-600">Tài khoản</a> */}
-            {/* <a href="#" className="hover:text-teal-600">Hỗ trợ</a> */}
+            <a href="./exchange" className="hover:text-teal-600">Sàn Giao dịch</a>
           </div>
           <div className="flex items-center space-x-4">
             <div className="relative">
@@ -101,103 +74,7 @@ const LandingPage = () => {
 
         {/* Dashboard Scrollable Area */}
         <div className="flex-1 overflow-auto p-6 space-y-6">
-          
-          <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
-            
-            {/* Cột Trái: Bản đồ Tối ưu Vận tải */}
-            <section className="bg-white rounded-xl shadow-sm border border-gray-100 p-5 flex flex-col h-112.5">
-              <div className="flex justify-between items-center mb-3">
-                <h2 className="text-lg font-bold text-gray-800">Bản đồ Tối ưu Vận tải</h2>
-                <select className="border border-gray-200 rounded px-2 py-1 text-xs text-gray-600 outline-none">
-                  <option>Công cụ ra quyết định</option>
-                  <option>Xem toàn tuyến</option>
-                </select>
-              </div>
-              
-              <div className="relative flex-1 border border-gray-200 rounded-lg overflow-hidden bg-gray-100 cursor-move">
-                
-                <TransformWrapper
-                  initialScale={1}
-                  minScale={0.5}
-                  maxScale={5}
-                  centerOnInit={true}
-                  wheel={{ step: 0.1 }}
-                >
-                  {(utils) => {
-                    const currentScale = utils.state?.scale || utils.transformState?.scale || 1;
-
-                    return (
-                      <>
-                        <div className="absolute top-2 right-2 z-30 flex flex-col gap-1">
-                          <button onClick={() => utils.zoomIn()} className="w-7 h-7 bg-white/90 hover:bg-white border border-gray-300 rounded shadow-sm text-gray-700 font-bold flex items-center justify-center transition-colors">+</button>
-                          <button onClick={() => utils.zoomOut()} className="w-7 h-7 bg-white/90 hover:bg-white border border-gray-300 rounded shadow-sm text-gray-700 font-bold flex items-center justify-center transition-colors">-</button>
-                          <button onClick={() => utils.resetTransform()} className="w-7 h-7 bg-white/90 hover:bg-white border border-gray-300 rounded shadow-sm text-gray-700 text-[10px] font-medium flex items-center justify-center transition-colors">Gốc</button>
-                        </div>
-
-                        <TransformComponent wrapperClass="!w-full !h-full" contentClass="!w-full !h-full">
-                          <div className="relative w-full h-full">
-                            <img 
-                              src={mapImg} 
-                              alt="Bản đồ Đồng Bằng Sông Cửu Long" 
-                              className="w-full h-full object-cover select-none pointer-events-none"
-                            />
-
-                            {/* SVG Tuyến đường */}
-                            <svg className="absolute inset-0 w-full h-full z-0 pointer-events-none" viewBox="0 0 100 100" preserveAspectRatio="none">
-                              {routes.map((route, index) => (
-                                <path
-                                  key={`shadow-${index}`}
-                                  d={getPathData(route.points)}
-                                  fill="none" stroke="white" strokeWidth="1.2"
-                                  strokeLinecap="round" strokeLinejoin="round" className="opacity-70"
-                                />
-                              ))}
-                              {routes.map((route, index) => (
-                                <path
-                                  key={`line-${index}`}
-                                  d={getPathData(route.points)}
-                                  fill="none" stroke="currentColor" strokeWidth="0.6"
-                                  strokeLinecap="round" strokeLinejoin="round" className={route.color}
-                                />
-                              ))}
-                            </svg>
-
-                            {/* Điểm đánh dấu (Markers) */}
-                            {locations.map((loc, index) => (
-                              loc.label && <Marker key={`marker-${index}`} type={loc.type} x={loc.x} y={loc.y} label={loc.label} scale={currentScale} />
-                            ))}
-
-                            {/* Nhãn Xe (InfoLabels) */}
-                            <InfoLabel x={28} y={75} title="Xe 1" color="text-blue-700" scale={currentScale}>
-                              <div className="flex flex-col gap-0.5">
-                                <span><span className="font-bold text-blue-700">Xe 1:</span> Cà Mau {'->'} Hub Bạc Liêu</span>
-                                <span className="text-gray-500 text-[10px]">3.5 giờ | <span className="font-bold text-gray-800">Đạt 85% tải</span></span>
-                              </div>
-                            </InfoLabel>
-
-                            <InfoLabel x={36} y={55} title="Xe 1" color="text-blue-700" scale={currentScale}>
-                              <div className="flex flex-col gap-0.5">
-                                <span><span className="font-bold text-blue-700">Xe 1:</span> Bạc Liêu {'->'} Cần Thơ</span>
-                                <span className="text-gray-500 text-[10px]">2.0 giờ | <span className="font-bold text-gray-800">Đạt 90% tải</span></span>
-                              </div>
-                            </InfoLabel>
-
-                            <InfoLabel x={30} y={62} title="Xe 2" color="text-green-600" scale={currentScale}>
-                              <div className="flex flex-col gap-0.5">
-                                <span><span className="font-bold text-green-600">Xe 2:</span> Phú Tân {'->'} Long An</span>
-                                <span className="text-gray-500 text-[10px]">4.5 giờ | <span className="font-bold text-gray-800">Đạt 100% tải</span></span>
-                              </div>
-                            </InfoLabel>
-                          </div>
-                        </TransformComponent>
-                      </>
-                    );
-                  }}
-                </TransformWrapper>
-
-                <Legend position="top-2 left-2" />
-              </div>
-            </section>
+          <div className="grid grid-cols-1 xl:grid-cols-1 gap-6">
 
             {/* Cột Phải: Sức khỏe Thị trường */}
             <section className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 flex flex-col h-112.5">
@@ -254,34 +131,6 @@ const LandingPage = () => {
               Đăng ký bán hàng
             </button>
           </div>
-
-          <section className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
-            <div className="flex justify-between items-center mb-4">
-              <h2 className="text-lg font-bold text-gray-800">Danh sách Đơn hàng mới</h2>
-              <button className="text-gray-400 hover:text-gray-600">
-                <MoreVertical size={20} />
-              </button>
-            </div>
-            <div className="overflow-x-auto">
-              <table className="w-full text-sm text-left">
-                <thead className="bg-gray-50 text-gray-600 font-medium border-b border-gray-200">
-                  <tr>
-                    <th className="py-3 px-4">Mã ĐH</th>
-                    <th className="py-3 px-4">Người bán</th>
-                    <th className="py-3 px-4">Sản phẩm</th>
-                    <th className="py-3 px-4">Số lượng</th>
-                    <th className="py-3 px-4">Yêu cầu Vận chuyển</th>
-                    <th className="py-3 px-4">Thời gian</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-gray-100">
-                  <OrderRow id="MI00001" seller="Người bán nguồn" product="Vỏ Tôm sú" qty="2,000 đ/kg" request="Vận chuyển" time="20/24-09-28" />
-                  <OrderRow id="MI00002" seller="Người bán" product="Vỏ Tôm sú" qty="5,000 đ/kg" request="Vận chuyển" time="20/24-09-21" />
-                  <OrderRow id="MI00003" seller="Người bán" product="Đầu Mực" qty="1,000 đ/kg" request="Vận chuyển" time="20/24-09-22" />
-                </tbody>
-              </table>
-            </div>
-          </section>
 
         </div>
       </main>

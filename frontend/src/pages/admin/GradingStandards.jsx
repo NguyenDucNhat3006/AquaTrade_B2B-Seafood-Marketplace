@@ -11,7 +11,7 @@ const GradingStandards = () => {
          <div className="absolute top-0 right-0 w-64 h-64 bg-teal-500/10 rounded-full blur-3xl -mr-20 -mt-20"></div>
          <div className="relative z-10 flex flex-col md:flex-row justify-between items-start gap-6">
             <div>
-              <h1 className="text-3xl font-black text-black tracking-tight mb-2">Bộ Tiêu Chuẩn Phân Cấp <span className="text-teal-400 italic">Phụ Phẩm Tôm</span></h1>
+              <h1 className="text-3xl font-black text-black tracking-tight mb-2">Bộ Tiêu Chuẩn Phân Cấp <span className="text-teal-400 italic">Phụ Phẩm</span></h1>
               <p className="text-black text-sm font-medium uppercase tracking-widest">Shrimp By-Product B2B Grading Standard</p>
             </div>
             <div className="flex flex-wrap gap-2 justify-end">

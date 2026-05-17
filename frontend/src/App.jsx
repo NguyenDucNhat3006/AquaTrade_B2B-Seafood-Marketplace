@@ -8,6 +8,7 @@ import {
 } from 'lucide-react';
 
 import LandingPage from './pages/LandingPage';
+import Exchange from './pages/Exchange';
 import SellerDashboard from './pages/seller/SellerDashboard';
 import BuyerDashboard from './pages/buyer/BuyerDashboard';
 import AdminDashboard from './pages/admin/AdminDashboard';
@@ -23,9 +24,6 @@ const AdminLayout = () => {
       {/* SIDEBAR NAVIGATION */}
       <aside className="w-60 bg-[#0a192f] text-gray-300 flex flex-col shrink-0 border-r border-gray-800 overflow-y-auto">
         <div className="p-5 border-b border-gray-800 flex items-center gap-2">
-          <div className="w-8 h-8 bg-teal-500 rounded-lg flex items-center justify-center text-gray-900 shadow-lg shadow-teal-500/20">
-            <Fish size={20} strokeWidth={2.5} />
-          </div>
           <div className="leading-none">
             <span className="text-[15px] font-black text-white block">AquaMarket</span>
             <span className="text-[9px] font-mono text-gray-400 uppercase tracking-widest mt-1">Admin Console</span>
@@ -152,6 +150,7 @@ function App() {
       <AnimatePresence mode="wait">
         <Routes>
           <Route path="/" element={<LandingPage />} />
+          <Route path='/exchange' element={<Exchange />} />
           <Route path="/seller" element={<SellerDashboard />} />
           <Route path="/buyer" element={<BuyerDashboard />} />
           
