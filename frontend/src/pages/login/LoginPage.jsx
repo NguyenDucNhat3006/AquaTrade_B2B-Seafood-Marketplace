@@ -222,9 +222,12 @@ export default function LoginPage() {
                         <footer className="mt-10 pt-8 border-t border-gray-200 text-center">
                             <p className="text-gray-600">
                                 Chưa có tài khoản?
-                                <a href="#" className="text-teal-600 font-bold hover:underline ml-1">
+                                <Link
+                                    to="/register"
+                                    className="text-teal-600 font-bold hover:underline ml-1"
+                                >
                                     Đăng ký ngay
-                                </a>
+                                </Link>
                             </p>
                         </footer>
                     </div>
