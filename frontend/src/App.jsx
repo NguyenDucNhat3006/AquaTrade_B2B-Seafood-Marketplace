@@ -7,6 +7,7 @@ import {
   BookOpen, Bell, Search 
 } from 'lucide-react';
 
+import LoginPage from './pages/login/LoginPage';
 import LandingPage from './pages/LandingPage';
 import SellerDashboard from './pages/seller/SellerDashboard';
 import BuyerDashboard from './pages/buyer/BuyerDashboard';
@@ -148,21 +149,28 @@ const AdminLayout = () => {
 
 function App() {
   return (
-    <Router>
-      <AnimatePresence mode="wait">
-        <Routes>
-          <Route path="/" element={<LandingPage />} />
-          <Route path="/seller" element={<SellerDashboard />} />
-          <Route path="/buyer" element={<BuyerDashboard />} />
-          
-          {/* Cấu hình lồng nhau để chia sẻ khung xương điều hướng */}
-          <Route path="/admin" element={<AdminLayout />}>
-            <Route index element={<AdminDashboard />} />
-            <Route path="grading-standards" element={<GradingStandards />} />
-          </Route>
-        </Routes>
-      </AnimatePresence>
-    </Router>
+      <Router>
+        <AnimatePresence mode="wait">
+          <Routes>
+            {/* 1. Đặt LoginPage làm trang đầu tiên khi mở dự án */}
+            <Route path="/" element={<LoginPage />} />
+
+            {/* 2. Đổi LandingPage sang một đường dẫn khác (ví dụ: /home) để không bị mất code cũ */}
+            <Route path="/home" element={<LandingPage />} />
+
+            {/* Giữ lại /login để dự phòng nếu có link nào đó trỏ đến */}
+            <Route path="/login" element={<LoginPage />} />
+
+            <Route path="/seller" element={<SellerDashboard />} />
+            <Route path="/buyer" element={<BuyerDashboard />} />
+
+            <Route path="/admin" element={<AdminLayout />}>
+              <Route index element={<AdminDashboard />} />
+              <Route path="grading-standards" element={<GradingStandards />} />
+            </Route>
+          </Routes>
+        </AnimatePresence>
+      </Router>
   );
 }
 
