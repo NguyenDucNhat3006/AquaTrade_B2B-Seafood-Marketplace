@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 export default function LoginPage() {
     const [showPassword, setShowPassword] = useState(false);
@@ -180,9 +181,12 @@ export default function LoginPage() {
                                     <span className="text-sm text-gray-600">Ghi nhớ đăng nhập</span>
                                 </label>
 
-                                <a href="#" className="text-sm font-semibold text-teal-600 hover:underline">
+                                <Link
+                                    to="/forgot-password"
+                                    className="text-sm font-semibold text-teal-600 hover:underline"
+                                >
                                     Quên mật khẩu?
-                                </a>
+                                </Link>
                             </div>
 
                             <button

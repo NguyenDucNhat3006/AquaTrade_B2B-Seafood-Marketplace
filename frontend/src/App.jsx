@@ -8,6 +8,7 @@ import {
 } from 'lucide-react';
 
 import LoginPage from './pages/login/LoginPage';
+import ForgotPasswordPage from './pages/login/ForgotPasswordPage';
 import LandingPage from './pages/LandingPage';
 import SellerDashboard from './pages/seller/SellerDashboard';
 import BuyerDashboard from './pages/buyer/BuyerDashboard';
@@ -154,7 +155,7 @@ function App() {
           <Routes>
             {/* 1. Đặt LoginPage làm trang đầu tiên khi mở dự án */}
             <Route path="/" element={<LoginPage />} />
-
+            <Route path="/forgot-password" element={<ForgotPasswordPage />} />
             {/* 2. Đổi LandingPage sang một đường dẫn khác (ví dụ: /home) để không bị mất code cũ */}
             <Route path="/home" element={<LandingPage />} />
 
