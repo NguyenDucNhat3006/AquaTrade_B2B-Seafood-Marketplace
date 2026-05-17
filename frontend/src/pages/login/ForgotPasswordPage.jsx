@@ -1,8 +1,11 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+
 
 export default function ForgotPasswordPage() {
     const [contact, setContact] = useState("");
+    const navigate = useNavigate();
+
     const [error, setError] = useState("");
     const [success, setSuccess] = useState("");
     const [loading, setLoading] = useState(false);
@@ -30,7 +33,9 @@ export default function ForgotPasswordPage() {
             setError("Email hoặc số điện thoại không hợp lệ. Vui lòng kiểm tra lại.");
             return;
         }
-
+        setTimeout(() => {
+            navigate("/verify-otp");
+        }, 1000);
         setLoading(true);
 
         setTimeout(() => {

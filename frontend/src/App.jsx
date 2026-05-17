@@ -9,6 +9,7 @@ import {
 
 import LoginPage from './pages/login/LoginPage';
 import ForgotPasswordPage from './pages/login/ForgotPasswordPage';
+import OtpPage from './pages/login/OtpPage';
 import LandingPage from './pages/LandingPage';
 import SellerDashboard from './pages/seller/SellerDashboard';
 import BuyerDashboard from './pages/buyer/BuyerDashboard';
@@ -156,6 +157,7 @@ function App() {
             {/* 1. Đặt LoginPage làm trang đầu tiên khi mở dự án */}
             <Route path="/" element={<LoginPage />} />
             <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+            <Route path="/verify-otp" element={<OtpPage />} />
             {/* 2. Đổi LandingPage sang một đường dẫn khác (ví dụ: /home) để không bị mất code cũ */}
             <Route path="/home" element={<LandingPage />} />
 
