@@ -7,6 +7,11 @@ import {
   BookOpen, Bell, Search 
 } from 'lucide-react';
 
+import LoginPage from './pages/login/LoginPage';
+import RegisterPage from './pages/login/RegisterPage';
+import ForgotPasswordPage from './pages/login/ForgotPasswordPage';
+import OtpPage from './pages/login/OtpPage';
+
 import LandingPage from './pages/LandingPage';
 import Exchange from './pages/Exchange';
 import SellerDashboard from './pages/seller/SellerDashboard';
@@ -47,11 +52,11 @@ const AdminLayout = () => {
           </Link>
 
           <p className="px-3 text-[9px] font-mono text-gray-500 uppercase tracking-widest pt-4 pb-2">Quản lý</p>
-          <Link to="/admin/transactions" className="flex items-center px-3 py-2.5 rounded-lg text-[13.5px] transition hover:bg-gray-800 text-gray-400 hover:text-white">
+          {/* <Link to="/admin/transactions" className="flex items-center px-3 py-2.5 rounded-lg text-[13.5px] transition hover:bg-gray-800 text-gray-400 hover:text-white">
             <ArrowRightLeft size={16} className="mr-3 opacity-80" />
             <span className="flex-1">Giao dịch</span>
             <span className="bg-gray-700 text-gray-300 font-mono text-[9px] px-1.5 py-0.5 rounded-full font-bold">1.2K</span>
-          </Link>
+          </Link> */}
           <Link to="/admin/users" className="flex items-center px-3 py-2.5 rounded-lg text-[13.5px] transition hover:bg-gray-800 text-gray-400 hover:text-white">
             <Users size={16} className="mr-3 opacity-80" />
             <span className="flex-1">Người dùng</span>
@@ -146,22 +151,31 @@ const AdminLayout = () => {
 
 function App() {
   return (
-    <Router>
-      <AnimatePresence mode="wait">
-        <Routes>
-          <Route path="/" element={<LandingPage />} />
-          <Route path='/exchange' element={<Exchange />} />
-          <Route path="/seller" element={<SellerDashboard />} />
-          <Route path="/buyer" element={<BuyerDashboard />} />
-          
-          {/* Cấu hình lồng nhau để chia sẻ khung xương điều hướng */}
-          <Route path="/admin" element={<AdminLayout />}>
-            <Route index element={<AdminDashboard />} />
-            <Route path="grading-standards" element={<GradingStandards />} />
-          </Route>
-        </Routes>
-      </AnimatePresence>
-    </Router>
+      <Router>
+        <AnimatePresence mode="wait">
+          <Routes>
+            {/* 1. Đặt LoginPage làm trang đầu tiên khi mở dự án */}
+            <Route path="/" element={<LoginPage />} />
+            <Route path="/register" element={<RegisterPage />} />
+            <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+            <Route path="/verify-otp" element={<OtpPage />} />
+            {/* 2. Đổi LandingPage sang một đường dẫn khác (ví dụ: /home) để không bị mất code cũ */}
+            <Route path="/home" element={<LandingPage />} />
+            <Route path="/exchange" element={<Exchange />} />
+
+            {/* Giữ lại /login để dự phòng nếu có link nào đó trỏ đến */}
+            <Route path="/login" element={<LoginPage />} />
+
+            <Route path="/seller" element={<SellerDashboard />} />
+            <Route path="/buyer" element={<BuyerDashboard />} />
+
+            <Route path="/admin" element={<AdminLayout />}>
+              <Route index element={<AdminDashboard />} />
+              <Route path="grading-standards" element={<GradingStandards />} />
+            </Route>
+          </Routes>
+        </AnimatePresence>
+      </Router>
   );
 }
 

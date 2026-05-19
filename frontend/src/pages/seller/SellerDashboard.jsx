@@ -34,12 +34,12 @@ const SellerDashboard = () => {
           <NavSection label="Quản Lý Lô Hàng" />
           <NavItem icon={<LayoutDashboard size={16} />} label="Tổng quan" active />
           <NavItem icon={<Package size={16} />} label="Lô hàng của tôi" badge="8" badgeColor="bg-teal-500" />
-          <NavItem icon={<PlusCircle size={16} />} label="Đăng lô hàng mới" />
+          {/* <NavItem icon={<PlusCircle size={16} />} label="Đăng lô hàng mới" /> */}
           
           <NavSection label="Kinh Doanh" />
           <NavItem icon={<TrendingUp size={16} />} label="Doanh thu & Thống kê" />
           <NavItem icon={<ScrollText size={16} />} label="Lịch sử giao dịch" badge="2" badgeColor="bg-orange-500" />
-          <NavItem icon={<Star size={16} />} label="Đánh giá của tôi" />
+          {/* <NavItem icon={<Star size={16} />} label="Đánh giá của tôi" /> */}
 
           <NavSection label="Tài Khoản" />
           <NavItem icon={<Building2 size={16} />} label="Hồ sơ nhà máy" />

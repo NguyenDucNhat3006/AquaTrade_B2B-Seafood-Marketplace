@@ -1,22 +1,24 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
-import { 
-  Fish, Home, ArrowRightLeft, Truck, User, LifeBuoy, 
-  Navigation, Search, AlertTriangle, MoreVertical, MapPin 
+import {
+  Fish, Home, ArrowRightLeft, Truck, User, LifeBuoy,
+  Navigation, Search, AlertTriangle, MoreVertical, MapPin
 } from 'lucide-react';
 import mapImg from '../assets/images/map/map-dong-bang-song-cu-long.png';
+import giaVoTom from '../assets/images/chartimg/bien-dong-gia-vo-tom.jpg';
+import xuHuong from '../assets/images/chartimg/xu-huong-cung-cau.jpg';
 
 const LandingPage = () => {
   const navigate = useNavigate();
 
   return (
     <div className="flex h-screen bg-gray-50 font-sans text-gray-800">
-      
+
       {/* ================= SIDEBAR ================= */}
       <aside className="w-64 bg-[#0a192f] text-white flex flex-col shrink-0">
         <div className="h-16 flex items-center px-6 border-b border-gray-700">
-          <span className="text-xl font-bold tracking-wide">AquaTrade Hub</span>
+          <span className="text-xl font-bold tracking-wide">AquaTrade</span>
         </div>
 
         <nav className="flex-1 px-4 py-6 space-y-2">
@@ -50,7 +52,7 @@ const LandingPage = () => {
 
       {/* ================= MAIN CONTENT ================= */}
       <main className="flex-1 flex flex-col overflow-hidden">
-        
+
         {/* Top Header */}
         <header className="h-16 bg-white border-b flex items-center justify-between px-8 shrink-0">
           <div className="flex space-x-6 text-sm font-medium text-gray-500">
@@ -59,9 +61,9 @@ const LandingPage = () => {
           </div>
           <div className="flex items-center space-x-4">
             <div className="relative">
-              <input 
-                type="text" 
-                placeholder="Tìm kiếm..." 
+              <input
+                type="text"
+                placeholder="Tìm kiếm..."
                 className="bg-gray-100 border-none rounded-full pl-4 pr-10 py-1.5 text-sm focus:ring-2 focus:ring-teal-500 outline-none w-64"
               />
               <Search size={16} className="absolute right-4 top-2 text-gray-400" />
@@ -92,7 +94,7 @@ const LandingPage = () => {
                   </button>
                 </div>
               </div>
-              
+
               <div className="overflow-x-auto flex-1">
                 <table className="w-full text-sm text-left">
                   <thead className="bg-gray-50 text-gray-600 font-medium border-b border-gray-200">
@@ -116,10 +118,12 @@ const LandingPage = () => {
               </div>
             </section>
           </div>
-          
+
           <section className="grid grid-cols-2 gap-6">
-            <ChartCard title="Biến động giá vỏ tôm (7 ngày)" />
-            <ChartCard title="Xu hướng Cung-Cầu" />
+            
+            <div>
+              <img src={xuHuong} alt="Xu hướng cung cầu" />
+            </div>
           </section>
 
           <div className="bg-orange-50 border border-orange-200 rounded-lg p-4 flex justify-between items-center">
@@ -169,8 +173,8 @@ const Marker = ({ type, x, y, label, scale = 1 }) => {
   const inverseScale = 1 / scale;
 
   return (
-    <div 
-      className="absolute flex flex-col items-center group z-20" 
+    <div
+      className="absolute flex flex-col items-center group z-20"
       style={{ left: `${x}%`, top: `${y}%`, transform: `translate(-50%, -100%) scale(${inverseScale})` }}
     >
       <div className={`flex items-center justify-center p-0.5 border-2 rounded-full shadow-sm ${colors[type]} group-hover:scale-110 transition-transform cursor-pointer`}>
@@ -185,8 +189,8 @@ const InfoLabel = ({ x, y, title, color, scale = 1, children }) => {
   const inverseScale = 1 / scale;
 
   return (
-    <div 
-      className="absolute group z-20 hover:z-50 cursor-pointer" 
+    <div
+      className="absolute group z-20 hover:z-50 cursor-pointer"
       style={{ left: `${x}%`, top: `${y}%`, transform: `translate(-50%, -50%) scale(${inverseScale})` }}
     >
       <div className="px-2 py-1 bg-white/90 backdrop-blur-sm border border-gray-300 rounded-full shadow-sm text-[10px] font-bold text-gray-700 flex items-center gap-1 group-hover:border-teal-500 group-hover:shadow-md transition-all">

@@ -3,11 +3,20 @@ import {
   Fish, Store, ShoppingCart, Wallet, Heart, BellRing, 
   Search, Bell, User, ArrowUpDown, List, Grid, 
   MapPin, FileCheck, Lock, Building2, Calendar, 
-  FileText, Phone, ChevronDown, Play, Image as ImageIcon, Box
+  FileText, Phone, ChevronDown, Play, Box,
+  X, Paperclip, Sparkles // Import thêm các icon này cho Modal
 } from 'lucide-react';
 
+import shrimp_head_main from '../../assets/images/productimg/dau-tom-su-dong-lanh.jpg'; 
+import pangasius_powder_main from '../../assets/images/productimg/bot-ca-tra.jpg'; 
+import pangasius_oil_main from '../../assets/images/productimg/mo-ca-tra.jpg'; 
+
+
+const placeholderImage = 'https://via.placeholder.com/600x600?text=Ảnh+Sản+Phẩm';
+const shrimp_shell_main = 'https://via.placeholder.com/600x600/fff3e0/e65100?text=Vỏ+Tôm+Sú';
+
 const BuyerDashboard = () => {
-  // 1. DỮ LIỆU ĐỘNG (MOCK DATA) - Đã thêm 2 sản phẩm mới
+  // 1. DỮ LIỆU ĐỘNG (MOCK DATA)
   const mockLots = [
     {
       id: "BCT-60-DT-2025",
@@ -50,80 +59,43 @@ const BuyerDashboard = () => {
         certs: ["HACCP", "ISO 22000", "Giấy ATTP", "ASC CoC"]
       },
       shortPrice: "8,500",
-      shortTotal: "8.5M / Tấn"
-    },
-    {
-      id: "LOT-2024-0841",
-      hsCode: "0511.91.00",
-      species: "Penaeus monodon",
-      name: "Vỏ Tôm Sú Sấy – Cà Mau (Premium Cấp A)",
-      tags: [
-        { label: "Chiết xuất Chitin", color: "bg-blue-50 text-blue-600 border-blue-100" },
-        { label: "Đang có hàng", color: "bg-green-50 text-green-700 border-green-100" }
-      ],
-      specs: [
-        { label: "Đạm thô", val: "≥38", unit: "%" },
-        { label: "Độ ẩm", val: "≤9.2", unit: "%" },
-        { label: "Tỷ lệ vỏ thân", val: "≥78", unit: "%" },
-        { label: "Tạp chất", val: "≤1", unit: "%" }
-      ],
-      priceBlock: {
-        main: "18.500.000",
-        unit: "đồng / Tấn",
-        sub: "≈ 18.500 đ/kg · Giá tại kho Cà Mau"
-      },
-      logistics: [
-        { label: "SL TỐI THIỂU (MOQ)", val: "2 Tấn / đơn" },
-        { label: "KHẢ NĂNG CUNG ỨNG", val: "50 T/tháng" },
-        { label: "NƠI XUẤT HÀNG", val: "Cà Mau" },
-        { label: "GIAO HÀNG", val: "Xe tải 8T" }
-      ],
-      pricingTable: [
-        { qty: "2 – 10 tấn", price: "18.500.000", payment: "Tiền mặt / CK 100%", time: "1–2 ngày" },
-        { qty: ">10 tấn", price: "18.000.000", payment: "Hợp đồng nguyên tắc", time: "3–5 ngày" }
-      ],
-      seller: {
-        name: "CTY TNHH THỦY SẢN CÀ MAU",
-        avatar: "CM",
-        type: "Xưởng sơ chế",
-        loc: "Năm Căn, Cà Mau",
-        est: "Thành lập 2015",
-        certs: ["Giấy ATTP"]
-      },
-      shortPrice: "18,500",
-      shortTotal: "92.5M / Lô"
+      shortTotal: "8.5M / Tấn",
+      imageUrls: {
+        main: pangasius_powder_main,
+        thumbs: [pangasius_powder_main]
+      }
     },
     {
       id: "MCT-TL-AG-2025",
       hsCode: "1504.20.10",
       species: "Pangasius bocourti / hypophthalmus",
-      name: "Mỡ Cá Tra / Basa Tinh Luyện – Dầu cá nội địa đa dụng: thức ăn chăn nuôi, sản xuất biodiesel, chế biến thực phẩm công nghiệp, giao theo xe bồn hoặc thùng IBC 1.000L",
+      name: "Mỡ Cá Tra / Basa Tinh Luyện – Dầu cá nội địa đa dụng: thức ăn chăn nuôi, biodiesel, đóng bao 50kg, xuất từ nhà máy An Giang",
       tags: [
-        { label: "Thực phẩm / Công nghiệp", color: "bg-yellow-50 text-yellow-700 border-yellow-200" },
+        { label: "Thức ăn chăn nuôi", color: "bg-red-50 text-red-600 border-red-100" },
         { label: "Đang có hàng", color: "bg-green-50 text-green-700 border-green-100" },
         { label: "Hàng tồn kho nhiều", color: "bg-blue-50 text-blue-700 border-blue-100" }
       ],
       specs: [
-        { label: "Hàm lượng béo", val: "≥98", unit: "%" },
-        { label: "Độ ẩm & tạp chất", val: "≤0,5", unit: "%" },
-        { label: "Chỉ số axit (AV)", val: "≤3", unit: "mgKOH/g" },
-        { label: "Màu sắc Lovibond", val: "≤5R", unit: "/ 50Y" }
+        { label: "Đạm thô (CP)", val: "≥62", unit: "%" },
+        { label: "Độ ẩm", val: "≤10", unit: "%" },
+        { label: "Béo thô", val: "≤15", unit: "%" },
+        { label: "Tro", val: "≤20", unit: "%" }
       ],
       priceBlock: {
         main: "22.000.000",
-        unit: "đồng / Tấn · Grade thực phẩm: +15%",
-        sub: "≈ 22.000 đ/kg · Giao theo xe bồn (tối thiểu 5 tấn) hoặc thùng IBC 1.000L"
+        unit: "đồng / Tấn (1.000 kg)",
+        sub: "≈ 22.000 đ/kg · Giá FOB chưa bao gồm bao bì 50kg"
       },
       logistics: [
         { label: "SL TỐI THIỂU (MOQ)", val: "3 Tấn / đơn" },
         { label: "KHẢ NĂNG CUNG ỨNG", val: "200 T/tháng" },
         { label: "NƠI XUẤT HÀNG", val: "An Giang" },
-        { label: "GIAO HÀNG", val: "Xe bồn / IBC" }
+        { label: "GIAO HÀNG", val: "Xe tải 5–20T" }
       ],
       pricingTable: [
-        { qty: "3 – 10 tấn", price: "23.000.000", payment: "Thùng IBC 1.000L (x3)", time: "2–4 ngày" },
-        { qty: "11 – 30 tấn", price: "22.500.000", payment: "Xe bồn chuyên dụng", time: "3–5 ngày" },
-        { qty: ">30 tấn (HĐ tháng) ★", price: "21.500.000", payment: "Xe bồn + bơm hút tại kho mua", time: "5–7 ngày" }
+        { qty: "3 – 10 tấn", price: "23.000.000", payment: "CK 30% trước, 70% khi nhận hàng", time: "2–4 ngày" },
+        { qty: "11 – 30 tấn", price: "22.500.000", payment: "CK 50% – 50%, hợp đồng KT", time: "3–5 ngày" },
+        { qty: ">30 tấn (HĐ dài hạn) ★", price: "21.500.000", payment: "Net 15 ngày (đối tác uy tín)", time: "5–7 ngày" }
       ],
       seller: {
         name: "CÔNG TY CP THỦY SẢN AN GIANG FOOD (AGF)",
@@ -134,28 +106,32 @@ const BuyerDashboard = () => {
         certs: ["HACCP", "ISO 22000", "Giấy ATTP", "CODEX Grade"]
       },
       shortPrice: "22,000",
-      shortTotal: "22M / Tấn"
+      shortTotal: "22M / Tấn",
+      imageUrls: {
+        main: pangasius_oil_main,
+        thumbs: [pangasius_oil_main]
+      }
     },
     {
       id: "DTS-IQF-CM-2025",
-      hsCode: "0306.99.90 | CAS Chitin: 1398-61-4",
+      hsCode: "0306.99.90",
       species: "Penaeus monodon",
-      name: "Đầu Tôm Sú Đông Lạnh IQF – Nguyên liệu chiết xuất Chitin/Chitosan công nghiệp & thức ăn thủy sản, xuất tại Cà Mau, giao toàn quốc bằng xe đông lạnh",
+      name: "Đầu Tôm Sú Đông Lạnh IQF – Nguyên liệu chiết xuất Chitin/Chitosan công nghiệp & thức ăn thủy sản, đóng bao 10kg, xuất tại Cà Mau",
       tags: [
-        { label: "Chiết xuất Chitin", color: "bg-fuchsia-50 text-fuchsia-700 border-fuchsia-100" },
         { label: "TĂCN thủy sản", color: "bg-orange-50 text-orange-600 border-orange-100" },
-        { label: "Đang có hàng", color: "bg-green-50 text-green-700 border-green-100" }
+        { label: "Đang có hàng", color: "bg-green-50 text-green-700 border-green-100" },
+        { label: "Hàng tồn kho nhiều", color: "bg-blue-50 text-blue-700 border-blue-100" }
       ],
       specs: [
-        { label: "Độ ẩm (đông lạnh)", val: "≤78", unit: "%" },
-        { label: "Hàm lượng Chitin", val: "22–28", unit: "% (cb khô)" },
-        { label: "Nhiệt độ bảo quản", val: "≤-18", unit: "°C" },
-        { label: "Hạn SD (đông lạnh)", val: "12", unit: "tháng" }
+        { label: "Độ ẩm", val: "≤78", unit: "%" },
+        { label: "Đạm", val: "≥18", unit: "%" },
+        { label: "Béo", val: "≤5", unit: "%" },
+        { label: "Độ tươi IQF", val: "≥90", unit: "%" }
       ],
       priceBlock: {
         main: "4.500.000",
-        unit: "đồng / Tấn · Grade Chitin: +25%",
-        sub: "≈ 4.500 đ/kg · Giá chưa bao gồm phí xe đông lạnh"
+        unit: "đồng / Tấn (1.000 kg)",
+        sub: "≈ 4.500 đ/kg · Giá CIF +150.000–300.000đ/tấn tùy tỉnh"
       },
       logistics: [
         { label: "SL TỐI THIỂU (MOQ)", val: "3 Tấn / đơn" },
@@ -164,9 +140,9 @@ const BuyerDashboard = () => {
         { label: "GIAO HÀNG", val: "Xe đông lạnh" }
       ],
       pricingTable: [
-        { qty: "3 – 10 tấn", price: "5.000.000", payment: "CK 50% trước, 50% nhận hàng", time: "3–5 ngày" },
-        { qty: "11 – 30 tấn", price: "4.700.000", payment: "CK 30% – 70% khi giao", time: "5–8 ngày" },
-        { qty: ">30 tấn (HĐ tháng) ★", price: "4.200.000", payment: "Net 15 ngày (HĐ khung)", time: "7–12 ngày" }
+        { qty: "3 – 10 tấn", price: "5.000.000", payment: "CK 30% trước, 70% khi nhận hàng", time: "3–5 ngày" },
+        { qty: "11 – 30 tấn", price: "4.700.000", payment: "CK 50% – 50%, hợp đồng KT", time: "5–8 ngày" },
+        { qty: ">30 tấn (HĐ dài hạn) ★", price: "4.200.000", payment: "Net 15 ngày (đối tác uy tín)", time: "7–12 ngày" }
       ],
       seller: {
         name: "CÔNG TY CP CHẾ BIẾN TS CÀ MAU QUỐC TẾ (CMQ)",
@@ -177,19 +153,34 @@ const BuyerDashboard = () => {
         certs: ["HACCP", "ISO 22000", "BAP 4-Star", "Giấy ATTP", "ASC CoC"]
       },
       shortPrice: "4,500",
-      shortTotal: "4.5M / Tấn"
+      shortTotal: "4.5M / Tấn",
+      imageUrls: {
+        main: shrimp_head_main,
+        thumbs: [shrimp_head_main]
+      }
     }
   ];
 
-  // Trạng thái quản lý lô hàng đang xem chi tiết
   const [selectedLot, setSelectedLot] = useState(mockLots[0]);
+  const [selectedDetailImage, setSelectedDetailImage] = useState(selectedLot.imageUrls.main);
+  
+  // STATE ĐỂ HIỂN THỊ MODAL BÁO GIÁ
+  const [isQuoteModalOpen, setIsQuoteModalOpen] = useState(false);
+
+  const handleSelectLot = (lot) => {
+    setSelectedLot(lot);
+    setSelectedDetailImage(lot.imageUrls.main);
+  }
 
   return (
-    <div className="flex h-screen bg-gray-50 font-sans text-gray-800">
+    <div className="flex h-screen bg-gray-50 font-sans text-gray-800 relative">
       
-      {/* ================= SIDEBAR ================= */}
+      {/* SIDEBAR */}
       <aside className="w-60 bg-[#0a192f] text-white flex flex-col shrink-0">
         <div className="h-16 flex items-center px-6 border-b border-gray-700">
+          <div className="w-8 h-8 bg-teal-500 rounded-lg flex items-center justify-center text-gray-900 shadow-lg shadow-teal-400/20">
+            <Fish size={18} strokeWidth={2.5} />
+          </div>
           <span className="text-lg font-bold ml-2">AquaMarket</span>
         </div>
         <nav className="flex-1 px-4 py-6 space-y-1">
@@ -209,7 +200,7 @@ const BuyerDashboard = () => {
         </div>
       </aside>
 
-      {/* ================= MAIN CONTENT ================= */}
+      {/* MAIN CONTENT */}
       <main className="flex-1 flex flex-col overflow-hidden">
         
         {/* HEADER */}
@@ -238,10 +229,10 @@ const BuyerDashboard = () => {
           <div className="bg-white p-4 rounded-xl border border-gray-200 flex flex-wrap items-center gap-4 shadow-sm">
             <span className="text-[10px] font-bold text-gray-400 uppercase">Lọc:</span>
             <div className="flex gap-2">
-              <Chip label="Tất cả" active />
+              <Chip label="Tất cả" />
               <Chip label="Vỏ tôm" />
               <Chip label="Đầu tôm" />
-              <Chip label="Bột cá" />
+              <Chip label="Bột cá" active />
             </div>
             <div className="flex gap-2 ml-4 border-l border-gray-200 pl-4">
               <SelectFilter options={['Tỉnh: Tất cả', 'Cà Mau', 'Đồng Tháp', 'An Giang']} />
@@ -266,12 +257,17 @@ const BuyerDashboard = () => {
                 {mockLots.map((lot) => (
                   <div 
                     key={lot.id} 
-                    onClick={() => setSelectedLot(lot)}
+                    onClick={() => handleSelectLot(lot)}
                     className={`p-4 rounded-xl border transition cursor-pointer flex justify-between items-center ${selectedLot.id === lot.id ? 'bg-blue-50/30 border-blue-400 shadow-sm' : 'bg-white border-gray-200 hover:border-blue-300'}`}
                   >
                     <div className="flex gap-3">
-                      <div className="w-10 h-10 border border-gray-200 rounded-lg flex items-center justify-center text-gray-400 shrink-0 bg-gray-50">
-                        <Fish size={20} />
+                      <div className="w-10 h-10 border border-gray-200 rounded-lg flex items-center justify-center text-gray-400 shrink-0 bg-gray-50 overflow-hidden">
+                        <img 
+                          src={lot.imageUrls.main} 
+                          alt={lot.name} 
+                          className="w-full h-full object-cover" 
+                          onError={(e) => { e.target.onerror = null; e.target.src = 'https://via.placeholder.com/100x100/e0f2f1/00796b?text=SP'; }}
+                        />
                       </div>
                       <div>
                         <h4 className="font-bold text-gray-800 text-[13px] line-clamp-2">{lot.name}</h4>
@@ -279,7 +275,7 @@ const BuyerDashboard = () => {
                       </div>
                     </div>
                     <div className="text-right shrink-0 ml-4">
-                      <p className="text-[16px] font-black text-[#f97316] leading-none">{lot.shortPrice}</p>
+                      <p className="text-[16px] font-black text-[#c83939] leading-none">{lot.shortPrice}</p>
                       <p className="text-[10px] text-gray-500 mt-1 uppercase font-bold tracking-tighter">{lot.shortTotal}</p>
                     </div>
                   </div>
@@ -313,14 +309,30 @@ const BuyerDashboard = () => {
                 
                 {/* Cột Ảnh & Thumbnails */}
                 <div className="w-48 shrink-0 flex flex-col gap-2">
-                  <div className="aspect-square bg-gray-50 border border-gray-200 rounded-lg flex items-center justify-center p-4 text-center relative overflow-hidden">
-                     <ImageIcon size={40} className="text-gray-300 absolute opacity-20" />
-                     <p className="text-xs text-gray-500 z-10 leading-relaxed">
-                       <strong className="text-gray-700">Ảnh 1:</strong> Sản phẩm mẫu, cận cảnh bề mặt
-                     </p>
+                  <div className="aspect-square bg-gray-50 border border-gray-200 rounded-lg relative overflow-hidden">
+                    <img 
+                      src={selectedDetailImage} 
+                      alt={selectedLot.name}
+                      className="absolute inset-0 w-full h-full object-cover z-0"
+                    />
                   </div>
-                  <div className="grid grid-cols-4 gap-2">
-                    <ThumbBox icon={<Box size={14} />} label="Kho" active />
+                  
+                  <div className="grid grid-cols-4 gap-2 relative z-10">
+                    {selectedLot.imageUrls.thumbs.slice(0, 3).map((thumbSrc, index) => (
+                      <div 
+                        key={index}
+                        onClick={() => setSelectedDetailImage(thumbSrc)}
+                        className={`aspect-square border rounded-lg cursor-pointer flex items-center justify-center p-1 ${
+                          selectedDetailImage === thumbSrc 
+                            ? 'border-[#c83939] bg-red-50/50' 
+                            : 'border-gray-200 bg-white hover:border-teal-400'
+                        }`}
+                      >
+                         <img src={thumbSrc} alt={`Thumb ${index}`} className="w-full h-full object-cover rounded" />
+                      </div>
+                    ))}
+                    
+                    <ThumbBox icon={<Box size={14} />} label="HACCP" />
                     <ThumbBox icon={<FileCheck size={14} />} label="COA" />
                     <ThumbBox icon={<Building2 size={14} />} label="NM" />
                     <ThumbBox icon={<Play size={14} />} label="Vid" color="text-blue-600" />
@@ -370,15 +382,13 @@ const BuyerDashboard = () => {
 
                   {/* Giá & Logistics */}
                   <div className="flex gap-4 mb-6">
-                    {/* Hộp Giá (Box Đỏ) */}
                     <div className="w-[45%] bg-[#fffcfc] border border-red-200 rounded-lg p-4">
-                      <p className="text-[11px] font-bold text-[#f97316] mb-1">GIÁ TẠI KHO (VNĐ)</p>
-                      <p className="text-[26px] font-black text-[#f97316] leading-none mb-1">{selectedLot.priceBlock.main}</p>
+                      <p className="text-[11px] font-bold text-[#c83939] mb-1">GIÁ TẠI KHO (VNĐ)</p>
+                      <p className="text-[26px] font-black text-[#c83939] leading-none mb-1">{selectedLot.priceBlock.main}</p>
                       <p className="text-[12px] text-gray-600 font-medium">{selectedLot.priceBlock.unit}</p>
                       <p className="text-[10px] text-gray-400 mt-3 leading-relaxed">{selectedLot.priceBlock.sub}</p>
                     </div>
 
-                    {/* Hộp Logistics (2x2) */}
                     <div className="flex-1 grid grid-cols-2 gap-2">
                       {selectedLot.logistics.map(l => (
                         <div key={l.label} className="bg-gray-50 border border-gray-200 rounded-lg p-3 flex flex-col justify-center">
@@ -406,7 +416,7 @@ const BuyerDashboard = () => {
                           {selectedLot.pricingTable.map((row, i) => (
                             <tr key={i} className={i === selectedLot.pricingTable.length - 1 ? "bg-red-50/30" : ""}>
                               <td className="py-3 px-4">{row.qty}</td>
-                              <td className="py-3 px-4 font-bold text-[#f97316]">{row.price}</td>
+                              <td className="py-3 px-4 font-bold text-[#c83939]">{row.price}</td>
                               <td className="py-3 px-4 text-gray-600">{row.payment}</td>
                               <td className="py-3 px-4 text-gray-600">{row.time}</td>
                             </tr>
@@ -419,7 +429,6 @@ const BuyerDashboard = () => {
                   {/* KHỐI NHÀ CUNG CẤP & ACTION */}
                   <div className="flex flex-col gap-4 border-t border-gray-100 pt-5">
                     <div className="flex gap-4">
-                      {/* Logo Nhà máy */}
                       <div className="w-14 h-14 bg-[#1a2332] text-white rounded flex items-center justify-center font-bold text-lg shrink-0">
                         {selectedLot.seller.avatar}
                       </div>
@@ -444,12 +453,15 @@ const BuyerDashboard = () => {
                         </div>
                       </div>
 
-                      {/* Nút Hành động */}
                       <div className="flex flex-col justify-center gap-2 shrink-0">
-                        <button className="px-5 py-2 border border-[#f97316] text-[#f97316] rounded font-bold text-[13px] flex items-center justify-center gap-1.5 hover:bg-red-50">
+                        {/* THÊM SỰ KIỆN onClick ĐỂ MỞ MODAL */}
+                        <button 
+                          onClick={() => setIsQuoteModalOpen(true)}
+                          className="px-5 py-2 border border-[#c83939] text-[#c83939] rounded font-bold text-[13px] flex items-center justify-center gap-1.5 hover:bg-red-50"
+                        >
                           <FileText size={16} /> Yêu cầu báo giá
                         </button>
-                        <button className="px-5 py-2 bg-[#f97316] text-white rounded font-bold text-[13px] flex items-center justify-center gap-1.5 hover:bg-red-700 shadow-md shadow-red-600/20">
+                        <button className="px-5 py-2 bg-[#c83939] text-white rounded font-bold text-[13px] flex items-center justify-center gap-1.5 hover:bg-red-700 shadow-md shadow-red-600/20">
                           <Phone size={16} fill="currentColor" /> Liên hệ ngay
                         </button>
                       </div>
@@ -457,7 +469,7 @@ const BuyerDashboard = () => {
                   </div>
 
                   <div className="mt-6 flex justify-start">
-                    <button className="flex items-center gap-1 text-[#f97316] text-[13px] font-bold hover:underline">
+                    <button className="flex items-center gap-1 text-[#c83939] text-[13px] font-bold hover:underline">
                       Xem chi tiết đầy đủ (thông số kỹ thuật · ảnh mô tả · hồ sơ nhà cung cấp) <ChevronDown size={16} />
                     </button>
                   </div>
@@ -469,6 +481,110 @@ const BuyerDashboard = () => {
           </div>
         </div>
       </main>
+
+      {/* ========================================================= */}
+      {/* MODAL GỬI YÊU CẦU BÁO GIÁ (Mô phỏng Alibaba style) */}
+      {/* ========================================================= */}
+      {isQuoteModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm transition-opacity">
+          <div className="bg-white rounded-xl shadow-2xl w-full max-w-3xl overflow-hidden flex flex-col animate-in fade-in zoom-in duration-200">
+            
+            {/* Header Modal */}
+            <div className="flex justify-between items-center px-6 py-4 border-b border-gray-200 bg-gray-50">
+              <h3 className="font-bold text-lg text-gray-800">Gửi yêu cầu báo giá</h3>
+              <button 
+                onClick={() => setIsQuoteModalOpen(false)}
+                className="text-gray-400 hover:text-gray-800 transition-colors"
+              >
+                <X size={24} />
+              </button>
+            </div>
+
+            {/* Body Modal */}
+            <div className="p-6 space-y-6 overflow-y-auto max-h-[80vh]">
+              
+              {/* To Seller Info */}
+              <div className="flex items-center gap-2 text-[13.5px]">
+                <span className="text-gray-500">Tới:</span>
+                <div className="w-5 h-5 bg-teal-100 text-teal-700 font-bold rounded flex items-center justify-center text-[10px]">
+                  {selectedLot.seller.avatar}
+                </div>
+                <span className="font-bold text-gray-800">{selectedLot.seller.name}</span>
+                <span className="bg-orange-100 text-orange-700 text-[10px] font-bold px-1.5 py-0.5 rounded">Gian hàng đảm bảo</span>
+              </div>
+
+              {/* Product Card & Quantity */}
+              <div className="flex items-center gap-4 p-4 bg-gray-50 border border-gray-200 rounded-lg">
+                <img 
+                  src={selectedDetailImage} 
+                  alt="Sản phẩm" 
+                  className="w-16 h-16 object-cover rounded bg-white border border-gray-200" 
+                  onError={(e) => { e.target.onerror = null; e.target.src = 'https://via.placeholder.com/100x100/e0f2f1/00796b?text=SP'; }}
+                />
+                <div className="flex-1 min-w-0">
+                  <p className="font-bold text-sm text-gray-800 line-clamp-2">{selectedLot.name}</p>
+                  <p className="text-xs text-gray-500 mt-1 font-mono">Mã SP: {selectedLot.id}</p>
+                </div>
+                <div className="flex flex-col gap-1.5 w-40 shrink-0">
+                  <label className="text-[11px] font-bold text-gray-500 uppercase tracking-wide">Số lượng đặt</label>
+                  <div className="flex border border-gray-300 rounded overflow-hidden shadow-sm bg-white focus-within:border-teal-500 focus-within:ring-1 focus-within:ring-teal-500">
+                    <input 
+                      type="number" 
+                      defaultValue="5" 
+                      min="1"
+                      className="w-full px-3 py-1.5 text-sm font-bold text-gray-800 outline-none" 
+                    />
+                    <span className="bg-gray-50 px-3 py-1.5 text-[13px] border-l border-gray-300 text-gray-600 font-medium">Tấn</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Message Textarea */}
+              <div>
+                <textarea 
+                  rows="6" 
+                  className="w-full border border-gray-300 rounded-lg p-4 text-sm text-gray-800 outline-none focus:border-teal-500 focus:ring-1 focus:ring-teal-500 shadow-inner resize-none leading-relaxed" 
+                  placeholder="Mô tả chi tiết yêu cầu của bạn về thông số kỹ thuật, số lượng dự kiến, địa điểm giao hàng hoặc các yêu cầu đóng gói đặc biệt..."
+                ></textarea>
+              </div>
+
+              {/* Smart AI Suggestions */}
+              <div className="space-y-3">
+                <div className="flex items-center gap-1.5 text-orange-600 text-sm font-bold">
+                  <Sparkles size={16} /> <p>Thử các câu hỏi gợi ý bởi AI</p>
+                </div>
+                <div className="flex flex-wrap gap-2">
+                  <button className="px-3.5 py-1.5 border border-orange-200 bg-orange-50/50 text-orange-700 rounded-full text-xs font-medium hover:bg-orange-100 hover:border-orange-300 transition-colors">
+                    ↳ Có cung cấp mẫu thử (sample) miễn phí không?
+                  </button>
+                  <button className="px-3.5 py-1.5 border border-orange-200 bg-orange-50/50 text-orange-700 rounded-full text-xs font-medium hover:bg-orange-100 hover:border-orange-300 transition-colors">
+                    ↳ Chi phí vận chuyển đến kho Long An là bao nhiêu?
+                  </button>
+                  <button className="px-3.5 py-1.5 border border-orange-200 bg-orange-50/50 text-orange-700 rounded-full text-xs font-medium hover:bg-orange-100 hover:border-orange-300 transition-colors">
+                    ↳ Có chính sách chiết khấu nếu tôi ký hợp đồng bao tiêu 6 tháng?
+                  </button>
+                </div>
+              </div>
+
+            </div>
+
+            {/* Footer Modal */}
+            <div className="px-6 py-4 border-t border-gray-200 flex justify-between items-center bg-gray-50">
+              <button className="flex items-center gap-2 text-gray-600 text-[13px] font-medium hover:text-teal-600 hover:bg-teal-50 px-3 py-2 rounded-lg transition-colors">
+                <Paperclip size={18} /> Thêm tệp đính kèm (COA/Specs)
+              </button>
+              <button 
+                onClick={() => setIsQuoteModalOpen(false)}
+                className="bg-[#eb672b] hover:bg-[#d6551b] text-white font-bold py-2.5 px-8 rounded-lg shadow-md transition-colors"
+              >
+                Gửi yêu cầu ngay
+              </button>
+            </div>
+            
+          </div>
+        </div>
+      )}
+
     </div>
   );
 };
@@ -476,8 +592,8 @@ const BuyerDashboard = () => {
 // ================= SUB-COMPONENTS DÙNG CHUNG =================
 
 const ThumbBox = ({ icon, label, active, color="text-gray-500" }) => (
-  <div className={`flex flex-col items-center justify-center py-2.5 border rounded-lg cursor-pointer transition ${active ? 'border-[#f97316] bg-red-50/50 text-[#f97316]' : 'border-gray-200 bg-white hover:bg-gray-50 text-gray-500'}`}>
-    <div className={`mb-1 ${active ? 'text-[#f97316]' : color}`}>{icon}</div>
+  <div className={`flex flex-col items-center justify-center py-2.5 border rounded-lg cursor-pointer transition ${active ? 'border-[#c83939] bg-red-50/50 text-[#c83939]' : 'border-gray-200 bg-white hover:bg-gray-50 text-gray-500'}`}>
+    <div className={`mb-1 ${active ? 'text-[#c83939]' : color}`}>{icon}</div>
     <span className="text-[10px] font-medium">{label}</span>
   </div>
 );
