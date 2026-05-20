@@ -19,6 +19,7 @@ import SellerDashboard from './pages/seller/SellerDashboard';
 import BuyerDashboard from './pages/buyer/BuyerDashboard';
 import AdminDashboard from './pages/admin/AdminDashboard';
 import GradingStandards from './pages/admin/GradingStandards';
+import CategoryConfig from './pages/admin/CategoryConfig';
 import BrandLogo from './assets/images/logo/brand.png';
 
 // ================= LAYOUT ĐIỀU HƯỚNG DÙNG CHUNG (ADMIN) =================
@@ -192,6 +193,7 @@ const AnimatedRoutes = () => {
         <Route path="/admin" element={<PageTransition><AdminLayout /></PageTransition>}>
           <Route index element={<AdminDashboard />} />
           <Route path="grading-standards" element={<GradingStandards />} />
+          <Route path="categories" element={<CategoryConfig />} />
         </Route>
 
       </Routes>
