@@ -1,5 +1,16 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { MapContainer, TileLayer, Marker, useMapEvents, useMap } from 'react-leaflet';
+import 'leaflet/dist/leaflet.css';
+import L from 'leaflet';
+
+// Fix cho icon mặc định của Leaflet
+delete L.Icon.Default.prototype._getIconUrl;
+L.Icon.Default.mergeOptions({
+    iconRetinaUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-2x.png',
+    iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png',
+    shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
+});
 
 export default function RegisterPage() {
     const [step, setStep] = useState(1);
@@ -382,6 +393,19 @@ function RepresentativeStep({ form, handleChange }) {
 }
 
 function BusinessStep({ form, handleChange }) {
+    const [showMap, setShowMap] = useState(false);
+    const [currentMapField, setCurrentMapField] = useState(null);
+
+    const openMap = (field) => {
+        setCurrentMapField(field);
+        setShowMap(true);
+    };
+
+    const handleMapSelect = (address) => {
+        handleChange({ target: { name: currentMapField, value: address } });
+        setShowMap(false);
+    };
+
     return (
         <div className="space-y-5">
             <Input
@@ -419,13 +443,30 @@ function BusinessStep({ form, handleChange }) {
                 note="Hỗ trợ PDF, JPG, PNG tối đa 10MB"
             />
 
-            <TextArea
-                label="Địa chỉ trụ sở chính *"
-                name="headOfficeAddress"
-                value={form.headOfficeAddress}
-                onChange={handleChange}
-                placeholder="Nhập địa chỉ đầy đủ theo giấy phép kinh doanh"
-            />
+            <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                    Địa chỉ trụ sở chính *
+                </label>
+                <div className="flex gap-3">
+                    <textarea
+                        name="headOfficeAddress"
+                        value={form.headOfficeAddress}
+                        onChange={handleChange}
+                        placeholder="Nhập địa chỉ đầy đủ theo giấy phép kinh doanh"
+                        rows="3"
+                        className="flex-1 w-full border border-gray-300 px-4 py-3 outline-none resize-none focus:border-[#00796B]"
+                    />
+                    <button
+                        type="button"
+                        onClick={() => openMap("headOfficeAddress")}
+                        className="w-16 border border-gray-300 flex flex-col items-center justify-center hover:bg-gray-50 text-teal-600 transition"
+                        title="Chọn trên bản đồ"
+                    >
+                        <span className="material-symbols-outlined">map</span>
+                        <span className="text-[10px] font-semibold mt-1 text-gray-600">Bản đồ</span>
+                    </button>
+                </div>
+            </div>
 
             <div className="pt-4 border-t border-gray-200">
                 <label className="block text-sm font-semibold text-gray-700 mb-2">
@@ -443,16 +484,24 @@ function BusinessStep({ form, handleChange }) {
 
                     <button
                         type="button"
+                        onClick={() => openMap("warehouseAddress")}
+                        className="w-12 border border-gray-300 flex items-center justify-center hover:bg-gray-50 text-teal-600 transition"
+                        title="Chọn trên bản đồ"
+                    >
+                        <span className="material-symbols-outlined">map</span>
+                    </button>
+
+                    <button
+                        type="button"
                         onClick={() =>
                             handleChange({
                                 target: { name: "warehouseAddress", value: "" },
                             })
                         }
-                        className="w-12 border border-gray-300 flex items-center justify-center hover:bg-gray-50"
+                        className="w-12 border border-gray-300 flex items-center justify-center hover:bg-red-50 text-gray-600 hover:text-red-500 transition"
+                        title="Xóa địa chỉ"
                     >
-            <span className="material-symbols-outlined text-gray-600">
-              delete
-            </span>
+                        <span className="material-symbols-outlined">delete</span>
                     </button>
                 </div>
 
@@ -463,6 +512,12 @@ function BusinessStep({ form, handleChange }) {
                     + Thêm địa điểm
                 </button>
             </div>
+
+            <MapPickerModal
+                isOpen={showMap}
+                onClose={() => setShowMap(false)}
+                onSelect={handleMapSelect}
+            />
         </div>
     );
 }
@@ -884,6 +939,154 @@ function Feature({ icon, title, desc }) {
             <div>
                 <p className="text-sm font-semibold text-white">{title}</p>
                 <p className="text-sm text-gray-300">{desc}</p>
+            </div>
+        </div>
+    );
+}
+
+function MapEvents({ setPosition, setAddress, setIsPinning }) {
+    useMapEvents({
+        click(e) {
+            const { lat, lng } = e.latlng;
+            setPosition([lat, lng]);
+            setIsPinning(true);
+            
+            // Reverse Geocoding with Nominatim API
+            fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lng}`)
+                .then(res => res.json())
+                .then(data => {
+                    if (data && data.display_name) {
+                        setAddress(data.display_name);
+                    } else {
+                        setAddress("Không tìm thấy địa chỉ cho vị trí này");
+                    }
+                })
+                .catch(err => {
+                    console.error("Geocoding error:", err);
+                    setAddress("Lỗi khi lấy địa chỉ");
+                })
+                .finally(() => {
+                    setIsPinning(false);
+                });
+        },
+    });
+    return null;
+}
+
+function ChangeView({ center, zoom }) {
+    const map = useMap();
+    map.setView(center, zoom);
+    return null;
+}
+
+function MapPickerModal({ isOpen, onClose, onSelect }) {
+    const [position, setPosition] = useState([10.762622, 106.660172]); // Default: HCM City
+    const [address, setAddress] = useState("Vui lòng click trên bản đồ để chọn vị trí");
+    const [isPinning, setIsPinning] = useState(false);
+    
+    const [searchQuery, setSearchQuery] = useState("");
+    const [isSearching, setIsSearching] = useState(false);
+
+    if (!isOpen) return null;
+
+    const handleSearch = async (e) => {
+        e?.preventDefault();
+        if (!searchQuery.trim()) return;
+        
+        setIsSearching(true);
+        try {
+            const res = await fetch(`https://nominatim.openstreetmap.org/search?format=jsonv2&q=${encodeURIComponent(searchQuery)}`);
+            const data = await res.json();
+            
+            if (data && data.length > 0) {
+                const firstResult = data[0];
+                const lat = parseFloat(firstResult.lat);
+                const lon = parseFloat(firstResult.lon);
+                
+                setPosition([lat, lon]);
+                setAddress(firstResult.display_name);
+            } else {
+                alert("Không tìm thấy địa điểm này!");
+            }
+        } catch (error) {
+            console.error("Search error:", error);
+            alert("Đã có lỗi xảy ra khi tìm kiếm");
+        } finally {
+            setIsSearching(false);
+        }
+    };
+
+    return (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/50 p-4">
+            <div className="bg-white rounded-2xl w-full max-w-4xl overflow-hidden shadow-2xl flex flex-col">
+                <div className="p-5 border-b border-gray-200 flex justify-between items-center bg-gray-50">
+                    <div className="flex items-center gap-2">
+                        <span className="material-symbols-outlined text-teal-600">map</span>
+                        <h3 className="font-bold text-lg text-gray-800">Chọn vị trí trên Bản đồ (Leaflet)</h3>
+                    </div>
+                    <button type="button" onClick={onClose} className="text-gray-500 hover:bg-gray-200 p-1 rounded-full transition">
+                        <span className="material-symbols-outlined">close</span>
+                    </button>
+                </div>
+                
+                <form onSubmit={handleSearch} className="p-4 flex gap-3 border-b border-gray-100">
+                    <div className="relative flex-1">
+                        <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">search</span>
+                        <input 
+                            type="text" 
+                            value={searchQuery}
+                            onChange={(e) => setSearchQuery(e.target.value)}
+                            placeholder="Nhập tên đường, quận, thành phố để tìm kiếm..." 
+                            className="w-full pl-10 pr-4 py-2.5 bg-gray-100 border-none rounded-lg focus:ring-2 focus:ring-teal-500 outline-none" 
+                        />
+                    </div>
+                    <button 
+                        type="submit" 
+                        disabled={isSearching}
+                        className="px-6 py-2.5 bg-teal-600 text-white rounded-lg font-semibold hover:bg-teal-700 flex items-center gap-2 disabled:bg-teal-400 transition"
+                    >
+                        {isSearching ? <span className="material-symbols-outlined animate-spin text-sm">progress_activity</span> : null}
+                        Tìm
+                    </button>
+                </form>
+
+                <div className="h-[400px] w-full bg-gray-100 relative z-0">
+                    <MapContainer center={position} zoom={13} style={{ height: '100%', width: '100%', zIndex: 0 }}>
+                        <ChangeView center={position} zoom={15} />
+                        <TileLayer
+                            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                        />
+                        <Marker position={position} />
+                        <MapEvents setPosition={setPosition} setAddress={setAddress} setIsPinning={setIsPinning} />
+                    </MapContainer>
+                </div>
+
+                <div className="p-5 border-t border-gray-200 flex items-center justify-between bg-gray-50">
+                    <div className="flex-1 pr-6">
+                        <p className="text-sm font-semibold text-gray-500 mb-1">Vị trí đã ghim:</p>
+                        <div className="flex items-center gap-2">
+                            {isPinning ? (
+                                <span className="material-symbols-outlined animate-spin text-teal-600 text-sm">progress_activity</span>
+                            ) : null}
+                            <p className="text-gray-800 font-medium line-clamp-1">{address}</p>
+                        </div>
+                    </div>
+                    <div className="flex gap-3">
+                        <button type="button" onClick={onClose} className="px-6 py-2.5 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-100 font-medium transition">
+                            Hủy
+                        </button>
+                        <button 
+                            type="button"
+                            onClick={() => onSelect(address)} 
+                            disabled={isPinning || address === "Vui lòng click trên bản đồ để chọn vị trí"}
+                            className={`px-6 py-2.5 text-white rounded-lg font-semibold transition flex items-center gap-2 ${(isPinning || address === "Vui lòng click trên bản đồ để chọn vị trí") ? 'bg-teal-400 cursor-not-allowed' : 'bg-teal-600 hover:bg-teal-700'}`}
+                        >
+                            <span className="material-symbols-outlined text-sm">check</span>
+                            Sử dụng địa chỉ này
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
     );
