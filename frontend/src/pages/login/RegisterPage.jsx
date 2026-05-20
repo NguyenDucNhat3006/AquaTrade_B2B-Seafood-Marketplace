@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
 import { MapContainer, TileLayer, Marker, useMapEvents, useMap } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
@@ -13,6 +14,7 @@ L.Icon.Default.mergeOptions({
 });
 
 export default function RegisterPage() {
+    const navigate = useNavigate();
     const [step, setStep] = useState(1);
     const [registered, setRegistered] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
@@ -196,13 +198,8 @@ export default function RegisterPage() {
                                 <div className="mt-8 pt-6 border-t border-gray-200 flex justify-between gap-4">
                                     <button
                                         type="button"
-                                        onClick={prevStep}
-                                        disabled={step === 1}
-                                        className={`px-7 py-3 border font-semibold transition flex items-center gap-2 ${
-                                            step === 1
-                                                ? "border-gray-200 text-gray-300 cursor-not-allowed"
-                                                : "border-gray-300 text-gray-700 hover:bg-gray-50"
-                                        }`}
+                                        onClick={() => step === 1 ? navigate("/login") : prevStep()}
+                                        className="px-7 py-3 border font-semibold transition flex items-center gap-2 border-gray-300 text-gray-700 hover:bg-gray-50 rounded-xl"
                                     >
                                         <span>←</span>
                                         Quay lại
@@ -211,7 +208,7 @@ export default function RegisterPage() {
                                     <div className="flex gap-3">
                                         <button
                                             type="button"
-                                            className="px-7 py-3 border border-gray-300 text-gray-700 font-semibold hover:bg-gray-50 transition"
+                                            className="px-7 py-3 border border-gray-300 text-gray-700 font-semibold hover:bg-gray-50 transition rounded-xl"
                                         >
                                             Lưu nháp
                                         </button>
@@ -219,7 +216,7 @@ export default function RegisterPage() {
                                         <button
                                             type="button"
                                             onClick={nextStep}
-                                            className="px-8 py-3 bg-[#00796B] text-white font-semibold hover:bg-[#00695C] transition flex items-center gap-2"
+                                            className="px-8 py-3 bg-[#00796B] text-white font-semibold hover:bg-[#00695C] transition flex items-center gap-2 rounded-xl shadow-lg shadow-teal-500/20"
                                         >
                                             {step === 4 ? "Hoàn tất đăng ký" : "Tiếp tục"}
                                             <span>→</span>
@@ -548,13 +545,7 @@ function RoleStep({ form, handleChange }) {
 
 function RoleCard({ icon, title, desc, value, selected, onChange }) {
     return (
-        <label
-            className={`border rounded-xl p-6 cursor-pointer transition min-h-[180px] ${
-                selected
-                    ? "border-[#00796B] bg-emerald-50 shadow-sm"
-                    : "border-gray-300 bg-white hover:border-[#00796B]"
-            }`}
-        >
+        <label className="cursor-pointer h-full relative block">
             <input
                 type="radio"
                 name="role"
@@ -563,13 +554,47 @@ function RoleCard({ icon, title, desc, value, selected, onChange }) {
                 onChange={onChange}
                 className="hidden"
             />
+            <motion.div
+                whileHover={{ scale: 1.02, y: -2 }}
+                whileTap={{ scale: 0.98 }}
+                className={`h-full border-2 rounded-2xl p-6 transition-all duration-300 relative overflow-hidden flex flex-col ${
+                    selected
+                        ? "border-[#00796B] bg-gradient-to-br from-teal-50 to-white shadow-lg shadow-teal-500/10"
+                        : "border-gray-200 bg-white hover:border-teal-300 hover:shadow-md"
+                }`}
+            >
+                {/* Background ambient glow when selected */}
+                {selected && (
+                    <motion.div 
+                        initial={{ opacity: 0, scale: 0.8 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{ duration: 0.4 }}
+                        className="absolute -right-10 -top-10 w-32 h-32 bg-teal-200/50 rounded-full blur-3xl pointer-events-none"
+                    />
+                )}
+                
+                <div className="flex justify-between items-start mb-6 relative z-10">
+                    <div className={`w-14 h-14 rounded-2xl flex items-center justify-center transition-colors duration-300 ${
+                        selected ? "bg-gradient-to-br from-teal-500 to-teal-600 text-white shadow-md shadow-teal-500/30" : "bg-gray-100/80 text-gray-500 group-hover:bg-teal-50 group-hover:text-teal-600"
+                    }`}>
+                        <span className="material-symbols-outlined text-[28px]">{icon}</span>
+                    </div>
+                    
+                    {/* Checkmark circle */}
+                    <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center transition-all duration-300 ${
+                        selected ? "border-teal-500 bg-teal-500 text-white scale-110" : "border-gray-300 text-transparent"
+                    }`}>
+                        <span className="material-symbols-outlined text-[14px] font-bold" style={{ opacity: selected ? 1 : 0 }}>check</span>
+                    </div>
+                </div>
 
-            <div className="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center mb-7">
-                <span className="material-symbols-outlined text-gray-700">{icon}</span>
-            </div>
-
-            <h3 className="text-xl font-bold text-gray-900 mb-2">{title}</h3>
-            <p className="text-sm text-gray-600 leading-relaxed">{desc}</p>
+                <div className="relative z-10 flex-1 flex flex-col justify-end">
+                    <h3 className={`text-xl font-bold mb-2 transition-colors duration-300 ${
+                        selected ? "text-[#00796B]" : "text-gray-800"
+                    }`}>{title}</h3>
+                    <p className="text-sm text-gray-500 leading-relaxed font-medium">{desc}</p>
+                </div>
+            </motion.div>
         </label>
     );
 }
@@ -737,7 +762,7 @@ function Input({ label, name, value, onChange, placeholder, type = "text" }) {
                 value={value}
                 onChange={onChange}
                 placeholder={placeholder}
-                className="w-full border border-gray-300 px-4 py-3 outline-none focus:border-[#00796B]"
+                className="w-full border border-gray-300 rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-teal-500/20 focus:border-[#00796B] transition-all bg-white hover:border-gray-400"
             />
         </div>
     );
@@ -765,13 +790,13 @@ function PasswordInput({
                     value={value}
                     onChange={onChange}
                     placeholder={placeholder}
-                    className="w-full border border-gray-300 px-4 py-3 pr-12 outline-none focus:border-[#00796B]"
+                    className="w-full border border-gray-300 rounded-xl px-4 py-3 pr-12 outline-none focus:ring-2 focus:ring-teal-500/20 focus:border-[#00796B] transition-all bg-white hover:border-gray-400"
                 />
 
                 <button
                     type="button"
                     onClick={onToggle}
-                    className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500"
+                    className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
                 >
           <span className="material-symbols-outlined">
             {show ? "visibility_off" : "visibility"}
@@ -789,20 +814,24 @@ function Select({ label, name, value, onChange, placeholder, options }) {
                 {label}
             </label>
 
-            <select
-                name={name}
-                value={value}
-                onChange={onChange}
-                className="w-full border border-gray-300 px-4 py-3 outline-none focus:border-[#00796B] bg-white"
-            >
-                <option value="">{placeholder}</option>
-
-                {options.map((option) => (
-                    <option key={option} value={option}>
-                        {option}
-                    </option>
-                ))}
-            </select>
+            <div className="relative">
+                <select
+                    name={name}
+                    value={value}
+                    onChange={onChange}
+                    className="w-full border border-gray-300 rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-teal-500/20 focus:border-[#00796B] bg-white appearance-none transition-all cursor-pointer hover:border-gray-400"
+                >
+                    <option value="" disabled className="text-gray-500">{placeholder}</option>
+                    {options.map((option) => (
+                        <option key={option} value={option} className="text-gray-800">
+                            {option}
+                        </option>
+                    ))}
+                </select>
+                <div className="absolute inset-y-0 right-4 flex items-center pointer-events-none">
+                    <span className="material-symbols-outlined text-gray-400">expand_more</span>
+                </div>
+            </div>
         </div>
     );
 }
@@ -820,7 +849,7 @@ function TextArea({ label, name, value, onChange, placeholder }) {
                 onChange={onChange}
                 placeholder={placeholder}
                 rows="4"
-                className="w-full border border-gray-300 px-4 py-3 outline-none resize-none focus:border-[#00796B]"
+                className="w-full border border-gray-300 rounded-xl px-4 py-3 outline-none resize-none focus:ring-2 focus:ring-teal-500/20 focus:border-[#00796B] transition-all bg-white hover:border-gray-400"
             />
         </div>
     );
