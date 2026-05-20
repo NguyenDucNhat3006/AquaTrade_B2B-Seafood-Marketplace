@@ -1,18 +1,83 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
+import Chart from 'react-apexcharts';
 import {
-  Fish, Home, ArrowRightLeft, Truck, User, LifeBuoy,
-  Navigation, Search, AlertTriangle, MoreVertical, MapPin
+  Home, ArrowRightLeft, Navigation, Search, AlertTriangle, MapPin, Truck, MoreVertical
 } from 'lucide-react';
-import mapImg from '../assets/images/map/map-dong-bang-song-cu-long.png';
-import giaVoTom from '../assets/images/chartimg/bien-dong-gia-vo-tom.jpg';
-import xuHuong from '../assets/images/chartimg/xu-huong-cung-cau.jpg';
 import BrandLogo from '../assets/images/logo/brand.png';
-
+// Xóa bỏ các import ảnh biểu đồ (giaVoTom, xuHuong) vì đã dùng biểu đồ thật
 
 const LandingPage = () => {
   const navigate = useNavigate();
+  
+  // Trạng thái mở/đóng menu dropdown cho 2 biểu đồ
+  const [openMenu1, setOpenMenu1] = useState(false);
+  const [openMenu2, setOpenMenu2] = useState(false);
+
+  // ================= CẤU HÌNH BIỂU ĐỒ 1 =================
+  const chart1Series = [{
+    name: 'Giá vỏ tôm',
+    data: [8500, 9800, 11200, 14200, 12700, 10900, 11600]
+  }];
+  const chart1Options = {
+    chart: { type: 'area', toolbar: { show: false }, zoom: { enabled: false }, fontFamily: 'Inter, sans-serif' },
+    colors: ['#0d9488'],
+    stroke: { curve: 'smooth', width: 2.5 },
+    fill: {
+      type: 'gradient',
+      gradient: { shadeIntensity: 1, opacityFrom: 0.45, opacityTo: 0.02, stops: [0, 95, 100] },
+    },
+    markers: { size: 4.5, colors: ['#ffffff'], strokeColors: '#0d9488', strokeWidth: 2, hover: { size: 6.5 } },
+    xaxis: {
+      categories: ['Ngày 1','Ngày 2','Ngày 3','Ngày 4','Ngày 5','Ngày 6','Ngày 7'],
+      axisBorder: { show: false }, axisTicks: { show: false },
+      labels: { style: { colors: '#94a3b8', fontSize: '11.5px' } },
+    },
+    yaxis: {
+      min: 6000, max: 15000, tickAmount: 4,
+      labels: {
+        formatter: val => val.toLocaleString('vi-VN'),
+        style: { colors: '#94a3b8', fontSize: '11.5px' },
+      },
+    },
+    grid: { borderColor: '#f1f5f9', strokeDashArray: 4, xaxis: { lines: { show: false } }, padding: { left: 4, right: 12, top: 0, bottom: 0 } },
+    tooltip: { y: { formatter: val => val.toLocaleString('vi-VN') + ' ₫' } },
+    dataLabels: { enabled: false },
+  };
+
+  // ================= CẤU HÌNH BIỂU ĐỒ 2 =================
+  const chart2Series = [
+    { name: 'Cung', data: [12400, 13100, 14500, 15200, 16800, 17500, 18200] },
+    { name: 'Cầu', data: [820, 540, 720, 380, 910, 460, 700] },
+  ];
+  const chart2Options = {
+    chart: { type: 'area', toolbar: { show: false }, zoom: { enabled: false }, fontFamily: 'Inter, sans-serif' },
+    colors: ['#f59e0b', '#166534'],
+    stroke: { curve: 'smooth', width: [2.5, 2.5] },
+    fill: { type: 'gradient', gradient: { shadeIntensity: 1, opacityFrom: 0.35, opacityTo: 0.02, stops: [0, 95, 100] } },
+    markers: { size: 4.5, colors: ['#ffffff', '#ffffff'], strokeColors: ['#f59e0b', '#166534'], strokeWidth: 2, hover: { size: 6.5 } },
+    xaxis: {
+      categories: ['T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'CN'],
+      axisBorder: { show: false }, axisTicks: { show: false },
+      labels: { style: { colors: '#94a3b8', fontSize: '11.5px' } },
+    },
+    yaxis: [
+      {
+        seriesName: 'Cung', min: 10000, max: 20000, tickAmount: 4,
+        labels: { formatter: val => val.toLocaleString('vi-VN'), style: { colors: '#f59e0b', fontSize: '11px' } },
+        title: { text: 'Cung', style: { color: '#f59e0b', fontSize: '11px', fontWeight: 500 } },
+      },
+      {
+        seriesName: 'Cầu', opposite: true, min: 0, max: 1000, tickAmount: 4,
+        labels: { formatter: val => val.toLocaleString('vi-VN'), style: { colors: '#166534', fontSize: '11px' } },
+        title: { text: 'Cầu', style: { color: '#166534', fontSize: '11px', fontWeight: 500 } },
+      },
+    ],
+    grid: { borderColor: '#f1f5f9', strokeDashArray: 4, xaxis: { lines: { show: false } }, padding: { left: 4, right: 4, top: 0, bottom: 0 } },
+    legend: { show: false },
+    tooltip: { shared: true, intersect: false, y: [{ formatter: val => val.toLocaleString('vi-VN') + ' tấn' }, { formatter: val => val.toLocaleString('vi-VN') + ' đơn' }] },
+    dataLabels: { enabled: false },
+  };
 
   return (
     <div className="flex h-screen bg-gray-50 font-sans text-gray-800">
@@ -20,26 +85,21 @@ const LandingPage = () => {
       {/* ================= SIDEBAR ================= */}
       <aside className="w-64 bg-[#0a192f] text-white flex flex-col shrink-0">
         <nav className="flex-1 px-4 py-6 space-y-2">
-          {/* Đã thêm sự kiện chuyển hướng onClick */}
           <NavItem icon={<Home size={20} />} label="Trang chủ" active onClick={() => navigate('/')} />
           <NavItem icon={<ArrowRightLeft size={20} />} label="Sàn Giao dịch" onClick={() => navigate('/exchange')} />
-
           <div className="border-t border-gray-700 mt-4 pt-4">
             <NavItem icon={<Navigation size={20} />} label="Theo dõi xe" badge="Mới" />
           </div>
         </nav>
-
-        {/* ĐÃ XÓA KHỐI "CÔNG CỤ RA QUYẾT ĐỊNH" KHỎI TRANG CHỦ */}
-
       </aside>
 
       {/* ================= MAIN CONTENT ================= */}
       <main className="flex-1 flex flex-col overflow-hidden">
-
+        
         {/* Top Header */}
         <header className="h-16 bg-white border-b flex items-center justify-between px-8 shrink-0">
           <div className="flex space-x-6 text-sm font-medium text-gray-900">
-            <div className="h-16 flex items-center px-6  border-gray-700">
+            <div className="h-16 flex items-center px-6 border-gray-700">
               <img src={BrandLogo} alt="AquaMarket Logo" className="h-9 w-auto object-contain" />
               <span className="text-xl font-bold tracking-wide">AquaTrade</span>
             </div>
@@ -61,10 +121,9 @@ const LandingPage = () => {
 
         {/* Dashboard Scrollable Area */}
         <div className="flex-1 overflow-auto p-6 space-y-6">
+          
           <div className="grid grid-cols-1 xl:grid-cols-1 gap-6">
-
-            {/* Cột Phải: Sức khỏe Thị trường */}
-            <section className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 flex flex-col h-112.5">
+            <section className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 flex flex-col">
               <div className="flex justify-between items-start mb-4">
                 <div>
                   <h2 className="text-lg font-bold text-gray-800">Sức khỏe Thị trường hôm nay</h2>
@@ -80,7 +139,7 @@ const LandingPage = () => {
                 </div>
               </div>
 
-              <div className="overflow-x-auto flex-1">
+              <div className="overflow-x-auto">
                 <table className="w-full text-sm text-left">
                   <thead className="bg-gray-50 text-gray-600 font-medium border-b border-gray-200">
                     <tr>
@@ -96,19 +155,101 @@ const LandingPage = () => {
                     <TableRow item="Vỏ Tôm thẻ" source="Cà Mau" unit="12.5 tấn" price="12,000 đ/kg" status="Sẵn sàng" />
                     <TableRow item="Xương Cá" source="Cà Mau" unit="10.0 tấn" price="15,000 đ/kg" status="Sẵn sàng" />
                     <TableRow item="Đầu Mực" source="Cà Mau" unit="5.5 tấn" price="18,000 đ/kg" status="Sẵn sàng" />
-                    <TableRow item="Vỏ Tôm sú" source="Bạc Liêu" unit="8.0 tấn" price="14,500 đ/kg" status="Sẵn sàng" />
-                    <TableRow item="Đầu Cá" source="Sóc Trăng" unit="15.0 tấn" price="10,000 đ/kg" status="Sẵn sàng" />
                   </tbody>
                 </table>
               </div>
             </section>
           </div>
 
-          <section className="grid grid-cols-2 gap-6">
-
-            <div>
-              <img src={xuHuong} alt="Xu hướng cung cầu" />
+          {/* ================= KHU VỰC 2 BIỂU ĐỒ ================= */}
+          <section className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            
+            {/* Card 1: Biến động giá */}
+            <div className="bg-white rounded-2xl border border-gray-200 shadow-sm hover:-translate-y-1 hover:shadow-md transition-all duration-300">
+              <div className="px-6 pt-5 flex justify-between items-start">
+                <div>
+                  <h2 className="text-[15px] font-bold text-gray-800">Biến động giá vỏ tôm</h2>
+                  <p className="text-[11.5px] text-gray-400 mt-0.5">7 ngày gần nhất</p>
+                </div>
+                <div className="relative">
+                  <button onClick={() => setOpenMenu1(!openMenu1)} className="w-8 h-8 flex items-center justify-center rounded-lg border border-gray-200 hover:bg-gray-50 transition">
+                    <MoreVertical size={16} className="text-gray-400" />
+                  </button>
+                  {openMenu1 && (
+                    <div className="absolute right-0 mt-2 w-36 bg-white border border-gray-200 rounded-lg shadow-lg py-1 z-10 text-sm">
+                      <div className="px-4 py-2 hover:bg-gray-50 cursor-pointer">Tải xuống PNG</div>
+                      <div className="px-4 py-2 hover:bg-gray-50 cursor-pointer">Xem chi tiết</div>
+                    </div>
+                  )}
+                </div>
+              </div>
+              <div className="px-6 pt-3 pb-1 flex items-center gap-4">
+                <div>
+                  <p className="text-[11px] text-gray-400 mb-0.5">Giá cao nhất</p>
+                  <p className="font-bold text-[22px] text-gray-900 leading-none">14,200</p>
+                </div>
+                <div className="w-[1px] h-8 bg-gray-200"></div>
+                <div>
+                  <p className="text-[11px] text-gray-400 mb-0.5">Giá thấp nhất</p>
+                  <p className="font-bold text-[22px] text-gray-900 leading-none">8,500</p>
+                </div>
+                <div className="w-[1px] h-8 bg-gray-200"></div>
+                <div>
+                  <p className="text-[11px] text-gray-400 mb-0.5">Xu hướng</p>
+                  <span className="inline-flex items-center bg-teal-50 text-teal-700 px-2.5 py-0.5 rounded-full text-[11.5px] font-medium mt-1">
+                    ▲ +4.2%
+                  </span>
+                </div>
+              </div>
+              <div className="px-2">
+                <Chart options={chart1Options} series={chart1Series} type="area" height={240} />
+              </div>
             </div>
+
+            {/* Card 2: Xu hướng Cung - Cầu */}
+            <div className="bg-white rounded-2xl border border-gray-200 shadow-sm hover:-translate-y-1 hover:shadow-md transition-all duration-300">
+              <div className="px-6 pt-5 flex justify-between items-start">
+                <div>
+                  <h2 className="text-[15px] font-bold text-gray-800">Xu hướng Cung–Cầu</h2>
+                  <p className="text-[11.5px] text-gray-400 mt-0.5">Tuần hiện tại</p>
+                </div>
+                <div className="relative">
+                  <button onClick={() => setOpenMenu2(!openMenu2)} className="w-8 h-8 flex items-center justify-center rounded-lg border border-gray-200 hover:bg-gray-50 transition">
+                    <MoreVertical size={16} className="text-gray-400" />
+                  </button>
+                  {openMenu2 && (
+                    <div className="absolute right-0 mt-2 w-36 bg-white border border-gray-200 rounded-lg shadow-lg py-1 z-10 text-sm">
+                      <div className="px-4 py-2 hover:bg-gray-50 cursor-pointer">Tải xuống PNG</div>
+                      <div className="px-4 py-2 hover:bg-gray-50 cursor-pointer">Xem chi tiết</div>
+                    </div>
+                  )}
+                </div>
+              </div>
+              <div className="px-6 pt-3 pb-1 flex items-center gap-4">
+                <div>
+                  <p className="text-[11px] text-gray-400 mb-0.5">Cung TB</p>
+                  <p className="font-bold text-[22px] text-gray-900 leading-none">15,840</p>
+                </div>
+                <div className="w-[1px] h-8 bg-gray-200"></div>
+                <div>
+                  <p className="text-[11px] text-gray-400 mb-0.5">Cầu TB</p>
+                  <p className="font-bold text-[22px] text-gray-900 leading-none">612</p>
+                </div>
+                <div className="w-[1px] h-8 bg-gray-200"></div>
+                <div className="flex gap-2 mt-1">
+                  <span className="inline-flex items-center gap-1.5 bg-amber-50 text-amber-700 px-2.5 py-0.5 rounded-full text-[11.5px] font-medium">
+                    <span className="w-1.5 h-1.5 rounded-full bg-amber-500"></span> Cung
+                  </span>
+                  <span className="inline-flex items-center gap-1.5 bg-green-50 text-green-800 px-2.5 py-0.5 rounded-full text-[11.5px] font-medium">
+                    <span className="w-1.5 h-1.5 rounded-full bg-green-700"></span> Cầu
+                  </span>
+                </div>
+              </div>
+              <div className="px-2">
+                <Chart options={chart2Options} series={chart2Series} type="area" height={240} />
+              </div>
+            </div>
+
           </section>
 
           <div className="bg-orange-50 border border-orange-200 rounded-lg p-4 flex justify-between items-center">
@@ -128,8 +269,6 @@ const LandingPage = () => {
 };
 
 // ================= SUBCOMPONENTS =================
-
-// Cập nhật NavItem để hỗ trợ thuộc tính onClick
 const NavItem = ({ icon, label, active, badge, onClick }) => (
   <div onClick={onClick} className={`flex items-center px-4 py-2.5 rounded-lg cursor-pointer transition-colors ${active ? 'bg-teal-900 text-teal-400' : 'text-gray-300 hover:bg-gray-800 hover:text-white'}`}>
     <div className="mr-3">{icon}</div>
@@ -137,67 +276,6 @@ const NavItem = ({ icon, label, active, badge, onClick }) => (
     {badge && <span className="text-xs bg-orange-500 text-white px-2 py-0.5 rounded-full">{badge}</span>}
   </div>
 );
-
-const Legend = ({ position }) => {
-  const legendItems = [
-    { color: 'bg-red-500', label: 'Nhà máy chế biến' },
-    { color: 'bg-blue-500', label: 'Kho tập kết lạnh' },
-    { color: 'bg-green-500', label: 'Nhà máy tiêu thụ' },
-  ];
-  return (
-    <div className={`absolute p-2 bg-white/95 backdrop-blur-sm border border-gray-200 rounded shadow-sm ${position} z-10 pointer-events-none`}>
-      <div className="space-y-1">
-        {legendItems.map((item, index) => (
-          <div key={index} className="flex items-center space-x-1.5">
-            <div className={`w-2.5 h-2.5 rounded-full ${item.color}`}></div>
-            <span className="text-[10px] text-gray-700 font-medium">{item.label}</span>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-};
-
-const Marker = ({ type, x, y, label, scale = 1 }) => {
-  const colors = {
-    processing: 'border-red-500 bg-white text-red-500',
-    coldstorage: 'border-blue-500 bg-white text-blue-500',
-    consumption: 'border-green-500 bg-white text-green-500',
-  };
-  const inverseScale = 1 / scale;
-
-  return (
-    <div
-      className="absolute flex flex-col items-center group z-20"
-      style={{ left: `${x}%`, top: `${y}%`, transform: `translate(-50%, -100%) scale(${inverseScale})` }}
-    >
-      <div className={`flex items-center justify-center p-0.5 border-2 rounded-full shadow-sm ${colors[type]} group-hover:scale-110 transition-transform cursor-pointer`}>
-        <MapPin size={14} fill="currentColor" />
-      </div>
-      {label && <span className="mt-0.5 px-1 py-0.5 text-[10px] font-bold text-gray-800 bg-white/90 border border-gray-100 rounded shadow-sm whitespace-nowrap">{label}</span>}
-    </div>
-  );
-};
-
-const InfoLabel = ({ x, y, title, color, scale = 1, children }) => {
-  const inverseScale = 1 / scale;
-
-  return (
-    <div
-      className="absolute group z-20 hover:z-50 cursor-pointer"
-      style={{ left: `${x}%`, top: `${y}%`, transform: `translate(-50%, -50%) scale(${inverseScale})` }}
-    >
-      <div className="px-2 py-1 bg-white/90 backdrop-blur-sm border border-gray-300 rounded-full shadow-sm text-[10px] font-bold text-gray-700 flex items-center gap-1 group-hover:border-teal-500 group-hover:shadow-md transition-all">
-        <Truck size={12} className={color} />
-        {title}
-      </div>
-
-      <div className="absolute top-full left-1/2 -translate-x-1/2 mt-1 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 w-max p-2 bg-white/95 backdrop-blur-sm border border-gray-200 rounded shadow-lg text-[10px] text-gray-700 pointer-events-none">
-        {children}
-      </div>
-    </div>
-  );
-};
 
 const TableRow = ({ item, source, unit, price, status }) => (
   <tr className="hover:bg-gray-50 transition">
@@ -211,31 +289,6 @@ const TableRow = ({ item, source, unit, price, status }) => (
       </span>
     </td>
   </tr>
-);
-
-const OrderRow = ({ id, seller, product, qty, request, time }) => (
-  <tr className="hover:bg-gray-50 transition text-gray-600">
-    <td className="py-3 px-4 font-medium">{id}</td>
-    <td className="py-3 px-4">{seller}</td>
-    <td className="py-3 px-4">{product}</td>
-    <td className="py-3 px-4">{qty}</td>
-    <td className="py-3 px-4">{request}</td>
-    <td className="py-3 px-4">{time}</td>
-  </tr>
-);
-
-const ChartCard = ({ title }) => (
-  <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-4 h-64 flex flex-col">
-    <div className="flex justify-between items-center mb-4">
-      <h3 className="font-bold text-gray-800 text-sm">{title}</h3>
-      <button className="text-gray-400 hover:text-gray-600">
-        <MoreVertical size={20} />
-      </button>
-    </div>
-    <div className="flex-1 bg-gray-50 border border-dashed border-gray-200 flex items-center justify-center text-gray-400 text-sm rounded">
-      [ Khu vực Biểu đồ ]
-    </div>
-  </div>
 );
 
 export default LandingPage;
