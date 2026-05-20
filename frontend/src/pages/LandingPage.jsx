@@ -8,6 +8,8 @@ import {
 import mapImg from '../assets/images/map/map-dong-bang-song-cu-long.png';
 import giaVoTom from '../assets/images/chartimg/bien-dong-gia-vo-tom.jpg';
 import xuHuong from '../assets/images/chartimg/xu-huong-cung-cau.jpg';
+import BrandLogo from '../assets/images/logo/brand.png';
+
 
 const LandingPage = () => {
   const navigate = useNavigate();
@@ -17,37 +19,18 @@ const LandingPage = () => {
 
       {/* ================= SIDEBAR ================= */}
       <aside className="w-64 bg-[#0a192f] text-white flex flex-col shrink-0">
-        <div className="h-16 flex items-center px-6 border-b border-gray-700">
-          <span className="text-xl font-bold tracking-wide">AquaTrade</span>
-        </div>
-
         <nav className="flex-1 px-4 py-6 space-y-2">
-          <NavItem icon={<Home size={20} />} label="Trang chủ" active />
-          <NavItem icon={<ArrowRightLeft size={20} />} label="Sàn Giao dịch" />
+          {/* Đã thêm sự kiện chuyển hướng onClick */}
+          <NavItem icon={<Home size={20} />} label="Trang chủ" active onClick={() => navigate('/')} />
+          <NavItem icon={<ArrowRightLeft size={20} />} label="Sàn Giao dịch" onClick={() => navigate('/exchange')} />
 
           <div className="border-t border-gray-700 mt-4 pt-4">
             <NavItem icon={<Navigation size={20} />} label="Theo dõi xe" badge="Mới" />
           </div>
         </nav>
 
-        <div className="p-4 bg-[#0d213f] m-4 rounded-lg">
-          <h3 className="text-sm font-semibold mb-4">Công cụ ra quyết định</h3>
-          <div className="space-y-4 text-sm">
-            <Slider label="Hệ số tươi" value="1.00" />
-            <Slider label="Tải trọng xe" value="100" />
-            <Slider label="Phí vận hành" value="0.08" />
-            <Slider label="Phí vận hành" value="1.8" />
-            <div className="flex items-center justify-between mt-2">
-              <span className="text-gray-300">Cùng, cáp trời</span>
-              <div className="w-8 h-4 bg-gray-500 rounded-full flex items-center px-1">
-                <div className="w-2.5 h-2.5 bg-white rounded-full"></div>
-              </div>
-            </div>
-            <button className="w-full mt-4 bg-teal-600 hover:bg-teal-500 text-white py-2 rounded font-medium transition">
-              Theo dõi xe
-            </button>
-          </div>
-        </div>
+        {/* ĐÃ XÓA KHỐI "CÔNG CỤ RA QUYẾT ĐỊNH" KHỎI TRANG CHỦ */}
+
       </aside>
 
       {/* ================= MAIN CONTENT ================= */}
@@ -55,9 +38,11 @@ const LandingPage = () => {
 
         {/* Top Header */}
         <header className="h-16 bg-white border-b flex items-center justify-between px-8 shrink-0">
-          <div className="flex space-x-6 text-sm font-medium text-gray-500">
-            <a href="#" className="text-teal-600 border-b-2 border-teal-600 pb-1">Trang chủ</a>
-            <a href="./exchange" className="hover:text-teal-600">Sàn Giao dịch</a>
+          <div className="flex space-x-6 text-sm font-medium text-gray-900">
+            <div className="h-16 flex items-center px-6  border-gray-700">
+              <img src={BrandLogo} alt="AquaMarket Logo" className="h-9 w-auto object-contain" />
+              <span className="text-xl font-bold tracking-wide">AquaTrade</span>
+            </div>
           </div>
           <div className="flex items-center space-x-4">
             <div className="relative">
@@ -120,7 +105,7 @@ const LandingPage = () => {
           </div>
 
           <section className="grid grid-cols-2 gap-6">
-            
+
             <div>
               <img src={xuHuong} alt="Xu hướng cung cầu" />
             </div>
@@ -143,6 +128,15 @@ const LandingPage = () => {
 };
 
 // ================= SUBCOMPONENTS =================
+
+// Cập nhật NavItem để hỗ trợ thuộc tính onClick
+const NavItem = ({ icon, label, active, badge, onClick }) => (
+  <div onClick={onClick} className={`flex items-center px-4 py-2.5 rounded-lg cursor-pointer transition-colors ${active ? 'bg-teal-900 text-teal-400' : 'text-gray-300 hover:bg-gray-800 hover:text-white'}`}>
+    <div className="mr-3">{icon}</div>
+    <span className="flex-1 text-sm font-medium">{label}</span>
+    {badge && <span className="text-xs bg-orange-500 text-white px-2 py-0.5 rounded-full">{badge}</span>}
+  </div>
+);
 
 const Legend = ({ position }) => {
   const legendItems = [
@@ -204,27 +198,6 @@ const InfoLabel = ({ x, y, title, color, scale = 1, children }) => {
     </div>
   );
 };
-
-const NavItem = ({ icon, label, active, badge }) => (
-  <a href="#" className={`flex items-center px-4 py-2.5 rounded-lg transition-colors ${active ? 'bg-teal-900 text-teal-400' : 'text-gray-300 hover:bg-gray-800 hover:text-white'}`}>
-    <div className="mr-3">{icon}</div>
-    <span className="flex-1 text-sm font-medium">{label}</span>
-    {badge && <span className="text-xs bg-orange-500 text-white px-2 py-0.5 rounded-full">{badge}</span>}
-  </a>
-);
-
-const Slider = ({ label, value }) => (
-  <div>
-    <div className="flex justify-between text-gray-300 mb-1">
-      <span>{label}</span>
-      <span>{value}</span>
-    </div>
-    <div className="w-full bg-gray-600 h-1.5 rounded-full relative">
-      <div className="bg-teal-500 h-1.5 rounded-full w-2/3"></div>
-      <div className="w-3 h-3 bg-white border-2 border-teal-500 rounded-full absolute top-1/2 transform -translate-y-1/2 left-2/3"></div>
-    </div>
-  </div>
-);
 
 const TableRow = ({ item, source, unit, price, status }) => (
   <tr className="hover:bg-gray-50 transition">

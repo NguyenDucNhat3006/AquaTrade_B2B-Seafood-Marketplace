@@ -1,29 +1,24 @@
 import React from 'react';
 import { Outlet } from 'react-router-dom';
-import { 
-  Fish, Search, Bell, Upload, Settings, LayoutDashboard, 
-  BarChart3, ArrowRightLeft, Users, Package, AlertCircle, 
-  TestTube2, ClipboardList, ListTree, MapPin, BookOpen, ShieldCheck 
+import {
+  Fish, Search, Bell, Upload, Settings, LayoutDashboard,
+  BarChart3, ArrowRightLeft, Users, Package, AlertCircle,
+  TestTube2, ClipboardList, ListTree, MapPin, BookOpen, ShieldCheck
 } from 'lucide-react';
+import BrandLogo from '../assets/images/logo/brand.png';
 
 const AdminLayout = () => {
   return (
     <div className="flex h-screen bg-gray-50 font-sans text-gray-800">
-      
+
       {/* ================= SIDEBAR DÙNG CHUNG ================= */}
       <aside className="w-60 bg-[#0a192f] text-gray-300 flex flex-col shrink-0 border-r border-gray-800 overflow-y-auto">
-        <div className="p-5 border-b border-gray-800 flex items-center gap-2">
-          <div className="leading-none">
-            <span className="text-[15px] font-black text-white block">AquaMarket</span>
-            <span className="text-[9px] font-mono text-gray-400 uppercase tracking-widest mt-1">Admin Console</span>
-          </div>
-        </div>
 
         <nav className="flex-1 px-3 space-y-0.5 py-4">
           <NavSection label="Tổng quan" />
           {/* Lưu ý: Bạn có thể thay thẻ <a> bằng thẻ <Link to="/admin"> của react-router-dom sau này */}
           <NavItem icon={<LayoutDashboard size={16} />} label="Dashboard" active />
-          
+
           <NavSection label="Cấu hình sàn" />
           <NavItem icon={<ListTree size={16} />} label="Danh mục phụ phẩm" />
           <NavItem icon={<MapPin size={16} />} label="Khu vực địa lý" />
@@ -44,9 +39,16 @@ const AdminLayout = () => {
 
       {/* ================= KHUNG CHỨA NỘI DUNG (MAIN) ================= */}
       <main className="flex-1 flex flex-col min-w-0">
-        
+
         {/* HEADER DÙNG CHUNG */}
         <header className="h-15 bg-white border-b border-gray-200 px-8 flex items-center justify-between sticky top-0 z-10 shrink-0">
+          <div className="p-5 border-gray-800 flex items-center gap-2">
+            <div className="leading-none">
+              <img src={BrandLogo} alt="AquaMarket Logo" className="h-9 w-auto object-contain" />
+              <span className="text-[15px] font-black text-white block">AquaMarket</span>
+              <span className="text-[9px] font-mono text-gray-400 uppercase tracking-widest mt-1">Admin Console</span>
+            </div>
+          </div>
           <h1 className="text-[16px] font-bold text-gray-900">
             Hệ thống Quản trị
           </h1>
@@ -60,7 +62,7 @@ const AdminLayout = () => {
 
         {/* NỘI DUNG CỦA CÁC TRANG SẼ ĐƯỢC ĐỔ VÀO THẺ OUTLET NÀY */}
         <div className="flex-1 overflow-auto bg-[#f8fafc]">
-          <Outlet /> 
+          <Outlet />
         </div>
 
       </main>

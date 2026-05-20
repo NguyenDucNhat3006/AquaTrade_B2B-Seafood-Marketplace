@@ -1,14 +1,20 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
-import { 
-  Fish, Home, ArrowRightLeft, Truck, User, LifeBuoy, 
-  Navigation, Search, AlertTriangle, MoreVertical, MapPin 
+import {
+  Fish, Home, ArrowRightLeft, Truck, User, LifeBuoy,
+  Navigation, Search, AlertTriangle, MoreVertical, MapPin,
+  Package, Scale, FolderOpen, CheckCircle2, XCircle, X, ChevronRight
 } from 'lucide-react';
 import mapImg from '../assets/images/map/map-dong-bang-song-cu-long.png';
+import BrandLogo from '../assets/images/logo/brand.png';
+
 
 const Exchange = () => {
   const navigate = useNavigate();
+
+  // STATE điều khiển Modal chi tiết
+  const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
 
   // === Dữ liệu Bản đồ ===
   const locations = [
@@ -31,21 +37,13 @@ const Exchange = () => {
   };
 
   return (
-    <div className="flex h-screen bg-gray-50 font-sans text-gray-800">
-      
-      {/* ================= SIDEBAR ================= */}
-      <aside className="w-64 bg-[#0a192f] text-white flex flex-col shrink-0">
-        <div className="h-16 flex items-center px-6 border-b border-gray-700">
-          {/* <Fish size={24} strokeWidth={2} className="text-teal-400 mr-2" /> */}
-          <span className="text-xl font-bold tracking-wide">AquaTrade Hub</span>
-        </div>
+    <div className="flex h-screen bg-gray-50 font-sans text-gray-800 relative">
 
+      {/* ================= SIDEBAR ================= */}
+      <aside className="w-64 bg-[#0a192f] text-white flex flex-col shrink-0 z-10">
         <nav className="flex-1 px-4 py-6 space-y-2">
-          <NavItem icon={<Home size={20} />} label="Trang chủ" />
+          <NavItem icon={<Home size={20} />} label="Trang chủ" onClick={() => navigate('/')} />
           <NavItem icon={<ArrowRightLeft size={20} />} label="Sàn Giao dịch" active />
-          {/* <NavItem icon={<Truck size={20} />} label="Tối ưu Logistics" /> */}
-          {/* <NavItem icon={<User size={20} />} label="Tài khoản" /> */}
-          {/* <NavItem icon={<LifeBuoy size={20} />} label="Hỗ trợ" /> */}
 
           <div className="border-t border-gray-700 mt-4 pt-4">
             <NavItem icon={<Navigation size={20} />} label="Theo dõi xe" badge="Mới" />
@@ -74,21 +72,21 @@ const Exchange = () => {
 
       {/* ================= MAIN CONTENT ================= */}
       <main className="flex-1 flex flex-col overflow-hidden">
-        
+
         {/* Top Header */}
-        <header className="h-16 bg-white border-b flex items-center justify-between px-8 shrink-0">
-          <div className="flex space-x-6 text-sm font-medium text-gray-500">
-            <a href="./" className="hover:text-teal-600">Trang chủ</a>
-            <a href="./exchange" className="text-teal-600  border-b-2 border-teal-600 pb-1">Sàn Giao dịch</a>
-            {/* <a href="#" className="hover:text-teal-600">Tối ưu Logistics</a> */}
-            {/* <a href="#" className="hover:text-teal-600">Tài khoản</a> */}
-            {/* <a href="#" className="hover:text-teal-600">Hỗ trợ</a> */}
+        <header className="h-16 bg-white border-b flex items-center justify-between px-8 shrink-0 z-10">
+          <div className="flex space-x-6 text-sm font-medium text-gray-900">
+            <div className="h-16 flex items-center px-6  border-gray-700">
+              <img src={BrandLogo} alt="AquaMarket Logo" className="h-9 w-auto object-contain" />
+              <span className="text-xl font-bold tracking-wide">AquaTrade</span>
+            </div>
+
           </div>
           <div className="flex items-center space-x-4">
             <div className="relative">
-              <input 
-                type="text" 
-                placeholder="Tìm kiếm..." 
+              <input
+                type="text"
+                placeholder="Tìm kiếm..."
                 className="bg-gray-100 border-none rounded-full pl-4 pr-10 py-1.5 text-sm focus:ring-2 focus:ring-teal-500 outline-none w-64"
               />
               <Search size={16} className="absolute right-4 top-2 text-gray-400" />
@@ -101,10 +99,29 @@ const Exchange = () => {
 
         {/* Dashboard Scrollable Area */}
         <div className="flex-1 overflow-auto p-6 space-y-6">
-          
+
+          {/* BANNER TÓM TẮT ĐẦU TRANG */}
+          <section className="bg-[#f0f9fa] border border-[#d1eef6] rounded-xl p-4 shadow-sm">
+            <div className="flex justify-between items-center mb-4 px-2">
+              <div className="text-[14.5px] text-gray-800 font-medium">
+                Hôm nay: <strong className="font-bold">9 lô hàng</strong> · <strong className="font-bold">18.4 tấn</strong> · Chuyến xe Thứ Ba sắp xuất phát
+              </div>
+              <button
+                onClick={() => setIsDetailModalOpen(true)}
+                className="text-red-500 hover:text-red-600 font-bold text-sm hover:underline transition-colors"
+              >
+                Xem Chi tiết
+              </button>
+            </div>
+            <div className="grid grid-cols-3 gap-4">
+              <TopSummaryCard title="TỔNG LÔ" value="9" icon={<Package size={24} className="text-gray-400" />} />
+              <TopSummaryCard title="TỔNG TẤN" value="18.4 tấn" icon={<Scale size={24} className="text-gray-400" />} />
+              <TopSummaryCard title="SỐ CHUYẾN XE TUẦN NÀY" value="5" icon={<Truck size={24} className="text-gray-400" />} />
+            </div>
+          </section>
+
+          {/* Bản đồ Tối ưu Vận tải */}
           <div className="grid grid-cols-1 xl:grid-cols-1 gap-6">
-            
-            {/* Cột Trái: Bản đồ Tối ưu Vận tải */}
             <section className="bg-white rounded-xl shadow-sm border border-gray-100 p-5 flex flex-col h-112.5">
               <div className="flex justify-between items-center mb-3">
                 <h2 className="text-lg font-bold text-gray-800">Bản đồ Tối ưu Vận tải</h2>
@@ -114,9 +131,7 @@ const Exchange = () => {
                 </select>
               </div>
 
-              
               <div className="relative flex-1 border border-gray-200 rounded-lg overflow-hidden bg-gray-100 cursor-move">
-                
                 <TransformWrapper
                   initialScale={1}
                   minScale={0.5}
@@ -137,9 +152,9 @@ const Exchange = () => {
 
                         <TransformComponent wrapperClass="!w-full !h-full" contentClass="!w-full !h-full">
                           <div className="relative w-full h-full">
-                            <img 
-                              src={mapImg} 
-                              alt="Bản đồ Đồng Bằng Sông Cửu Long" 
+                            <img
+                              src={mapImg}
+                              alt="Bản đồ Đồng Bằng Sông Cửu Long"
                               className="w-full h-full object-cover select-none pointer-events-none"
                             />
 
@@ -199,11 +214,9 @@ const Exchange = () => {
                 <Legend position="top-2 left-2" />
               </div>
             </section>
-
           </div>
-          
 
-
+          {/* Bảng Đơn hàng */}
           <section className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
             <div className="flex justify-between items-center mb-4">
               <h2 className="text-lg font-bold text-gray-800">Danh sách Đơn hàng mới</h2>
@@ -234,11 +247,166 @@ const Exchange = () => {
 
         </div>
       </main>
+
+      {/* ================= MODAL CHI TIẾT LÔ HÀNG ================= */}
+      {isDetailModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm transition-opacity">
+
+          <div className="bg-[#f4f7f9] rounded-2xl shadow-2xl w-full max-w-5xl overflow-hidden animate-in fade-in zoom-in duration-200 border border-gray-200">
+
+            {/* Nút Đóng */}
+            <div className="flex justify-end p-2 pb-0">
+              <button onClick={() => setIsDetailModalOpen(false)} className="text-gray-400 hover:text-gray-800 p-2 rounded-full transition-colors">
+                <X size={24} />
+              </button>
+            </div>
+
+            <div className="px-6 pb-6 space-y-4">
+
+              {/* Top 3 KPI Cards trong Modal */}
+              <div className="grid grid-cols-3 gap-4">
+                <ModalKpiCard title="TỔNG LÔ NHẬN" value="12" icon={<FolderOpen size={24} className="text-blue-500" />} />
+                <ModalKpiCard title="ĐỦ ĐIỀU KIỆN" value="9" icon={<CheckCircle2 size={24} className="text-white fill-green-500" />} color="green" />
+                <ModalKpiCard title="TỪ CHỐI" value="3" icon={<XCircle size={24} className="text-white fill-red-500" />} color="red" />
+              </div>
+
+              {/* Grid Bảng và Biểu đồ */}
+              <div className="grid grid-cols-3 gap-4">
+
+                {/* Bảng Lô bị từ chối */}
+                <div className="col-span-2 bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden flex flex-col">
+                  <h3 className="font-bold text-gray-800 p-4 border-b border-gray-100 bg-white">Bảng Lô bị Từ chối</h3>
+                  <div className="overflow-auto p-2">
+                    <table className="w-full text-left text-sm">
+                      <thead className="text-gray-600 bg-gray-50/50">
+                        <tr>
+                          <th className="py-2.5 px-4 font-medium border-b border-gray-100">ID</th>
+                          <th className="py-2.5 px-4 font-medium border-b border-gray-100">Tên sản phẩm</th>
+                          <th className="py-2.5 px-4 font-medium border-b border-gray-100">Tỉnh</th>
+                          <th className="py-2.5 px-4 font-medium border-b border-gray-100">Lý do từ chối</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr className="border-b border-gray-50">
+                          <td className="py-3 px-4 text-gray-700">LOT-003</td>
+                          <td className="py-3 px-4 text-gray-700">Phế phẩm cá tra</td>
+                          <td className="py-3 px-4 text-gray-700">Đồng Tháp</td>
+                          <td className="py-2 px-2">
+                            <div className="bg-[#ffe8e8] text-[#c92a2a] text-[13px] px-3 py-1.5 rounded flex items-start gap-1">
+                              <X size={14} className="mt-0.5 shrink-0" /> Khối lượng 450kg dưới mức tối thiểu 1.000kg
+                            </div>
+                          </td>
+                        </tr>
+                        <tr className="border-b border-gray-50 bg-[#fff5f5]">
+                          <td className="py-3 px-4 text-gray-700">LOT-007</td>
+                          <td className="py-3 px-4 text-gray-700">Đầu tôm</td>
+                          <td className="py-3 px-4 text-gray-700">Sóc Trăng</td>
+                          <td className="py-2 px-2">
+                            <div className="bg-[#ffe8e8] text-[#c92a2a] text-[13px] px-3 py-1.5 rounded flex items-start gap-1">
+                              <X size={14} className="mt-0.5 shrink-0" /> Chi phí vận chuyển ước tính (280.000đ) chiếm 32% giá trị lô — vượt ngưỡng cho phép 30%
+                            </div>
+                          </td>
+                        </tr>
+                        <tr className="border-b border-gray-50">
+                          <td className="py-3 px-4 text-gray-700">LOT-001</td>
+                          <td className="py-3 px-4 text-gray-700">Vỏ tôm sú</td>
+                          <td className="py-3 px-4 text-gray-700">Cà Mau</td>
+                          <td className="py-2 px-2"></td>
+                        </tr>
+                        <tr>
+                          <td className="py-3 px-4 text-gray-700">LOT-002</td>
+                          <td className="py-3 px-4 text-gray-700">Vỏ tôm thẻ</td>
+                          <td className="py-3 px-4 text-gray-700">Cà Mau</td>
+                          <td className="py-2 px-2"></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+
+                {/* Cột Biểu đồ */}
+                <div className="col-span-1 flex flex-col gap-4">
+                  {/* Card Biểu đồ */}
+                  <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4 flex-1 flex flex-col items-center">
+                    <div className="w-full text-left mb-4">
+                      <h3 className="font-bold text-gray-800 text-sm">Biểu đồ Tỷ lệ</h3>
+                      <p className="text-[11px] text-gray-500">Kết quả Kiểm tra</p>
+                    </div>
+
+                    {/* CSS Pie Chart - ĐÃ FIX VỊ TRÍ NHÃN TƯƠNG ĐỐI HOÀN HẢO */}
+                    <div className="relative w-36 h-36 rounded-full mb-6 shadow-sm overflow-hidden"
+                      style={{ background: 'conic-gradient(#ef4444 0% 25%, #22c55e 25% 100%)' }}>
+
+                      {/* Box chứa Nhãn 25% (Chỉ định chính xác góc trên bên phải) */}
+                      <div className="absolute top-0 right-0 w-1/2 h-1/2 flex items-center justify-center">
+                        <span className="text-white font-bold text-xs">25%</span>
+                      </div>
+
+                      {/* Box chứa Nhãn 75% (Chỉ định chính xác nửa dưới tâm biểu đồ) */}
+                      <div className="absolute bottom-0 left-0 w-full h-1/2 flex items-center justify-center">
+                        <span className="text-white font-bold text-xs">75%</span>
+                      </div>
+                    </div>
+
+                    {/* Legend */}
+                    <div className="flex gap-4 text-[11px] font-bold text-gray-600 w-full justify-center mt-auto">
+                      <div className="flex items-center gap-1.5"><div className="w-2.5 h-2.5 bg-[#22c55e] rounded-sm"></div> Approved 75%</div>
+                      <div className="flex items-center gap-1.5"><div className="w-2.5 h-2.5 bg-[#ef4444] rounded-sm"></div> Rejected 25%</div>
+                    </div>
+                  </div>
+
+                  {/* Nút CTA */}
+                  <button
+                    onClick={() => {
+                      setIsDetailModalOpen(false); // 1. Tắt popup hiện tại đi
+                      navigate('/listing-criteria'); // 2. Chuyển sang trang Tiêu chí Niêm Yết
+                    }}
+                    className="w-full bg-gradient-to-r from-emerald-400 to-blue-500 hover:from-emerald-500 hover:to-blue-600 text-white font-bold py-3.5 px-4 rounded-xl shadow-md flex justify-between items-center transition-all"
+                  >
+                    <span>Xem chi tiết</span>
+                    <ChevronRight size={20} />
+                  </button>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
     </div>
   );
 };
 
-// ================= SUBCOMPONENTS =================
+// ================= SUBCOMPONENTS MỚI =================
+
+// Card cho mục Tóm tắt đầu trang
+const TopSummaryCard = ({ title, value, icon }) => (
+  <div className="bg-white rounded-lg p-4 border border-gray-100 flex justify-between items-center shadow-sm">
+    <div className="flex flex-col">
+      <span className="text-[11px] text-gray-500 font-semibold mb-1 uppercase tracking-wide">{title}</span>
+      <span className="text-2xl font-black text-gray-800 leading-none">{value}</span>
+    </div>
+    <div className="w-12 h-12 bg-gray-50 rounded-lg border border-gray-100 flex items-center justify-center">
+      {icon}
+    </div>
+  </div>
+);
+
+// Card cho KPI trong Modal
+const ModalKpiCard = ({ title, value, icon, color }) => (
+  <div className="bg-white rounded-xl p-4 border border-gray-200 flex justify-between items-center shadow-sm">
+    <div className="flex flex-col">
+      <span className="text-[11px] text-gray-500 font-bold mb-1 uppercase tracking-wider">{title}</span>
+      <span className="text-3xl font-black text-gray-800 leading-none">{value}</span>
+    </div>
+    <div className={`w-10 h-10 rounded-full flex items-center justify-center ${color === 'green' ? 'bg-green-50' : color === 'red' ? 'bg-red-50' : 'bg-blue-50'}`}>
+      {icon}
+    </div>
+  </div>
+);
+
+// ================= CÁC COMPONENT CŨ GIỮ NGUYÊN =================
 
 const Legend = ({ position }) => {
   const legendItems = [
@@ -269,8 +437,8 @@ const Marker = ({ type, x, y, label, scale = 1 }) => {
   const inverseScale = 1 / scale;
 
   return (
-    <div 
-      className="absolute flex flex-col items-center group z-20" 
+    <div
+      className="absolute flex flex-col items-center group z-20"
       style={{ left: `${x}%`, top: `${y}%`, transform: `translate(-50%, -100%) scale(${inverseScale})` }}
     >
       <div className={`flex items-center justify-center p-0.5 border-2 rounded-full shadow-sm ${colors[type]} group-hover:scale-110 transition-transform cursor-pointer`}>
@@ -285,8 +453,8 @@ const InfoLabel = ({ x, y, title, color, scale = 1, children }) => {
   const inverseScale = 1 / scale;
 
   return (
-    <div 
-      className="absolute group z-20 hover:z-50 cursor-pointer" 
+    <div
+      className="absolute group z-20 hover:z-50 cursor-pointer"
       style={{ left: `${x}%`, top: `${y}%`, transform: `translate(-50%, -50%) scale(${inverseScale})` }}
     >
       <div className="px-2 py-1 bg-white/90 backdrop-blur-sm border border-gray-300 rounded-full shadow-sm text-[10px] font-bold text-gray-700 flex items-center gap-1 group-hover:border-teal-500 group-hover:shadow-md transition-all">
@@ -301,12 +469,17 @@ const InfoLabel = ({ x, y, title, color, scale = 1, children }) => {
   );
 };
 
-const NavItem = ({ icon, label, active, badge }) => (
-  <a href="#" className={`flex items-center px-4 py-2.5 rounded-lg transition-colors ${active ? 'bg-teal-900 text-teal-400' : 'text-gray-300 hover:bg-gray-800 hover:text-white'}`}>
+const NavItem = ({ icon, label, active, badge, onClick }) => (
+  <button 
+    onClick={onClick} 
+    className={`w-full flex items-center px-4 py-2.5 rounded-lg transition-colors ${
+      active ? 'bg-teal-900 text-teal-400' : 'text-gray-300 hover:bg-gray-800 hover:text-white'
+    }`}
+  >
     <div className="mr-3">{icon}</div>
-    <span className="flex-1 text-sm font-medium">{label}</span>
+    <span className="flex-1 text-sm font-medium text-left">{label}</span>
     {badge && <span className="text-xs bg-orange-500 text-white px-2 py-0.5 rounded-full">{badge}</span>}
-  </a>
+  </button>
 );
 
 const Slider = ({ label, value }) => (
@@ -322,20 +495,6 @@ const Slider = ({ label, value }) => (
   </div>
 );
 
-const TableRow = ({ item, source, unit, price, status }) => (
-  <tr className="hover:bg-gray-50 transition">
-    <td className="py-2 px-3 font-medium text-gray-800">{item}</td>
-    <td className="py-2 px-3 text-gray-600">{source}</td>
-    <td className="py-2 px-3 text-gray-600">{unit}</td>
-    <td className="py-2 px-3 text-gray-600">{price}</td>
-    <td className="py-2 px-3 text-center">
-      <span className="bg-green-100 text-green-700 px-2 py-0.5 rounded text-[11px] font-medium">
-        {status}
-      </span>
-    </td>
-  </tr>
-);
-
 const OrderRow = ({ id, seller, product, qty, request, time }) => (
   <tr className="hover:bg-gray-50 transition text-gray-600">
     <td className="py-3 px-4 font-medium">{id}</td>
@@ -345,20 +504,6 @@ const OrderRow = ({ id, seller, product, qty, request, time }) => (
     <td className="py-3 px-4">{request}</td>
     <td className="py-3 px-4">{time}</td>
   </tr>
-);
-
-const ChartCard = ({ title }) => (
-  <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-4 h-64 flex flex-col">
-    <div className="flex justify-between items-center mb-4">
-      <h3 className="font-bold text-gray-800 text-sm">{title}</h3>
-      <button className="text-gray-400 hover:text-gray-600">
-        <MoreVertical size={20} />
-      </button>
-    </div>
-    <div className="flex-1 bg-gray-50 border border-dashed border-gray-200 flex items-center justify-center text-gray-400 text-sm rounded">
-      [ Khu vực Biểu đồ ]
-    </div>
-  </div>
 );
 
 export default Exchange;

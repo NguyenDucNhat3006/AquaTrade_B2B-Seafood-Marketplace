@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Link, Outlet, useLocation } from 'react-router-dom';
-import { AnimatePresence } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion'; // <-- Cập nhật import motion
 import { 
   Fish, LayoutDashboard, BarChart3, ArrowRightLeft, Users, Package, 
   AlertCircle, TestTube2, ClipboardList, ListTree, MapPin, Settings, 
@@ -14,10 +14,12 @@ import OtpPage from './pages/login/OtpPage';
 
 import LandingPage from './pages/LandingPage';
 import Exchange from './pages/Exchange';
+import ListingCriteria from './pages/ListingCriteria';
 import SellerDashboard from './pages/seller/SellerDashboard';
 import BuyerDashboard from './pages/buyer/BuyerDashboard';
 import AdminDashboard from './pages/admin/AdminDashboard';
 import GradingStandards from './pages/admin/GradingStandards';
+import BrandLogo from './assets/images/logo/brand.png';
 
 // ================= LAYOUT ĐIỀU HƯỚNG DÙNG CHUNG (ADMIN) =================
 const AdminLayout = () => {
@@ -28,13 +30,6 @@ const AdminLayout = () => {
       
       {/* SIDEBAR NAVIGATION */}
       <aside className="w-60 bg-[#0a192f] text-gray-300 flex flex-col shrink-0 border-r border-gray-800 overflow-y-auto">
-        <div className="p-5 border-b border-gray-800 flex items-center gap-2">
-          <div className="leading-none">
-            <span className="text-[15px] font-black text-white block">AquaMarket</span>
-            <span className="text-[9px] font-mono text-gray-400 uppercase tracking-widest mt-1">Admin Console</span>
-          </div>
-        </div>
-
         <div className="m-4 p-2.5 bg-orange-900/30 border border-orange-500/30 rounded-lg flex items-center gap-2">
           <div className="w-2 h-2 bg-orange-500 rotate-45 animate-pulse shrink-0"></div>
           <p className="text-[10px] text-orange-400 font-mono uppercase tracking-widest">Admin Sàn — Role 5</p>
@@ -52,11 +47,6 @@ const AdminLayout = () => {
           </Link>
 
           <p className="px-3 text-[9px] font-mono text-gray-500 uppercase tracking-widest pt-4 pb-2">Quản lý</p>
-          {/* <Link to="/admin/transactions" className="flex items-center px-3 py-2.5 rounded-lg text-[13.5px] transition hover:bg-gray-800 text-gray-400 hover:text-white">
-            <ArrowRightLeft size={16} className="mr-3 opacity-80" />
-            <span className="flex-1">Giao dịch</span>
-            <span className="bg-gray-700 text-gray-300 font-mono text-[9px] px-1.5 py-0.5 rounded-full font-bold">1.2K</span>
-          </Link> */}
           <Link to="/admin/users" className="flex items-center px-3 py-2.5 rounded-lg text-[13.5px] transition hover:bg-gray-800 text-gray-400 hover:text-white">
             <Users size={16} className="mr-3 opacity-80" />
             <span className="flex-1">Người dùng</span>
@@ -113,6 +103,15 @@ const AdminLayout = () => {
       {/* MAIN VIEW AREA */}
       <main className="flex-1 flex flex-col min-w-0">
         <header className="h-15 bg-white border-b border-gray-200 px-8 flex items-center justify-between sticky top-0 z-10 shrink-0">
+          <div className="p-5 border-gray-800 flex items-center gap-2">
+                      <div classNam="w-8 h-8 bg-teal-400 rounded-lg flex items-center justify-center text-gray-900 shadow-lg shadow-teal-400/20">
+                        <img src={BrandLogo} alt="AquaMarket Logo" className="h-9 w-auto object-contain" />
+                      </div>
+                      <div className="leading-none">
+                        <span className="text-[15px] font-black text-black block">AquaMarket</span>
+                        <span className="text-[9px] font-mono text-gray-500 uppercase tracking-widest">Admin console</span>
+                      </div>
+                    </div>
           <h1 className="text-[16px] font-bold text-gray-900">
             Hệ thống Quản trị AquaMarket
           </h1>
@@ -149,33 +148,63 @@ const AdminLayout = () => {
   );
 };
 
+// ================= COMPONENT BỌC HIỆU ỨNG CHUYỂN TRANG =================
+const PageTransition = ({ children }) => {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 5 }} // Trang mới sẽ hơi mờ và nằm thấp xuống 1 chút
+      animate={{ opacity: 1, y: 0 }}   // Nổi rõ lên và trượt vào vị trí gốc
+      exit={{ opacity: 0, y: -5 }}     // Trang cũ mờ đi và trượt nhẹ lên trên
+      transition={{ duration: 0.25, ease: "easeInOut" }}
+      className="w-full h-full"
+    >
+      {children}
+    </motion.div>
+  );
+};
+
+// ================= KHỐI ROUTES ĐƯỢC TÁCH RA ĐỂ BẮT ĐƯỢC LOCATION =================
+const AnimatedRoutes = () => {
+  const location = useLocation();
+
+  return (
+    // mode="wait" giúp React xóa hẳn trang cũ xong mới bắt đầu render trang mới, triệt tiêu lỗi layout
+    <AnimatePresence mode="wait">
+      <Routes location={location} key={location.pathname}>
+        
+        {/* Auth Pages */}
+        <Route path="/login" element={<PageTransition><LoginPage /></PageTransition>} />
+        <Route path="/register" element={<PageTransition><RegisterPage /></PageTransition>} />
+        <Route path="/forgot-password" element={<PageTransition><ForgotPasswordPage /></PageTransition>} />
+        <Route path="/verify-otp" element={<PageTransition><OtpPage /></PageTransition>} />
+
+        {/* Main Application Pages */}
+        <Route path="/" element={<PageTransition><LandingPage /></PageTransition>} />
+        <Route path="/home" element={<PageTransition><LandingPage /></PageTransition>} />
+        <Route path="/exchange" element={<PageTransition><Exchange /></PageTransition>} />
+        <Route path="/listing-criteria" element={<PageTransition><ListingCriteria /></PageTransition>} />
+        
+        {/* Dashboards */}
+        <Route path="/seller" element={<PageTransition><SellerDashboard /></PageTransition>} />
+        <Route path="/buyer" element={<PageTransition><BuyerDashboard /></PageTransition>} />
+
+        {/* Admin Section */}
+        <Route path="/admin" element={<PageTransition><AdminLayout /></PageTransition>}>
+          <Route index element={<AdminDashboard />} />
+          <Route path="grading-standards" element={<GradingStandards />} />
+        </Route>
+
+      </Routes>
+    </AnimatePresence>
+  );
+};
+
+// ================= MAIN APP COMPONENT =================
 function App() {
   return (
-      <Router>
-        <AnimatePresence mode="wait">
-          <Routes>
-            {/* 1. Đặt LoginPage làm trang đầu tiên khi mở dự án */}
-            <Route path="/" element={<LoginPage />} />
-            <Route path="/register" element={<RegisterPage />} />
-            <Route path="/forgot-password" element={<ForgotPasswordPage />} />
-            <Route path="/verify-otp" element={<OtpPage />} />
-            {/* 2. Đổi LandingPage sang một đường dẫn khác (ví dụ: /home) để không bị mất code cũ */}
-            <Route path="/home" element={<LandingPage />} />
-            <Route path="/exchange" element={<Exchange />} />
-
-            {/* Giữ lại /login để dự phòng nếu có link nào đó trỏ đến */}
-            <Route path="/login" element={<LoginPage />} />
-
-            <Route path="/seller" element={<SellerDashboard />} />
-            <Route path="/buyer" element={<BuyerDashboard />} />
-
-            <Route path="/admin" element={<AdminLayout />}>
-              <Route index element={<AdminDashboard />} />
-              <Route path="grading-standards" element={<GradingStandards />} />
-            </Route>
-          </Routes>
-        </AnimatePresence>
-      </Router>
+    <Router>
+      <AnimatedRoutes />
+    </Router>
   );
 }
 

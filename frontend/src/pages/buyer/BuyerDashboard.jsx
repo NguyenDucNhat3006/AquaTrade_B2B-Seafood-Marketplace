@@ -1,15 +1,17 @@
 import React, { useState } from 'react';
-import { 
-  Fish, Store, ShoppingCart, Wallet, Heart, BellRing, 
-  Search, Bell, User, ArrowUpDown, List, Grid, 
-  MapPin, FileCheck, Lock, Building2, Calendar, 
+import {
+  Fish, Store, ShoppingCart, Wallet, Heart, BellRing,
+  Search, Bell, User, ArrowUpDown, List, Grid,
+  MapPin, FileCheck, Lock, Building2, Calendar,
   FileText, Phone, ChevronDown, Play, Box,
   X, Paperclip, Sparkles // Import thêm các icon này cho Modal
 } from 'lucide-react';
 
-import shrimp_head_main from '../../assets/images/productimg/dau-tom-su-dong-lanh.jpg'; 
-import pangasius_powder_main from '../../assets/images/productimg/bot-ca-tra.jpg'; 
-import pangasius_oil_main from '../../assets/images/productimg/mo-ca-tra.jpg'; 
+import shrimp_head_main from '../../assets/images/productimg/dau-tom-su-dong-lanh.jpg';
+import pangasius_powder_main from '../../assets/images/productimg/bot-ca-tra.jpg';
+import pangasius_oil_main from '../../assets/images/productimg/mo-ca-tra.jpg';
+import BrandLogo from '../../assets/images/logo/brand.png';
+
 
 
 const placeholderImage = 'https://via.placeholder.com/600x600?text=Ảnh+Sản+Phẩm';
@@ -163,7 +165,7 @@ const BuyerDashboard = () => {
 
   const [selectedLot, setSelectedLot] = useState(mockLots[0]);
   const [selectedDetailImage, setSelectedDetailImage] = useState(selectedLot.imageUrls.main);
-  
+
   // STATE ĐỂ HIỂN THỊ MODAL BÁO GIÁ
   const [isQuoteModalOpen, setIsQuoteModalOpen] = useState(false);
 
@@ -174,15 +176,9 @@ const BuyerDashboard = () => {
 
   return (
     <div className="flex h-screen bg-gray-50 font-sans text-gray-800 relative">
-      
+
       {/* SIDEBAR */}
       <aside className="w-60 bg-[#0a192f] text-white flex flex-col shrink-0">
-        <div className="h-16 flex items-center px-6 border-b border-gray-700">
-          <div className="w-8 h-8 bg-teal-500 rounded-lg flex items-center justify-center text-gray-900 shadow-lg shadow-teal-400/20">
-            <Fish size={18} strokeWidth={2.5} />
-          </div>
-          <span className="text-lg font-bold ml-2">AquaMarket</span>
-        </div>
         <nav className="flex-1 px-4 py-6 space-y-1">
           <NavItem label="Sàn giao dịch" active icon={<Store size={16} />} />
           <NavItem label="Đơn hàng của tôi" badge="3" icon={<ShoppingCart size={16} />} />
@@ -202,9 +198,13 @@ const BuyerDashboard = () => {
 
       {/* MAIN CONTENT */}
       <main className="flex-1 flex flex-col overflow-hidden">
-        
+
         {/* HEADER */}
         <header className="h-15 bg-white border-b flex items-center gap-6 px-8 shrink-0">
+          <div className="h-16 flex items-center px-6 border-gray-700">
+            <img src={BrandLogo} alt="AquaMarket Logo" className="h-9 w-auto object-contain" />
+            <span className="text-lg font-bold ml-2">AquaMarket</span>
+          </div>
           <h1 className="text-[16px] font-bold whitespace-nowrap">Danh Sách Lô Hàng</h1>
           <div className="flex-1 max-w-md relative">
             <input placeholder="Tìm lô hàng, tỉnh, loài tôm..." className="w-full bg-gray-100 border-none rounded-full pl-10 pr-4 py-2 text-sm outline-none focus:ring-2 focus:ring-teal-500" />
@@ -245,7 +245,7 @@ const BuyerDashboard = () => {
 
           {/* GRID: DANH SÁCH BÊN TRÁI - CHI TIẾT BÊN PHẢI */}
           <div className="grid grid-cols-1 xl:grid-cols-12 gap-6">
-            
+
             {/* DANH SÁCH SẢN PHẨM (Cột Trái) */}
             <div className="xl:col-span-4 2xl:col-span-5 flex flex-col gap-4">
               <div className="flex justify-between items-center text-xs text-gray-500">
@@ -255,17 +255,17 @@ const BuyerDashboard = () => {
               {/* Danh sách List Lô Hàng */}
               <div className="space-y-4">
                 {mockLots.map((lot) => (
-                  <div 
-                    key={lot.id} 
+                  <div
+                    key={lot.id}
                     onClick={() => handleSelectLot(lot)}
                     className={`p-4 rounded-xl border transition cursor-pointer flex justify-between items-center ${selectedLot.id === lot.id ? 'bg-blue-50/30 border-blue-400 shadow-sm' : 'bg-white border-gray-200 hover:border-blue-300'}`}
                   >
                     <div className="flex gap-3">
                       <div className="w-10 h-10 border border-gray-200 rounded-lg flex items-center justify-center text-gray-400 shrink-0 bg-gray-50 overflow-hidden">
-                        <img 
-                          src={lot.imageUrls.main} 
-                          alt={lot.name} 
-                          className="w-full h-full object-cover" 
+                        <img
+                          src={lot.imageUrls.main}
+                          alt={lot.name}
+                          className="w-full h-full object-cover"
                           onError={(e) => { e.target.onerror = null; e.target.src = 'https://via.placeholder.com/100x100/e0f2f1/00796b?text=SP'; }}
                         />
                       </div>
@@ -285,16 +285,15 @@ const BuyerDashboard = () => {
               {/* PHÂN TRANG (PAGINATION) */}
               <div className="flex justify-end items-center gap-1.5 mt-2">
                 {[1, 2, 3, '...', 12].map((p, i) => (
-                  <button 
-                    key={i} 
+                  <button
+                    key={i}
                     disabled={p === '...'}
-                    className={`w-9 h-9 flex items-center justify-center rounded-lg border text-[13px] font-bold transition-colors ${
-                      p === 1 
-                        ? 'bg-teal-600 text-white border-teal-600 shadow-sm' 
+                    className={`w-9 h-9 flex items-center justify-center rounded-lg border text-[13px] font-bold transition-colors ${p === 1
+                        ? 'bg-teal-600 text-white border-teal-600 shadow-sm'
                         : p === '...'
                           ? 'bg-transparent text-gray-500 border-transparent cursor-default'
                           : 'bg-white text-gray-600 border-gray-300 hover:border-teal-500 hover:text-teal-600'
-                    }`}
+                      }`}
                   >
                     {p}
                   </button>
@@ -306,32 +305,31 @@ const BuyerDashboard = () => {
             {/* PANEL THÔNG TIN CHI TIẾT (Cột Phải) */}
             <div className="xl:col-span-8 2xl:col-span-7">
               <div className="bg-white rounded-xl border border-gray-200 shadow-lg p-6 sticky top-4 flex gap-6">
-                
+
                 {/* Cột Ảnh & Thumbnails */}
                 <div className="w-48 shrink-0 flex flex-col gap-2">
                   <div className="aspect-square bg-gray-50 border border-gray-200 rounded-lg relative overflow-hidden">
-                    <img 
-                      src={selectedDetailImage} 
+                    <img
+                      src={selectedDetailImage}
                       alt={selectedLot.name}
                       className="absolute inset-0 w-full h-full object-cover z-0"
                     />
                   </div>
-                  
+
                   <div className="grid grid-cols-4 gap-2 relative z-10">
                     {selectedLot.imageUrls.thumbs.slice(0, 3).map((thumbSrc, index) => (
-                      <div 
+                      <div
                         key={index}
                         onClick={() => setSelectedDetailImage(thumbSrc)}
-                        className={`aspect-square border rounded-lg cursor-pointer flex items-center justify-center p-1 ${
-                          selectedDetailImage === thumbSrc 
-                            ? 'border-[#c83939] bg-red-50/50' 
+                        className={`aspect-square border rounded-lg cursor-pointer flex items-center justify-center p-1 ${selectedDetailImage === thumbSrc
+                            ? 'border-[#c83939] bg-red-50/50'
                             : 'border-gray-200 bg-white hover:border-teal-400'
-                        }`}
+                          }`}
                       >
-                         <img src={thumbSrc} alt={`Thumb ${index}`} className="w-full h-full object-cover rounded" />
+                        <img src={thumbSrc} alt={`Thumb ${index}`} className="w-full h-full object-cover rounded" />
                       </div>
                     ))}
-                    
+
                     <ThumbBox icon={<Box size={14} />} label="HACCP" />
                     <ThumbBox icon={<FileCheck size={14} />} label="COA" />
                     <ThumbBox icon={<Building2 size={14} />} label="NM" />
@@ -341,19 +339,19 @@ const BuyerDashboard = () => {
 
                 {/* Cột Thông tin chi tiết */}
                 <div className="flex-1 min-w-0 flex flex-col">
-                  
+
                   {/* Header: Tags & Nút Lưu */}
                   <div className="flex justify-between items-start mb-3">
-                     <div className="flex flex-wrap gap-2">
-                       {selectedLot.tags.map(t => (
-                         <span key={t.label} className={`px-2 py-0.5 text-[11px] font-medium border rounded ${t.color}`}>
-                           {t.label}
-                         </span>
-                       ))}
-                     </div>
-                     <button className="flex items-center gap-1.5 px-3 py-1 border border-gray-200 rounded-lg text-gray-600 hover:bg-gray-50 text-[11px] font-medium">
-                       <Heart size={14} /> Lưu
-                     </button>
+                    <div className="flex flex-wrap gap-2">
+                      {selectedLot.tags.map(t => (
+                        <span key={t.label} className={`px-2 py-0.5 text-[11px] font-medium border rounded ${t.color}`}>
+                          {t.label}
+                        </span>
+                      ))}
+                    </div>
+                    <button className="flex items-center gap-1.5 px-3 py-1 border border-gray-200 rounded-lg text-gray-600 hover:bg-gray-50 text-[11px] font-medium">
+                      <Heart size={14} /> Lưu
+                    </button>
                   </div>
 
                   {/* Tiêu đề & Meta */}
@@ -432,17 +430,17 @@ const BuyerDashboard = () => {
                       <div className="w-14 h-14 bg-[#1a2332] text-white rounded flex items-center justify-center font-bold text-lg shrink-0">
                         {selectedLot.seller.avatar}
                       </div>
-                      
+
                       <div className="flex-1">
                         <h4 className="text-[14px] font-bold text-gray-900 uppercase mb-1.5">
                           {selectedLot.seller.name}
                         </h4>
                         <div className="flex items-center gap-3 text-[12px] text-gray-500 mb-2.5">
-                          <span className="flex items-center gap-1"><Building2 size={12}/> {selectedLot.seller.type}</span>
+                          <span className="flex items-center gap-1"><Building2 size={12} /> {selectedLot.seller.type}</span>
                           <span>|</span>
-                          <span className="flex items-center gap-1"><MapPin size={12}/> {selectedLot.seller.loc}</span>
+                          <span className="flex items-center gap-1"><MapPin size={12} /> {selectedLot.seller.loc}</span>
                           <span>|</span>
-                          <span className="flex items-center gap-1"><Calendar size={12}/> {selectedLot.seller.est}</span>
+                          <span className="flex items-center gap-1"><Calendar size={12} /> {selectedLot.seller.est}</span>
                         </div>
                         <div className="flex flex-wrap gap-1.5">
                           {selectedLot.seller.certs.map(c => (
@@ -455,7 +453,7 @@ const BuyerDashboard = () => {
 
                       <div className="flex flex-col justify-center gap-2 shrink-0">
                         {/* THÊM SỰ KIỆN onClick ĐỂ MỞ MODAL */}
-                        <button 
+                        <button
                           onClick={() => setIsQuoteModalOpen(true)}
                           className="px-5 py-2 border border-[#c83939] text-[#c83939] rounded font-bold text-[13px] flex items-center justify-center gap-1.5 hover:bg-red-50"
                         >
@@ -488,11 +486,11 @@ const BuyerDashboard = () => {
       {isQuoteModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm transition-opacity">
           <div className="bg-white rounded-xl shadow-2xl w-full max-w-3xl overflow-hidden flex flex-col animate-in fade-in zoom-in duration-200">
-            
+
             {/* Header Modal */}
             <div className="flex justify-between items-center px-6 py-4 border-b border-gray-200 bg-gray-50">
               <h3 className="font-bold text-lg text-gray-800">Gửi yêu cầu báo giá</h3>
-              <button 
+              <button
                 onClick={() => setIsQuoteModalOpen(false)}
                 className="text-gray-400 hover:text-gray-800 transition-colors"
               >
@@ -502,7 +500,7 @@ const BuyerDashboard = () => {
 
             {/* Body Modal */}
             <div className="p-6 space-y-6 overflow-y-auto max-h-[80vh]">
-              
+
               {/* To Seller Info */}
               <div className="flex items-center gap-2 text-[13.5px]">
                 <span className="text-gray-500">Tới:</span>
@@ -515,10 +513,10 @@ const BuyerDashboard = () => {
 
               {/* Product Card & Quantity */}
               <div className="flex items-center gap-4 p-4 bg-gray-50 border border-gray-200 rounded-lg">
-                <img 
-                  src={selectedDetailImage} 
-                  alt="Sản phẩm" 
-                  className="w-16 h-16 object-cover rounded bg-white border border-gray-200" 
+                <img
+                  src={selectedDetailImage}
+                  alt="Sản phẩm"
+                  className="w-16 h-16 object-cover rounded bg-white border border-gray-200"
                   onError={(e) => { e.target.onerror = null; e.target.src = 'https://via.placeholder.com/100x100/e0f2f1/00796b?text=SP'; }}
                 />
                 <div className="flex-1 min-w-0">
@@ -528,11 +526,11 @@ const BuyerDashboard = () => {
                 <div className="flex flex-col gap-1.5 w-40 shrink-0">
                   <label className="text-[11px] font-bold text-gray-500 uppercase tracking-wide">Số lượng đặt</label>
                   <div className="flex border border-gray-300 rounded overflow-hidden shadow-sm bg-white focus-within:border-teal-500 focus-within:ring-1 focus-within:ring-teal-500">
-                    <input 
-                      type="number" 
-                      defaultValue="5" 
+                    <input
+                      type="number"
+                      defaultValue="5"
                       min="1"
-                      className="w-full px-3 py-1.5 text-sm font-bold text-gray-800 outline-none" 
+                      className="w-full px-3 py-1.5 text-sm font-bold text-gray-800 outline-none"
                     />
                     <span className="bg-gray-50 px-3 py-1.5 text-[13px] border-l border-gray-300 text-gray-600 font-medium">Tấn</span>
                   </div>
@@ -541,9 +539,9 @@ const BuyerDashboard = () => {
 
               {/* Message Textarea */}
               <div>
-                <textarea 
-                  rows="6" 
-                  className="w-full border border-gray-300 rounded-lg p-4 text-sm text-gray-800 outline-none focus:border-teal-500 focus:ring-1 focus:ring-teal-500 shadow-inner resize-none leading-relaxed" 
+                <textarea
+                  rows="6"
+                  className="w-full border border-gray-300 rounded-lg p-4 text-sm text-gray-800 outline-none focus:border-teal-500 focus:ring-1 focus:ring-teal-500 shadow-inner resize-none leading-relaxed"
                   placeholder="Mô tả chi tiết yêu cầu của bạn về thông số kỹ thuật, số lượng dự kiến, địa điểm giao hàng hoặc các yêu cầu đóng gói đặc biệt..."
                 ></textarea>
               </div>
@@ -573,14 +571,14 @@ const BuyerDashboard = () => {
               <button className="flex items-center gap-2 text-gray-600 text-[13px] font-medium hover:text-teal-600 hover:bg-teal-50 px-3 py-2 rounded-lg transition-colors">
                 <Paperclip size={18} /> Thêm tệp đính kèm (COA/Specs)
               </button>
-              <button 
+              <button
                 onClick={() => setIsQuoteModalOpen(false)}
                 className="bg-[#eb672b] hover:bg-[#d6551b] text-white font-bold py-2.5 px-8 rounded-lg shadow-md transition-colors"
               >
                 Gửi yêu cầu ngay
               </button>
             </div>
-            
+
           </div>
         </div>
       )}
@@ -591,7 +589,7 @@ const BuyerDashboard = () => {
 
 // ================= SUB-COMPONENTS DÙNG CHUNG =================
 
-const ThumbBox = ({ icon, label, active, color="text-gray-500" }) => (
+const ThumbBox = ({ icon, label, active, color = "text-gray-500" }) => (
   <div className={`flex flex-col items-center justify-center py-2.5 border rounded-lg cursor-pointer transition ${active ? 'border-[#c83939] bg-red-50/50 text-[#c83939]' : 'border-gray-200 bg-white hover:bg-gray-50 text-gray-500'}`}>
     <div className={`mb-1 ${active ? 'text-[#c83939]' : color}`}>{icon}</div>
     <span className="text-[10px] font-medium">{label}</span>
