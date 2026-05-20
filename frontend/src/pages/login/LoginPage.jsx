@@ -1,7 +1,8 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function LoginPage() {
+    const navigate = useNavigate();
     const [showPassword, setShowPassword] = useState(false);
     const [loading, setLoading] = useState(false);
     const [success, setSuccess] = useState(false);
@@ -16,16 +17,17 @@ export default function LoginPage() {
         setLoading(true);
 
         setTimeout(() => {
-            const demoUser = "admin";
-            const demoEmail = "admin@aquatrade.vn";
-            const demoPassword = "123456";
+            const accounts = [
+                { user: "buyer", pass: "Buyer123#", role: "buyer" },
+                { user: "seller", pass: "Seller123#", role: "seller" },
+                { user: "admin", pass: "Admin123#", role: "admin" }
+            ];
 
-            const isCorrectAccount =
-                identity === demoUser || identity === demoEmail;
+            const matchedAccount = accounts.find(
+                (acc) => acc.user === identity && acc.pass === password
+            );
 
-            const isCorrectPassword = password === demoPassword;
-
-            if (!isCorrectAccount || !isCorrectPassword) {
+            if (!matchedAccount) {
                 setLoading(false);
                 setError("Username/email hoặc mật khẩu không đúng. Vui lòng kiểm tra lại.");
                 return;
@@ -36,7 +38,10 @@ export default function LoginPage() {
 
             setTimeout(() => {
                 setSuccess(false);
-            }, 2000);
+                if (matchedAccount.role === "buyer") navigate("/buyer");
+                else if (matchedAccount.role === "seller") navigate("/seller");
+                else if (matchedAccount.role === "admin") navigate("/admin");
+            }, 1000);
         }, 1000);
     };
 
