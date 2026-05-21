@@ -178,11 +178,243 @@ const BuyerDashboard = () => {
       },
       shortPrice: "4,500",
       shortTotal: "4.5M / Tấn"
+    },
+    {
+      id: "FPM-50-KG-2025",
+      hsCode: "2301.20.90",
+      species: "Mixed Marine Fish",
+      name: "Bột Cá Biển 50% Đạm – Hàng nguyên chất, sấy hơi nước, đóng bao 50kg, kho Kiên Giang",
+      tags: [
+        { label: "Thức ăn chăn nuôi", color: "bg-red-50 text-red-600 border-red-100" },
+        { label: "Đang có hàng", color: "bg-green-50 text-green-700 border-green-100" }
+      ],
+      specs: [
+        { label: "Đạm thô (CP)", val: "≥50", unit: "%" },
+        { label: "Độ ẩm", val: "≤10", unit: "%" },
+        { label: "Béo thô", val: "≤10", unit: "%" },
+        { label: "Tro", val: "≤26", unit: "%" }
+      ],
+      priceBlock: {
+        main: "25.000.000",
+        unit: "đồng / Tấn (1.000 kg)",
+        sub: "≈ 25.000 đ/kg · Giá EXW tại kho Kiên Giang"
+      },
+      logistics: [
+        { label: "SL TỐI THIỂU (MOQ)", val: "10 Tấn / đơn" },
+        { label: "KHẢ NĂNG CUNG ỨNG", val: "300 T/tháng" },
+        { label: "NƠI XUẤT HÀNG", val: "Kiên Giang" },
+        { label: "GIAO HÀNG", val: "Xe tải 10-20T" }
+      ],
+      pricingTable: [
+        { qty: "10 – 30 tấn", price: "25.000.000", payment: "CK 30% trước, 70% nhận hàng", time: "3–5 ngày" },
+        { qty: ">30 tấn", price: "24.500.000", payment: "Tiền mặt / CK 100%", time: "3–5 ngày" }
+      ],
+      seller: {
+        name: "CTY TNHH BỘT CÁ KIÊN GIANG",
+        avatar: "KGF",
+        type: "Nhà máy sản xuất",
+        loc: "Rạch Giá, Kiên Giang",
+        est: "Thành lập 2012",
+        certs: ["HACCP", "Giấy ATTP"]
+      },
+      shortPrice: "25,000",
+      shortTotal: "25M / Tấn"
+    },
+    {
+      id: "CSC-DRIED-VT-25",
+      hsCode: "0511.99.90",
+      species: "Portunus pelagicus",
+      name: "Vỏ Ghẹ Sấy Khô – Nguồn Canxi tự nhiên, dùng cho sản xuất phân bón hữu cơ và thức ăn chăn nuôi",
+      tags: [
+        { label: "Phân bón hữu cơ", color: "bg-emerald-50 text-emerald-700 border-emerald-100" },
+        { label: "Đang có hàng", color: "bg-green-50 text-green-700 border-green-100" }
+      ],
+      specs: [
+        { label: "Độ ẩm", val: "≤12", unit: "%" },
+        { label: "Canxi (Ca)", val: "≥20", unit: "%" },
+        { label: "Tạp chất", val: "≤2", unit: "%" },
+        { label: "Kích thước", val: "Nguyên vỏ", unit: "" }
+      ],
+      priceBlock: {
+        main: "6.500.000",
+        unit: "đồng / Tấn",
+        sub: "≈ 6.500 đ/kg · Giá tại kho Vũng Tàu"
+      },
+      logistics: [
+        { label: "SL TỐI THIỂU (MOQ)", val: "5 Tấn / đơn" },
+        { label: "KHẢ NĂNG CUNG ỨNG", val: "100 T/tháng" },
+        { label: "NƠI XUẤT HÀNG", val: "Bà Rịa - Vũng Tàu" },
+        { label: "GIAO HÀNG", val: "Xe tải 5-10T" }
+      ],
+      pricingTable: [
+        { qty: "5 – 15 tấn", price: "6.500.000", payment: "CK 100% trước khi giao", time: "2–4 ngày" },
+        { qty: ">15 tấn", price: "6.200.000", payment: "CK 50% trước, 50% nhận hàng", time: "3–5 ngày" }
+      ],
+      seller: {
+        name: "HTX HẢI SẢN VŨNG TÀU",
+        avatar: "VTC",
+        type: "Hợp tác xã",
+        loc: "Long Điền, BR-VT",
+        est: "Thành lập 2018",
+        certs: ["Tiêu chuẩn cơ sở"]
+      },
+      shortPrice: "6,500",
+      shortTotal: "32.5M / Lô"
+    },
+    {
+      id: "HFP-EXT-NT-2025",
+      hsCode: "3101.00.99",
+      species: "Mixed Fish By-products",
+      name: "Dịch Đạm Cá Thủy Phân (Hydrolyzed Fish Protein) – Đậm đặc, dùng làm phân bón lá sinh học",
+      tags: [
+        { label: "Phân bón sinh học", color: "bg-lime-50 text-lime-700 border-lime-100" },
+        { label: "Nông nghiệp tuần hoàn", color: "bg-teal-50 text-teal-700 border-teal-100" },
+        { label: "Bán chạy", color: "bg-orange-50 text-orange-700 border-orange-100 font-bold" }
+      ],
+      specs: [
+        { label: "Đạm tổng số (N)", val: "≥5", unit: "%" },
+        { label: "Axit Amin", val: "≥10", unit: "%" },
+        { label: "pH", val: "4.5-5.5", unit: "" },
+        { label: "Tỷ trọng", val: "1.15", unit: "g/ml" }
+      ],
+      priceBlock: {
+        main: "15.000.000",
+        unit: "đồng / IBC 1.000 Lít",
+        sub: "≈ 15.000 đ/lít · Phuy 200L hoặc bồn IBC 1000L"
+      },
+      logistics: [
+        { label: "SL TỐI THIỂU (MOQ)", val: "2 IBC / đơn" },
+        { label: "KHẢ NĂNG CUNG ỨNG", val: "50 IBC/tháng" },
+        { label: "NƠI XUẤT HÀNG", val: "Nha Trang" },
+        { label: "GIAO HÀNG", val: "Xe tải chở bồn" }
+      ],
+      pricingTable: [
+        { qty: "2 – 5 IBC", price: "15.000.000", payment: "Tiền mặt / CK 100%", time: "3–5 ngày" },
+        { qty: "6 – 10 IBC", price: "14.500.000", payment: "CK 30% trước, 70% nhận hàng", time: "5–7 ngày" },
+        { qty: ">10 IBC ★", price: "13.800.000", payment: "Net 15 ngày", time: "7–10 ngày" }
+      ],
+      seller: {
+        name: "CÔNG TY SINH HỌC BIỂN NHA TRANG",
+        avatar: "NTB",
+        type: "Nhà máy sản xuất",
+        loc: "Nha Trang, Khánh Hòa",
+        est: "Thành lập 2020",
+        certs: ["ISO 9001", "Hợp chuẩn phân bón"]
+      },
+      shortPrice: "15,000",
+      shortTotal: "15M / IBC"
+    },
+    {
+      id: "SFB-SALMON-25",
+      hsCode: "0305.20.00",
+      species: "Salmo salar",
+      name: "Xương/Lườn Cá Hồi Đông Lạnh – Tỷ lệ thịt còn 15-20%, thích hợp làm chà bông, thức ăn thú cưng (Pet food)",
+      tags: [
+        { label: "Thức ăn thú cưng", color: "bg-purple-50 text-purple-700 border-purple-100" },
+        { label: "Nguyên liệu chế biến", color: "bg-pink-50 text-pink-700 border-pink-100" }
+      ],
+      specs: [
+        { label: "Tỷ lệ thịt", val: "15-20", unit: "%" },
+        { label: "Độ ẩm", val: "≤70", unit: "%" },
+        { label: "Bảo quản", val: "-18", unit: "°C" },
+        { label: "Quy cách", val: "Block 10kg", unit: "" }
+      ],
+      priceBlock: {
+        main: "28.000.000",
+        unit: "đồng / Tấn",
+        sub: "≈ 28.000 đ/kg · Nhập khẩu Nauy, xả cont tại HCM"
+      },
+      logistics: [
+        { label: "SL TỐI THIỂU (MOQ)", val: "1 Tấn / đơn" },
+        { label: "KHẢ NĂNG CUNG ỨNG", val: "20 T/tháng" },
+        { label: "NƠI XUẤT HÀNG", val: "TP. Hồ Chí Minh" },
+        { label: "GIAO HÀNG", val: "Xe đông lạnh" }
+      ],
+      pricingTable: [
+        { qty: "1 – 5 tấn", price: "28.000.000", payment: "CK 100% trước khi giao", time: "1–2 ngày" },
+        { qty: ">5 tấn", price: "27.000.000", payment: "CK 30% trước, 70% nhận hàng", time: "2–4 ngày" }
+      ],
+      seller: {
+        name: "CÔNG TY NHẬP KHẨU THỦY SẢN HCM",
+        avatar: "SGN",
+        type: "Nhà nhập khẩu",
+        loc: "Bình Chánh, TP.HCM",
+        est: "Thành lập 2016",
+        certs: ["Giấy VSATTP", "Chứng từ NK"]
+      },
+      shortPrice: "28,000",
+      shortTotal: "28M / Tấn"
     }
   ];
 
-  // Trạng thái quản lý lô hàng đang xem chi tiết
+  // ---------------- STATE & FILTER LOGIC ----------------
   const [selectedLot, setSelectedLot] = useState(mockLots[0]);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [activeCategory, setActiveCategory] = useState('Tất cả');
+  const [selectedLocation, setSelectedLocation] = useState('Tất cả Nơi Xuất');
+  const [sortOrder, setSortOrder] = useState('asc');
+  const [filterMoq, setFilterMoq] = useState('');
+  const [filterSupply, setFilterSupply] = useState('');
+
+  // Helpers
+  const parsePrice = (priceStr) => parseInt(priceStr.replace(/\./g, ''), 10) || 0;
+  const parseNumber = (str) => {
+    if (!str) return 0;
+    const match = str.match(/\d+(\.\d+)?/);
+    return match ? parseFloat(match[0]) : 0;
+  };
+
+  // Derived Data
+  const filteredLots = mockLots.filter(lot => {
+    // 1. Search term
+    if (searchTerm) {
+      const term = searchTerm.toLowerCase();
+      const matchName = lot.name.toLowerCase().includes(term);
+      const matchTags = lot.tags.some(t => t.label.toLowerCase().includes(term));
+      const matchId = lot.id.toLowerCase().includes(term);
+      const matchSpecies = lot.species.toLowerCase().includes(term);
+      if (!matchName && !matchTags && !matchId && !matchSpecies) return false;
+    }
+
+    // 2. Category / Functions
+    if (activeCategory !== 'Tất cả') {
+      const nameLC = lot.name.toLowerCase();
+      const tagsLC = lot.tags.map(t => t.label.toLowerCase()).join(' ');
+      const content = nameLC + ' ' + tagsLC;
+      
+      const isVotom = content.includes('vỏ tôm') || content.includes('vỏ ghẹ');
+      const isDautom = content.includes('đầu tôm');
+      const isBotca = content.includes('bột cá') || content.includes('dịch đạm') || content.includes('mỡ cá') || content.includes('xương');
+
+      if (activeCategory === 'Vỏ tôm/ghẹ' && !isVotom) return false;
+      if (activeCategory === 'Đầu tôm' && !isDautom) return false;
+      if (activeCategory === 'Bột cá/Dịch đạm/Khác' && !isBotca) return false;
+    }
+
+    // 3. Location
+    if (selectedLocation !== 'Tất cả Nơi Xuất') {
+      const loc = lot.logistics.find(l => l.label === "NƠI XUẤT HÀNG")?.val || '';
+      if (!loc.includes(selectedLocation)) return false;
+    }
+
+    // 4. MOQ
+    if (filterMoq) {
+      const moqStr = lot.logistics.find(l => l.label === "SL TỐI THIỂU (MOQ)")?.val || '';
+      if (parseNumber(moqStr) > parseFloat(filterMoq)) return false;
+    }
+
+    // 5. Supply
+    if (filterSupply) {
+      const supStr = lot.logistics.find(l => l.label === "KHẢ NĂNG CUNG ỨNG")?.val || '';
+      if (parseNumber(supStr) < parseFloat(filterSupply)) return false;
+    }
+
+    return true;
+  }).sort((a, b) => {
+    const pA = parsePrice(a.priceBlock.main);
+    const pB = parsePrice(b.priceBlock.main);
+    return sortOrder === 'asc' ? pA - pB : pB - pA;
+  });
 
   return (
     <div className="flex h-screen bg-gray-50 font-sans text-gray-800">
@@ -219,7 +451,12 @@ const BuyerDashboard = () => {
         <header className="h-15 bg-white border-b flex items-center gap-6 px-8 shrink-0">
           <h1 className="text-[16px] font-bold whitespace-nowrap">Danh Sách Lô Hàng</h1>
           <div className="flex-1 max-w-md relative">
-            <input placeholder="Tìm lô hàng, tỉnh, loài tôm..." className="w-full bg-gray-100 border-none rounded-full pl-10 pr-4 py-2 text-sm outline-none focus:ring-2 focus:ring-teal-500" />
+            <input 
+              value={searchTerm}
+              onChange={e => setSearchTerm(e.target.value)}
+              placeholder="Tìm lô hàng, tỉnh, loài tôm, chức năng..." 
+              className="w-full bg-gray-100 border-none rounded-full pl-10 pr-4 py-2 text-sm outline-none focus:ring-2 focus:ring-teal-500" 
+            />
             <Search size={16} className="absolute left-4 top-2.5 text-gray-400" />
           </div>
           <div className="flex items-center gap-3 ml-auto">
@@ -241,17 +478,47 @@ const BuyerDashboard = () => {
           <div className="bg-white p-4 rounded-xl border border-gray-200 flex flex-wrap items-center gap-4 shadow-sm">
             <span className="text-[10px] font-bold text-gray-400 uppercase">Lọc:</span>
             <div className="flex gap-2">
-              <Chip label="Tất cả" active />
-              <Chip label="Vỏ tôm" />
-              <Chip label="Đầu tôm" />
-              <Chip label="Bột cá" />
+              <Chip label="Tất cả" active={activeCategory === 'Tất cả'} onClick={() => setActiveCategory('Tất cả')} />
+              <Chip label="Vỏ tôm/ghẹ" active={activeCategory === 'Vỏ tôm/ghẹ'} onClick={() => setActiveCategory('Vỏ tôm/ghẹ')} />
+              <Chip label="Đầu tôm" active={activeCategory === 'Đầu tôm'} onClick={() => setActiveCategory('Đầu tôm')} />
+              <Chip label="Bột cá/Dịch đạm/Khác" active={activeCategory === 'Bột cá/Dịch đạm/Khác'} onClick={() => setActiveCategory('Bột cá/Dịch đạm/Khác')} />
             </div>
-            <div className="flex gap-2 ml-4 border-l border-gray-200 pl-4">
-              <SelectFilter options={['Tỉnh: Tất cả', 'Cà Mau', 'Đồng Tháp', 'An Giang']} />
-              <SelectFilter options={['Mọi cấp', 'Cấp A', 'Cấp B', 'Cấp C']} />
+            
+            <div className="flex flex-wrap gap-3 ml-2 border-l border-gray-200 pl-4 items-center">
+              <SelectFilter 
+                options={['Tất cả Nơi Xuất', 'Cà Mau', 'Đồng Tháp', 'An Giang', 'Kiên Giang', 'Bà Rịa - Vũng Tàu', 'Nha Trang', 'TP. Hồ Chí Minh']} 
+                value={selectedLocation}
+                onChange={e => setSelectedLocation(e.target.value)}
+              />
+              
+              <div className="flex items-center gap-2 bg-white border border-gray-200 rounded-lg px-2">
+                <span className="text-[10.5px] text-gray-500 font-medium">MOQ tối đa (T):</span>
+                <input 
+                  type="number" 
+                  placeholder="Vd: 5" 
+                  value={filterMoq}
+                  onChange={e => setFilterMoq(e.target.value)}
+                  className="w-12 outline-none text-[11.5px] py-1.5 font-bold text-gray-700 bg-transparent" 
+                />
+              </div>
+
+              <div className="flex items-center gap-2 bg-white border border-gray-200 rounded-lg px-2">
+                <span className="text-[10.5px] text-gray-500 font-medium">Cung ứng (T/tháng) ≥</span>
+                <input 
+                  type="number" 
+                  placeholder="Vd: 100" 
+                  value={filterSupply}
+                  onChange={e => setFilterSupply(e.target.value)}
+                  className="w-14 outline-none text-[11.5px] py-1.5 font-bold text-gray-700 bg-transparent" 
+                />
+              </div>
             </div>
-            <button className="ml-auto text-xs font-bold text-gray-500 flex items-center gap-1.5 border border-gray-200 px-3 py-1.5 rounded-lg hover:bg-gray-50">
-              <ArrowUpDown size={14} /> Giá tăng dần
+
+            <button 
+              onClick={() => setSortOrder(prev => prev === 'asc' ? 'desc' : 'asc')}
+              className="ml-auto text-xs font-bold text-gray-500 flex items-center gap-1.5 border border-gray-200 px-3 py-1.5 rounded-lg hover:bg-gray-50 transition"
+            >
+              <ArrowUpDown size={14} /> Giá {sortOrder === 'asc' ? 'tăng dần' : 'giảm dần'}
             </button>
           </div>
 
@@ -261,12 +528,17 @@ const BuyerDashboard = () => {
             {/* DANH SÁCH SẢN PHẨM (Cột Trái) */}
             <div className="xl:col-span-4 2xl:col-span-5 flex flex-col gap-4">
               <div className="flex justify-between items-center text-xs text-gray-500">
-                <p>Hiển thị <strong>{mockLots.length}</strong> kết quả</p>
+                <p>Hiển thị <strong>{filteredLots.length}</strong> kết quả</p>
               </div>
 
               {/* Danh sách List Lô Hàng */}
               <div className="space-y-4">
-                {mockLots.map((lot) => (
+                {filteredLots.length === 0 && (
+                  <div className="text-center py-10 bg-white border border-dashed border-gray-300 rounded-xl text-gray-500 text-sm">
+                    Không tìm thấy sản phẩm phù hợp với bộ lọc
+                  </div>
+                )}
+                {filteredLots.map((lot) => (
                   <div 
                     key={lot.id} 
                     onClick={() => setSelectedLot(lot)}
@@ -494,15 +766,20 @@ const StatSmall = ({ label, value, sub, color }) => (
   </div>
 );
 
-const Chip = ({ label, active }) => (
-  <button className={`px-4 py-1.5 rounded-full text-[11.5px] font-bold border transition ${active ? 'bg-teal-500 text-white border-teal-500 shadow-sm' : 'bg-white text-gray-600 border-gray-200 hover:border-teal-400 hover:text-teal-600'}`}>
+const Chip = ({ label, active, onClick }) => (
+  <button 
+    onClick={onClick}
+    className={`px-4 py-1.5 rounded-full text-[11.5px] font-bold border transition ${active ? 'bg-teal-500 text-white border-teal-500 shadow-sm' : 'bg-white text-gray-600 border-gray-200 hover:border-teal-400 hover:text-teal-600'}`}>
     {label}
   </button>
 );
 
-const SelectFilter = ({ options }) => (
-  <select className="bg-white border border-gray-200 rounded-lg px-3 py-1.5 text-[11.5px] font-medium text-gray-600 outline-none focus:border-teal-500 cursor-pointer">
-    {options.map(o => <option key={o}>{o}</option>)}
+const SelectFilter = ({ options, value, onChange }) => (
+  <select 
+    value={value}
+    onChange={onChange}
+    className="bg-white border border-gray-200 rounded-lg px-3 py-1.5 text-[11.5px] font-medium text-gray-600 outline-none focus:border-teal-500 cursor-pointer">
+    {options.map(o => <option key={o} value={o}>{o}</option>)}
   </select>
 );
 
