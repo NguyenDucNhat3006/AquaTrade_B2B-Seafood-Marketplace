@@ -13,6 +13,16 @@ const AdminLayout = () => {
 
       {/* ================= SIDEBAR DÙNG CHUNG ================= */}
       <aside className="w-60 bg-[#0a192f] text-gray-300 flex flex-col shrink-0 border-r border-gray-800 overflow-y-auto">
+<<<<<<< HEAD
+=======
+        <div className="p-5 border-b border-gray-800 flex items-center gap-2">
+          <img src="/logo.png" alt="AquaTrade Logo" className="h-8 w-auto object-contain" />
+          <div className="leading-none">
+            <span className="text-[15px] font-black text-white block">AquaTrade</span>
+            <span className="text-[9px] font-mono text-gray-400 uppercase tracking-widest mt-1">Admin Console</span>
+          </div>
+        </div>
+>>>>>>> b1b451263ae0f230bd852a204722c373ff9e64dd
 
         <nav className="flex-1 px-3 space-y-0.5 py-4">
           <NavSection label="Tổng quan" />

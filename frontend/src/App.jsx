@@ -34,6 +34,14 @@ const AdminLayout = () => {
       
       {/* SIDEBAR NAVIGATION */}
       <aside className="w-60 bg-[#0a192f] text-gray-300 flex flex-col shrink-0 border-r border-gray-800 overflow-y-auto">
+
+        <div className="p-5 border-b border-gray-800 flex items-center gap-2">
+          <img src="/logo.png" alt="AquaTrade Logo" className="h-8 w-auto object-contain" />
+          <div className="leading-none">
+            <span className="text-[15px] font-black text-white block">AquaTrade</span>
+            <span className="text-[9px] font-mono text-gray-400 uppercase tracking-widest mt-1">Admin Console</span>
+          </div>
+        </div>
         <div className="m-4 p-2.5 bg-orange-900/30 border border-orange-500/30 rounded-lg flex items-center gap-2">
           <div className="w-2 h-2 bg-orange-500 rotate-45 animate-pulse shrink-0"></div>
           <p className="text-[10px] text-orange-400 font-mono uppercase tracking-widest">Admin Sàn — Role 5</p>
@@ -117,7 +125,7 @@ const AdminLayout = () => {
                       </div>
                     </div>
           <h1 className="text-[16px] font-bold text-gray-900">
-            Hệ thống Quản trị AquaMarket
+            Hệ thống Quản trị AquaTrade
           </h1>
           
           <div className="flex items-center gap-6">

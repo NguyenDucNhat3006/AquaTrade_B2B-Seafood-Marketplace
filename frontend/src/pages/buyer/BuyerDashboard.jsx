@@ -68,6 +68,51 @@ const BuyerDashboard = () => {
       }
     },
     {
+      id: "LOT-2024-0841",
+      hsCode: "0511.91.00",
+      species: "Penaeus monodon",
+      name: "Vỏ Tôm Sú Sấy – Cà Mau (Premium Cấp A)",
+      tags: [
+        { label: "Chiết xuất Chitin", color: "bg-blue-50 text-blue-600 border-blue-100" },
+        { label: "Đang có hàng", color: "bg-green-50 text-green-700 border-green-100" }
+      ],
+      specs: [
+        { label: "Đạm thô", val: "≥38", unit: "%" },
+        { label: "Độ ẩm", val: "≤9.2", unit: "%" },
+        { label: "Tỷ lệ vỏ thân", val: "≥78", unit: "%" },
+        { label: "Tạp chất", val: "≤1", unit: "%" }
+      ],
+      priceBlock: {
+        main: "18.500.000",
+        unit: "đồng / Tấn",
+        sub: "≈ 18.500 đ/kg · Giá tại kho Cà Mau"
+      },
+      logistics: [
+        { label: "SL TỐI THIỂU (MOQ)", val: "2 Tấn / đơn" },
+        { label: "KHẢ NĂNG CUNG ỨNG", val: "50 T/tháng" },
+        { label: "NƠI XUẤT HÀNG", val: "Cà Mau" },
+        { label: "GIAO HÀNG", val: "Xe tải 8T" }
+      ],
+      pricingTable: [
+        { qty: "2 – 10 tấn", price: "18.500.000", payment: "Tiền mặt / CK 100%", time: "1–2 ngày" },
+        { qty: ">10 tấn", price: "18.000.000", payment: "Hợp đồng nguyên tắc", time: "3–5 ngày" }
+      ],
+      seller: {
+        name: "CTY TNHH THỦY SẢN CÀ MAU",
+        avatar: "CM",
+        type: "Xưởng sơ chế",
+        loc: "Năm Căn, Cà Mau",
+        est: "Thành lập 2015",
+        certs: ["Giấy ATTP"]
+      },
+      shortPrice: "18,500",
+      shortTotal: "92.5M / Lô",
+      imageUrls: {
+        main: shrimp_shell_main,
+        thumbs: [shrimp_shell_main]
+      }
+    },
+    {
       id: "MCT-TL-AG-2025",
       hsCode: "1504.20.10",
       species: "Pangasius bocourti / hypophthalmus",
@@ -201,9 +246,14 @@ const BuyerDashboard = () => {
 
         {/* HEADER */}
         <header className="h-15 bg-white border-b flex items-center gap-6 px-8 shrink-0">
-          <div className="h-16 flex items-center px-6 border-gray-700">
-            <img src={BrandLogo} alt="AquaMarket Logo" className="h-9 w-auto object-contain" />
-            <span className="text-lg font-bold ml-2">AquaMarket</span>
+          <div className="p-5 border-gray-800 flex items-center gap-2">
+            <div classNam="w-8 h-8 bg-teal-400 rounded-lg flex items-center justify-center text-gray-900 shadow-lg shadow-teal-400/20">
+              <img src={BrandLogo} alt="AquaMarket Logo" className="h-9 w-auto object-contain" />
+            </div>
+            <div className="leading-none">
+              <span className="text-[15px] font-black text-black block">AquaMarket</span>
+              <span className="text-[9px] font-mono text-gray-500 uppercase tracking-widest">B2B · Người Bán</span>
+            </div>
           </div>
           <h1 className="text-[16px] font-bold whitespace-nowrap">Danh Sách Lô Hàng</h1>
           <div className="flex-1 max-w-md relative">
@@ -275,7 +325,7 @@ const BuyerDashboard = () => {
                       </div>
                     </div>
                     <div className="text-right shrink-0 ml-4">
-                      <p className="text-[16px] font-black text-[#c83939] leading-none">{lot.shortPrice}</p>
+                      <p className="text-[16px] font-black text-[#E96513] leading-none">{lot.shortPrice}</p>
                       <p className="text-[10px] text-gray-500 mt-1 uppercase font-bold tracking-tighter">{lot.shortTotal}</p>
                     </div>
                   </div>
@@ -322,7 +372,7 @@ const BuyerDashboard = () => {
                         key={index}
                         onClick={() => setSelectedDetailImage(thumbSrc)}
                         className={`aspect-square border rounded-lg cursor-pointer flex items-center justify-center p-1 ${selectedDetailImage === thumbSrc
-                            ? 'border-[#c83939] bg-red-50/50'
+                            ? 'border-[#E96513] bg-red-50/50'
                             : 'border-gray-200 bg-white hover:border-teal-400'
                           }`}
                       >
@@ -381,8 +431,8 @@ const BuyerDashboard = () => {
                   {/* Giá & Logistics */}
                   <div className="flex gap-4 mb-6">
                     <div className="w-[45%] bg-[#fffcfc] border border-red-200 rounded-lg p-4">
-                      <p className="text-[11px] font-bold text-[#c83939] mb-1">GIÁ TẠI KHO (VNĐ)</p>
-                      <p className="text-[26px] font-black text-[#c83939] leading-none mb-1">{selectedLot.priceBlock.main}</p>
+                      <p className="text-[11px] font-bold text-[#E96513] mb-1">GIÁ TẠI KHO (VNĐ)</p>
+                      <p className="text-[26px] font-black text-[#E96513] leading-none mb-1">{selectedLot.priceBlock.main}</p>
                       <p className="text-[12px] text-gray-600 font-medium">{selectedLot.priceBlock.unit}</p>
                       <p className="text-[10px] text-gray-400 mt-3 leading-relaxed">{selectedLot.priceBlock.sub}</p>
                     </div>
@@ -414,7 +464,7 @@ const BuyerDashboard = () => {
                           {selectedLot.pricingTable.map((row, i) => (
                             <tr key={i} className={i === selectedLot.pricingTable.length - 1 ? "bg-red-50/30" : ""}>
                               <td className="py-3 px-4">{row.qty}</td>
-                              <td className="py-3 px-4 font-bold text-[#c83939]">{row.price}</td>
+                              <td className="py-3 px-4 font-bold text-[#E96513]">{row.price}</td>
                               <td className="py-3 px-4 text-gray-600">{row.payment}</td>
                               <td className="py-3 px-4 text-gray-600">{row.time}</td>
                             </tr>
@@ -452,14 +502,13 @@ const BuyerDashboard = () => {
                       </div>
 
                       <div className="flex flex-col justify-center gap-2 shrink-0">
-                        {/* THÊM SỰ KIỆN onClick ĐỂ MỞ MODAL */}
                         <button
                           onClick={() => setIsQuoteModalOpen(true)}
-                          className="px-5 py-2 border border-[#c83939] text-[#c83939] rounded font-bold text-[13px] flex items-center justify-center gap-1.5 hover:bg-red-50"
+                          className="px-5 py-2 border border-[#E96513] text-[#E96513] rounded font-bold text-[13px] flex items-center justify-center gap-1.5 hover:bg-red-50"
                         >
                           <FileText size={16} /> Yêu cầu báo giá
                         </button>
-                        <button className="px-5 py-2 bg-[#c83939] text-white rounded font-bold text-[13px] flex items-center justify-center gap-1.5 hover:bg-red-700 shadow-md shadow-red-600/20">
+                        <button className="px-5 py-2 bg-[#E96513] text-white rounded font-bold text-[13px] flex items-center justify-center gap-1.5 hover:bg-red-700 shadow-md shadow-red-600/20">
                           <Phone size={16} fill="currentColor" /> Liên hệ ngay
                         </button>
                       </div>
@@ -467,7 +516,7 @@ const BuyerDashboard = () => {
                   </div>
 
                   <div className="mt-6 flex justify-start">
-                    <button className="flex items-center gap-1 text-[#c83939] text-[13px] font-bold hover:underline">
+                    <button className="flex items-center gap-1 text-[#E96513] text-[13px] font-bold hover:underline">
                       Xem chi tiết đầy đủ (thông số kỹ thuật · ảnh mô tả · hồ sơ nhà cung cấp) <ChevronDown size={16} />
                     </button>
                   </div>
@@ -590,8 +639,8 @@ const BuyerDashboard = () => {
 // ================= SUB-COMPONENTS DÙNG CHUNG =================
 
 const ThumbBox = ({ icon, label, active, color = "text-gray-500" }) => (
-  <div className={`flex flex-col items-center justify-center py-2.5 border rounded-lg cursor-pointer transition ${active ? 'border-[#c83939] bg-red-50/50 text-[#c83939]' : 'border-gray-200 bg-white hover:bg-gray-50 text-gray-500'}`}>
-    <div className={`mb-1 ${active ? 'text-[#c83939]' : color}`}>{icon}</div>
+  <div className={`flex flex-col items-center justify-center py-2.5 border rounded-lg cursor-pointer transition ${active ? 'border-[#E96513] bg-red-50/50 text-[#E96513]' : 'border-gray-200 bg-white hover:bg-gray-50 text-gray-500'}`}>
+    <div className={`mb-1 ${active ? 'text-[#E96513]' : color}`}>{icon}</div>
     <span className="text-[10px] font-medium">{label}</span>
   </div>
 );

@@ -13,6 +13,16 @@ const SellerDashboard = () => {
     <div className="flex h-screen bg-gray-50 font-sans text-gray-800">
       {/* SIDEBAR */}
       <aside className="w-56 bg-[#0a192f] text-gray-300 flex flex-col shrink-0 border-r border-gray-800 overflow-y-auto">
+{/* <<<<<<< HEAD
+=======
+        <div className="p-5 border-b border-gray-800 flex items-center gap-2">
+          <img src="/logo.png" alt="AquaTrade Logo" className="h-8 w-auto object-contain" />
+          <div className="leading-none">
+            <span className="text-[15px] font-black text-white block">AquaTrade</span>
+            <span className="text-[9px] font-mono text-gray-500 uppercase tracking-widest">B2B · Người Bán</span>
+          </div>
+        </div>
+>>>>>>> b1b451263ae0f230bd852a204722c373ff9e64dd */}
 
         <div className="m-4 p-2.5 bg-teal-900/30 border border-teal-500/30 rounded-lg flex items-center gap-2">
           <div className="w-2 h-2 bg-teal-400 rounded-full animate-pulse shrink-0"></div>
@@ -237,6 +247,15 @@ const SellerDashboard = () => {
             <ReviewCard name="Cty TNHH Hải Vương" avatar="HV" lot="LOT-2024-0821 · Cấp A" stars={5} text="Vỏ tôm chất lượng rất tốt, tỷ lệ vỏ thân đúng như công bố 78%. COA khớp hoàn toàn với kết quả kiểm tra nội bộ." tags={['Đúng cấp hàng', 'COA chính xác']} date="12/05/2025" />
             <ReviewCard name="Nhà Máy Bình Phú" avatar="BP" lot="LOT-2024-0809 · Cấp B" stars={4} text="Hàng đúng mô tả, protein đạt 29%. Trừ 1 sao vì ảnh lô hàng chưa đủ chuẩn. Tuy nhiên chất lượng thực tế rất ổn." tags={['Chất lượng tốt', 'Cần cải thiện ảnh']} date="08/05/2025" color="text-blue-500" />
             <ReviewCard name="Cty Dược Biển Xanh" avatar="DB" lot="LOT-2024-0799 · Cấp A" stars={5} text="Chitin tiềm năng cao hơn kỳ vọng. Nhà máy phản hồi nhanh, phối hợp xuất hóa đơn thuận tiện. Đối tác tin cậy." tags={['Chitin cao', 'Đối tác lâu dài']} date="28/04/2025" color="text-orange-500" />
+          </div>
+
+          {/* MAP SECTION */}
+          <div className="mt-8 bg-white border border-gray-200 rounded-xl overflow-hidden shadow-sm">
+            <div className="px-6 py-4 border-b border-gray-100 flex justify-between items-center bg-gray-50">
+              <h3 className="font-bold text-[15px] text-gray-900">Bản Đồ Lộ Trình Vận Chuyển & Phân Phối (MILP)</h3>
+              <span className="text-[12px] font-mono text-teal-600 bg-teal-50 px-2 py-1 rounded-full">Trực tuyến</span>
+            </div>
+            <iframe src="/route-map.html" className="w-full h-[600px] border-none" title="Route Optimization Map"></iframe>
           </div>
 
         </div>

@@ -1,7 +1,20 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
+import { MapContainer, TileLayer, Marker, useMapEvents, useMap } from 'react-leaflet';
+import 'leaflet/dist/leaflet.css';
+import L from 'leaflet';
+
+// Fix cho icon mặc định của Leaflet
+delete L.Icon.Default.prototype._getIconUrl;
+L.Icon.Default.mergeOptions({
+    iconRetinaUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-2x.png',
+    iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png',
+    shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
+});
 
 export default function RegisterPage() {
+    const navigate = useNavigate();
     const [step, setStep] = useState(1);
     const [registered, setRegistered] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
@@ -128,9 +141,9 @@ export default function RegisterPage() {
 
             <header className="md:hidden w-full h-20 aqua-gradient flex items-center px-4">
                 <div className="flex items-center gap-2">
-          <span className="material-symbols-outlined text-[#71f8e4] text-3xl">
-            waves
-          </span>
+                    <span className="material-symbols-outlined text-[#71f8e4] text-3xl">
+                        waves
+                    </span>
                     <span className="text-2xl text-white font-bold">AquaTrade</span>
                 </div>
             </header>
@@ -148,9 +161,9 @@ export default function RegisterPage() {
 
                                 {error && (
                                     <div className="mt-6 bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-xl flex items-start gap-3">
-                    <span className="material-symbols-outlined text-[20px]">
-                      error
-                    </span>
+                                        <span className="material-symbols-outlined text-[20px]">
+                                            error
+                                        </span>
                                         <p className="text-sm font-medium">{error}</p>
                                     </div>
                                 )}
@@ -185,13 +198,8 @@ export default function RegisterPage() {
                                 <div className="mt-8 pt-6 border-t border-gray-200 flex justify-between gap-4">
                                     <button
                                         type="button"
-                                        onClick={prevStep}
-                                        disabled={step === 1}
-                                        className={`px-7 py-3 border font-semibold transition flex items-center gap-2 ${
-                                            step === 1
-                                                ? "border-gray-200 text-gray-300 cursor-not-allowed"
-                                                : "border-gray-300 text-gray-700 hover:bg-gray-50"
-                                        }`}
+                                        onClick={() => step === 1 ? navigate("/login") : prevStep()}
+                                        className="px-7 py-3 border font-semibold transition flex items-center gap-2 border-gray-300 text-gray-700 hover:bg-gray-50 rounded-xl"
                                     >
                                         <span>←</span>
                                         Quay lại
@@ -200,7 +208,7 @@ export default function RegisterPage() {
                                     <div className="flex gap-3">
                                         <button
                                             type="button"
-                                            className="px-7 py-3 border border-gray-300 text-gray-700 font-semibold hover:bg-gray-50 transition"
+                                            className="px-7 py-3 border border-gray-300 text-gray-700 font-semibold hover:bg-gray-50 transition rounded-xl"
                                         >
                                             Lưu nháp
                                         </button>
@@ -208,7 +216,7 @@ export default function RegisterPage() {
                                         <button
                                             type="button"
                                             onClick={nextStep}
-                                            className="px-8 py-3 bg-[#00796B] text-white font-semibold hover:bg-[#00695C] transition flex items-center gap-2"
+                                            className="px-8 py-3 bg-[#00796B] text-white font-semibold hover:bg-[#00695C] transition flex items-center gap-2 rounded-xl shadow-lg shadow-teal-500/20"
                                         >
                                             {step === 4 ? "Hoàn tất đăng ký" : "Tiếp tục"}
                                             <span>→</span>
@@ -221,21 +229,21 @@ export default function RegisterPage() {
 
                     <div className="mt-8 flex flex-wrap justify-center gap-6 px-4">
                         <div className="flex items-center gap-1.5 opacity-60">
-              <span className="material-symbols-outlined text-[18px]">
-                verified_user
-              </span>
+                            <span className="material-symbols-outlined text-[18px]">
+                                verified_user
+                            </span>
                             <span className="text-[12px] font-semibold uppercase tracking-wider">
-                SSL Secured
-              </span>
+                                SSL Secured
+                            </span>
                         </div>
 
                         <div className="flex items-center gap-1.5 opacity-60">
-              <span className="material-symbols-outlined text-[18px]">
-                gavel
-              </span>
+                            <span className="material-symbols-outlined text-[18px]">
+                                gavel
+                            </span>
                             <span className="text-[12px] font-semibold uppercase tracking-wider">
-                Compliance ready
-              </span>
+                                Compliance ready
+                            </span>
                         </div>
                     </div>
                 </div>
@@ -282,30 +290,27 @@ function StepBar({ steps, currentStep }) {
                         <div key={label} className="flex-1 relative">
                             <div className="flex items-center">
                                 <div
-                                    className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-semibold z-10 ${
-                                        completed
+                                    className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-semibold z-10 ${completed
                                             ? "bg-[#00796B] text-white"
                                             : active
                                                 ? "bg-[#00796B] text-white"
                                                 : "bg-white border-2 border-gray-300 text-gray-400"
-                                    }`}
+                                        }`}
                                 >
                                     {completed ? "✓" : stepNumber}
                                 </div>
 
                                 {index < steps.length - 1 && (
                                     <div
-                                        className={`h-[2px] flex-1 ${
-                                            completed ? "bg-[#00796B]" : "bg-gray-300"
-                                        }`}
+                                        className={`h-[2px] flex-1 ${completed ? "bg-[#00796B]" : "bg-gray-300"
+                                            }`}
                                     />
                                 )}
                             </div>
 
                             <p
-                                className={`mt-2 text-xs font-semibold ${
-                                    active || completed ? "text-[#00796B]" : "text-gray-500"
-                                }`}
+                                className={`mt-2 text-xs font-semibold ${active || completed ? "text-[#00796B]" : "text-gray-500"
+                                    }`}
                             >
                                 {label}
                             </p>
@@ -382,6 +387,19 @@ function RepresentativeStep({ form, handleChange }) {
 }
 
 function BusinessStep({ form, handleChange }) {
+    const [showMap, setShowMap] = useState(false);
+    const [currentMapField, setCurrentMapField] = useState(null);
+
+    const openMap = (field) => {
+        setCurrentMapField(field);
+        setShowMap(true);
+    };
+
+    const handleMapSelect = (address) => {
+        handleChange({ target: { name: currentMapField, value: address } });
+        setShowMap(false);
+    };
+
     return (
         <div className="space-y-5">
             <Input
@@ -419,13 +437,30 @@ function BusinessStep({ form, handleChange }) {
                 note="Hỗ trợ PDF, JPG, PNG tối đa 10MB"
             />
 
-            <TextArea
-                label="Địa chỉ trụ sở chính *"
-                name="headOfficeAddress"
-                value={form.headOfficeAddress}
-                onChange={handleChange}
-                placeholder="Nhập địa chỉ đầy đủ theo giấy phép kinh doanh"
-            />
+            <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                    Địa chỉ trụ sở chính *
+                </label>
+                <div className="flex gap-3">
+                    <textarea
+                        name="headOfficeAddress"
+                        value={form.headOfficeAddress}
+                        onChange={handleChange}
+                        placeholder="Nhập địa chỉ đầy đủ theo giấy phép kinh doanh"
+                        rows="3"
+                        className="flex-1 w-full border border-gray-300 px-4 py-3 outline-none resize-none focus:border-[#00796B]"
+                    />
+                    <button
+                        type="button"
+                        onClick={() => openMap("headOfficeAddress")}
+                        className="w-16 border border-gray-300 flex flex-col items-center justify-center hover:bg-gray-50 text-teal-600 transition"
+                        title="Chọn trên bản đồ"
+                    >
+                        <span className="material-symbols-outlined">map</span>
+                        <span className="text-[10px] font-semibold mt-1 text-gray-600">Bản đồ</span>
+                    </button>
+                </div>
+            </div>
 
             <div className="pt-4 border-t border-gray-200">
                 <label className="block text-sm font-semibold text-gray-700 mb-2">
@@ -443,16 +478,24 @@ function BusinessStep({ form, handleChange }) {
 
                     <button
                         type="button"
+                        onClick={() => openMap("warehouseAddress")}
+                        className="w-12 border border-gray-300 flex items-center justify-center hover:bg-gray-50 text-teal-600 transition"
+                        title="Chọn trên bản đồ"
+                    >
+                        <span className="material-symbols-outlined">map</span>
+                    </button>
+
+                    <button
+                        type="button"
                         onClick={() =>
                             handleChange({
                                 target: { name: "warehouseAddress", value: "" },
                             })
                         }
-                        className="w-12 border border-gray-300 flex items-center justify-center hover:bg-gray-50"
+                        className="w-12 border border-gray-300 flex items-center justify-center hover:bg-red-50 text-gray-600 hover:text-red-500 transition"
+                        title="Xóa địa chỉ"
                     >
-            <span className="material-symbols-outlined text-gray-600">
-              delete
-            </span>
+                        <span className="material-symbols-outlined">delete</span>
                     </button>
                 </div>
 
@@ -463,6 +506,12 @@ function BusinessStep({ form, handleChange }) {
                     + Thêm địa điểm
                 </button>
             </div>
+
+            <MapPickerModal
+                isOpen={showMap}
+                onClose={() => setShowMap(false)}
+                onSelect={handleMapSelect}
+            />
         </div>
     );
 }
@@ -493,13 +542,7 @@ function RoleStep({ form, handleChange }) {
 
 function RoleCard({ icon, title, desc, value, selected, onChange }) {
     return (
-        <label
-            className={`border rounded-xl p-6 cursor-pointer transition min-h-[180px] ${
-                selected
-                    ? "border-[#00796B] bg-emerald-50 shadow-sm"
-                    : "border-gray-300 bg-white hover:border-[#00796B]"
-            }`}
-        >
+        <label className="cursor-pointer h-full relative block">
             <input
                 type="radio"
                 name="role"
@@ -508,27 +551,57 @@ function RoleCard({ icon, title, desc, value, selected, onChange }) {
                 onChange={onChange}
                 className="hidden"
             />
+            <motion.div
+                whileHover={{ scale: 1.02, y: -2 }}
+                whileTap={{ scale: 0.98 }}
+                className={`h-full border-2 rounded-2xl p-6 transition-all duration-300 relative overflow-hidden flex flex-col ${selected
+                        ? "border-[#00796B] bg-gradient-to-br from-teal-50 to-white shadow-lg shadow-teal-500/10"
+                        : "border-gray-200 bg-white hover:border-teal-300 hover:shadow-md"
+                    }`}
+            >
+                {/* Background ambient glow when selected */}
+                {selected && (
+                    <motion.div
+                        initial={{ opacity: 0, scale: 0.8 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{ duration: 0.4 }}
+                        className="absolute -right-10 -top-10 w-32 h-32 bg-teal-200/50 rounded-full blur-3xl pointer-events-none"
+                    />
+                )}
 
-            <div className="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center mb-7">
-                <span className="material-symbols-outlined text-gray-700">{icon}</span>
-            </div>
+                <div className="flex justify-between items-start mb-6 relative z-10">
+                    <div className={`w-14 h-14 rounded-2xl flex items-center justify-center transition-colors duration-300 ${selected ? "bg-gradient-to-br from-teal-500 to-teal-600 text-white shadow-md shadow-teal-500/30" : "bg-gray-100/80 text-gray-500 group-hover:bg-teal-50 group-hover:text-teal-600"
+                        }`}>
+                        <span className="material-symbols-outlined text-[28px]">{icon}</span>
+                    </div>
 
-            <h3 className="text-xl font-bold text-gray-900 mb-2">{title}</h3>
-            <p className="text-sm text-gray-600 leading-relaxed">{desc}</p>
+                    {/* Checkmark circle */}
+                    <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center transition-all duration-300 ${selected ? "border-teal-500 bg-teal-500 text-white scale-110" : "border-gray-300 text-transparent"
+                        }`}>
+                        <span className="material-symbols-outlined text-[14px] font-bold" style={{ opacity: selected ? 1 : 0 }}>check</span>
+                    </div>
+                </div>
+
+                <div className="relative z-10 flex-1 flex flex-col justify-end">
+                    <h3 className={`text-xl font-bold mb-2 transition-colors duration-300 ${selected ? "text-[#00796B]" : "text-gray-800"
+                        }`}>{title}</h3>
+                    <p className="text-sm text-gray-500 leading-relaxed font-medium">{desc}</p>
+                </div>
+            </motion.div>
         </label>
     );
 }
 
 function AccountStep({
-                         form,
-                         handleChange,
-                         showPassword,
-                         setShowPassword,
-                         showConfirmPassword,
-                         setShowConfirmPassword,
-                         passwordChecks,
-                         strengthCount,
-                     }) {
+    form,
+    handleChange,
+    showPassword,
+    setShowPassword,
+    showConfirmPassword,
+    setShowConfirmPassword,
+    passwordChecks,
+    strengthCount,
+}) {
     return (
         <div className="space-y-5">
             <Input
@@ -552,19 +625,16 @@ function AccountStep({
             <div>
                 <div className="grid grid-cols-3 gap-2 mb-1">
                     <div
-                        className={`h-1 rounded-full ${
-                            strengthCount >= 1 ? "bg-red-400" : "bg-gray-200"
-                        }`}
+                        className={`h-1 rounded-full ${strengthCount >= 1 ? "bg-red-400" : "bg-gray-200"
+                            }`}
                     />
                     <div
-                        className={`h-1 rounded-full ${
-                            strengthCount >= 3 ? "bg-yellow-400" : "bg-gray-200"
-                        }`}
+                        className={`h-1 rounded-full ${strengthCount >= 3 ? "bg-yellow-400" : "bg-gray-200"
+                            }`}
                     />
                     <div
-                        className={`h-1 rounded-full ${
-                            strengthCount >= 5 ? "bg-green-500" : "bg-gray-200"
-                        }`}
+                        className={`h-1 rounded-full ${strengthCount >= 5 ? "bg-green-500" : "bg-gray-200"
+                            }`}
                     />
                 </div>
 
@@ -604,9 +674,9 @@ function SuccessStep({ form }) {
     return (
         <div className="text-center">
             <div className="w-20 h-20 mx-auto rounded-full bg-teal-50 flex items-center justify-center mb-6">
-        <span className="material-symbols-outlined text-[#00796B] text-4xl">
-          check_circle
-        </span>
+                <span className="material-symbols-outlined text-[#00796B] text-4xl">
+                    check_circle
+                </span>
             </div>
 
             <h1 className="text-[28px] font-bold text-gray-800 mb-4">
@@ -682,21 +752,21 @@ function Input({ label, name, value, onChange, placeholder, type = "text" }) {
                 value={value}
                 onChange={onChange}
                 placeholder={placeholder}
-                className="w-full border border-gray-300 px-4 py-3 outline-none focus:border-[#00796B]"
+                className="w-full border border-gray-300 rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-teal-500/20 focus:border-[#00796B] transition-all bg-white hover:border-gray-400"
             />
         </div>
     );
 }
 
 function PasswordInput({
-                           label,
-                           name,
-                           value,
-                           onChange,
-                           placeholder,
-                           show,
-                           onToggle,
-                       }) {
+    label,
+    name,
+    value,
+    onChange,
+    placeholder,
+    show,
+    onToggle,
+}) {
     return (
         <div>
             <label className="block text-sm font-semibold text-gray-700 mb-2">
@@ -710,17 +780,17 @@ function PasswordInput({
                     value={value}
                     onChange={onChange}
                     placeholder={placeholder}
-                    className="w-full border border-gray-300 px-4 py-3 pr-12 outline-none focus:border-[#00796B]"
+                    className="w-full border border-gray-300 rounded-xl px-4 py-3 pr-12 outline-none focus:ring-2 focus:ring-teal-500/20 focus:border-[#00796B] transition-all bg-white hover:border-gray-400"
                 />
 
                 <button
                     type="button"
                     onClick={onToggle}
-                    className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500"
+                    className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
                 >
-          <span className="material-symbols-outlined">
-            {show ? "visibility_off" : "visibility"}
-          </span>
+                    <span className="material-symbols-outlined">
+                        {show ? "visibility_off" : "visibility"}
+                    </span>
                 </button>
             </div>
         </div>
@@ -734,20 +804,24 @@ function Select({ label, name, value, onChange, placeholder, options }) {
                 {label}
             </label>
 
-            <select
-                name={name}
-                value={value}
-                onChange={onChange}
-                className="w-full border border-gray-300 px-4 py-3 outline-none focus:border-[#00796B] bg-white"
-            >
-                <option value="">{placeholder}</option>
-
-                {options.map((option) => (
-                    <option key={option} value={option}>
-                        {option}
-                    </option>
-                ))}
-            </select>
+            <div className="relative">
+                <select
+                    name={name}
+                    value={value}
+                    onChange={onChange}
+                    className="w-full border border-gray-300 rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-teal-500/20 focus:border-[#00796B] bg-white appearance-none transition-all cursor-pointer hover:border-gray-400"
+                >
+                    <option value="" disabled className="text-gray-500">{placeholder}</option>
+                    {options.map((option) => (
+                        <option key={option} value={option} className="text-gray-800">
+                            {option}
+                        </option>
+                    ))}
+                </select>
+                <div className="absolute inset-y-0 right-4 flex items-center pointer-events-none">
+                    <span className="material-symbols-outlined text-gray-400">expand_more</span>
+                </div>
+            </div>
         </div>
     );
 }
@@ -765,7 +839,7 @@ function TextArea({ label, name, value, onChange, placeholder }) {
                 onChange={onChange}
                 placeholder={placeholder}
                 rows="4"
-                className="w-full border border-gray-300 px-4 py-3 outline-none resize-none focus:border-[#00796B]"
+                className="w-full border border-gray-300 rounded-xl px-4 py-3 outline-none resize-none focus:ring-2 focus:ring-teal-500/20 focus:border-[#00796B] transition-all bg-white hover:border-gray-400"
             />
         </div>
     );
@@ -779,9 +853,9 @@ function FileUpload({ label, name, file, onChange, accept, note }) {
             </label>
 
             <label className="w-full h-32 border border-dashed border-gray-300 flex flex-col items-center justify-center cursor-pointer hover:bg-gray-50 transition">
-        <span className="material-symbols-outlined text-gray-500 text-3xl mb-2">
-          upload_file
-        </span>
+                <span className="material-symbols-outlined text-gray-500 text-3xl mb-2">
+                    upload_file
+                </span>
 
                 <p className="text-sm text-gray-500">
                     Kéo thả file vào đây hoặc{" "}
@@ -811,15 +885,14 @@ function FileUpload({ label, name, file, onChange, accept, note }) {
 function CheckItem({ checked, text }) {
     return (
         <div className="flex items-center gap-2 text-sm text-gray-600">
-      <span
-          className={`w-4 h-4 rounded-full border flex items-center justify-center text-[10px] ${
-              checked
-                  ? "bg-[#00796B] border-[#00796B] text-white"
-                  : "border-gray-400"
-          }`}
-      >
-        {checked ? "✓" : ""}
-      </span>
+            <span
+                className={`w-4 h-4 rounded-full border flex items-center justify-center text-[10px] ${checked
+                        ? "bg-[#00796B] border-[#00796B] text-white"
+                        : "border-gray-400"
+                    }`}
+            >
+                {checked ? "✓" : ""}
+            </span>
             {text}
         </div>
     );
@@ -835,9 +908,9 @@ function AuthBrandPanel() {
 
             <div className="z-10 max-w-md">
                 <div className="flex items-center gap-3 mb-8">
-          <span className="material-symbols-outlined text-[#71f8e4] text-4xl">
-            waves
-          </span>
+                    <span className="material-symbols-outlined text-[#71f8e4] text-4xl">
+                        waves
+                    </span>
                     <h1 className="text-5xl font-bold tracking-tight">AquaTrade</h1>
                 </div>
 
@@ -884,6 +957,154 @@ function Feature({ icon, title, desc }) {
             <div>
                 <p className="text-sm font-semibold text-white">{title}</p>
                 <p className="text-sm text-gray-300">{desc}</p>
+            </div>
+        </div>
+    );
+}
+
+function MapEvents({ setPosition, setAddress, setIsPinning }) {
+    useMapEvents({
+        click(e) {
+            const { lat, lng } = e.latlng;
+            setPosition([lat, lng]);
+            setIsPinning(true);
+
+            // Reverse Geocoding with Nominatim API
+            fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lng}`)
+                .then(res => res.json())
+                .then(data => {
+                    if (data && data.display_name) {
+                        setAddress(data.display_name);
+                    } else {
+                        setAddress("Không tìm thấy địa chỉ cho vị trí này");
+                    }
+                })
+                .catch(err => {
+                    console.error("Geocoding error:", err);
+                    setAddress("Lỗi khi lấy địa chỉ");
+                })
+                .finally(() => {
+                    setIsPinning(false);
+                });
+        },
+    });
+    return null;
+}
+
+function ChangeView({ center, zoom }) {
+    const map = useMap();
+    map.setView(center, zoom);
+    return null;
+}
+
+function MapPickerModal({ isOpen, onClose, onSelect }) {
+    const [position, setPosition] = useState([10.762622, 106.660172]); // Default: HCM City
+    const [address, setAddress] = useState("Vui lòng click trên bản đồ để chọn vị trí");
+    const [isPinning, setIsPinning] = useState(false);
+
+    const [searchQuery, setSearchQuery] = useState("");
+    const [isSearching, setIsSearching] = useState(false);
+
+    if (!isOpen) return null;
+
+    const handleSearch = async (e) => {
+        e?.preventDefault();
+        if (!searchQuery.trim()) return;
+
+        setIsSearching(true);
+        try {
+            const res = await fetch(`https://nominatim.openstreetmap.org/search?format=jsonv2&q=${encodeURIComponent(searchQuery)}`);
+            const data = await res.json();
+
+            if (data && data.length > 0) {
+                const firstResult = data[0];
+                const lat = parseFloat(firstResult.lat);
+                const lon = parseFloat(firstResult.lon);
+
+                setPosition([lat, lon]);
+                setAddress(firstResult.display_name);
+            } else {
+                alert("Không tìm thấy địa điểm này!");
+            }
+        } catch (error) {
+            console.error("Search error:", error);
+            alert("Đã có lỗi xảy ra khi tìm kiếm");
+        } finally {
+            setIsSearching(false);
+        }
+    };
+
+    return (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/50 p-4">
+            <div className="bg-white rounded-2xl w-full max-w-4xl overflow-hidden shadow-2xl flex flex-col">
+                <div className="p-5 border-b border-gray-200 flex justify-between items-center bg-gray-50">
+                    <div className="flex items-center gap-2">
+                        <span className="material-symbols-outlined text-teal-600">map</span>
+                        <h3 className="font-bold text-lg text-gray-800">Chọn vị trí trên Bản đồ (Leaflet)</h3>
+                    </div>
+                    <button type="button" onClick={onClose} className="text-gray-500 hover:bg-gray-200 p-1 rounded-full transition">
+                        <span className="material-symbols-outlined">close</span>
+                    </button>
+                </div>
+
+                <form onSubmit={handleSearch} className="p-4 flex gap-3 border-b border-gray-100">
+                    <div className="relative flex-1">
+                        <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">search</span>
+                        <input
+                            type="text"
+                            value={searchQuery}
+                            onChange={(e) => setSearchQuery(e.target.value)}
+                            placeholder="Nhập tên đường, quận, thành phố để tìm kiếm..."
+                            className="w-full pl-10 pr-4 py-2.5 bg-gray-100 border-none rounded-lg focus:ring-2 focus:ring-teal-500 outline-none"
+                        />
+                    </div>
+                    <button
+                        type="submit"
+                        disabled={isSearching}
+                        className="px-6 py-2.5 bg-teal-600 text-white rounded-lg font-semibold hover:bg-teal-700 flex items-center gap-2 disabled:bg-teal-400 transition"
+                    >
+                        {isSearching ? <span className="material-symbols-outlined animate-spin text-sm">progress_activity</span> : null}
+                        Tìm
+                    </button>
+                </form>
+
+                <div className="h-[400px] w-full bg-gray-100 relative z-0">
+                    <MapContainer center={position} zoom={13} style={{ height: '100%', width: '100%', zIndex: 0 }}>
+                        <ChangeView center={position} zoom={15} />
+                        <TileLayer
+                            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                        />
+                        <Marker position={position} />
+                        <MapEvents setPosition={setPosition} setAddress={setAddress} setIsPinning={setIsPinning} />
+                    </MapContainer>
+                </div>
+
+                <div className="p-5 border-t border-gray-200 flex items-center justify-between bg-gray-50">
+                    <div className="flex-1 pr-6">
+                        <p className="text-sm font-semibold text-gray-500 mb-1">Vị trí đã ghim:</p>
+                        <div className="flex items-center gap-2">
+                            {isPinning ? (
+                                <span className="material-symbols-outlined animate-spin text-teal-600 text-sm">progress_activity</span>
+                            ) : null}
+                            <p className="text-gray-800 font-medium line-clamp-1">{address}</p>
+                        </div>
+                    </div>
+                    <div className="flex gap-3">
+                        <button type="button" onClick={onClose} className="px-6 py-2.5 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-100 font-medium transition">
+                            Hủy
+                        </button>
+                        <button
+                            type="button"
+                            onClick={() => onSelect(address)}
+                            disabled={isPinning || address === "Vui lòng click trên bản đồ để chọn vị trí"}
+                            className={`px-6 py-2.5 text-white rounded-lg font-semibold transition flex items-center gap-2 ${(isPinning || address === "Vui lòng click trên bản đồ để chọn vị trí") ? 'bg-teal-400 cursor-not-allowed' : 'bg-teal-600 hover:bg-teal-700'}`}
+                        >
+                            <span className="material-symbols-outlined text-sm">check</span>
+                            Sử dụng địa chỉ này
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
     );
