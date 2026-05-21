@@ -52,20 +52,20 @@ const AdminLayout = () => {
           </Link>
 
           <p className="px-3 text-[9px] font-mono text-gray-500 uppercase tracking-widest pt-4 pb-2">Quản lý</p>
-          <Link to="/admin/users" className="flex items-center px-3 py-2.5 rounded-lg text-[13.5px] transition hover:bg-gray-800 text-gray-400 hover:text-white">
+          {/* <Link to="/admin/users" className="flex items-center px-3 py-2.5 rounded-lg text-[13.5px] transition hover:bg-gray-800 text-gray-400 hover:text-white">
             <Users size={16} className="mr-3 opacity-80" />
             <span className="flex-1">Người dùng</span>
             <span className="bg-red-500 text-white font-mono text-[9px] px-1.5 py-0.5 rounded-full font-bold">7</span>
-          </Link>
+          </Link> */}
           <Link to="/admin/oder-matching" className="flex items-center px-3 py-2.5 rounded-lg text-[13.5px] transition hover:bg-gray-800 text-gray-400 hover:text-white">
             <Package size={16} className="mr-3 opacity-80" />
             <span className="flex-1">Giao dịch khớp lệnh</span>
           </Link>
-          <Link to="/admin/disputes" className="flex items-center px-3 py-2.5 rounded-lg text-[13.5px] transition hover:bg-gray-800 text-gray-400 hover:text-white">
+          {/* <Link to="/admin/disputes" className="flex items-center px-3 py-2.5 rounded-lg text-[13.5px] transition hover:bg-gray-800 text-gray-400 hover:text-white">
             <AlertCircle size={16} className="mr-3 opacity-80" />
             <span className="flex-1">Tranh chấp</span>
             <span className="bg-orange-500 text-white font-mono text-[9px] px-1.5 py-0.5 rounded-full font-bold">3</span>
-          </Link>
+          </Link> */}
 
           <p className="px-3 text-[9px] font-mono text-gray-500 uppercase tracking-widest pt-4 pb-2">Kiểm định & Tiêu chuẩn</p>
           <Link to="/admin/grading-standards" className={`flex items-center px-3 py-2.5 rounded-lg text-[13.5px] transition ${location.pathname === '/admin/grading-standards' ? 'bg-teal-900/40 text-teal-400 border border-teal-500/30 font-bold' : 'hover:bg-gray-800 text-gray-400 hover:text-white'}`}>
@@ -76,24 +76,24 @@ const AdminLayout = () => {
             <TestTube2 size={16} className="mr-3 opacity-80" />
             <span className="flex-1">Nhập kết quả KĐ</span>
           </Link>
-          <Link to="/admin/lab-history" className="flex items-center px-3 py-2.5 rounded-lg text-[13.5px] transition hover:bg-gray-800 text-gray-400 hover:text-white">
+          {/* <Link to="/admin/lab-history" className="flex items-center px-3 py-2.5 rounded-lg text-[13.5px] transition hover:bg-gray-800 text-gray-400 hover:text-white">
             <ClipboardList size={16} className="mr-3 opacity-80" />
             <span className="flex-1">Lịch sử kiểm định</span>
-          </Link>
+          </Link> */}
 
-          <p className="px-3 text-[9px] font-mono text-gray-500 uppercase tracking-widest pt-4 pb-2">Cấu hình sàn</p>
-          <Link to="/admin/categories" className="flex items-center px-3 py-2.5 rounded-lg text-[13.5px] transition hover:bg-gray-800 text-gray-400 hover:text-white">
+          {/* <p className="px-3 text-[9px] font-mono text-gray-500 uppercase tracking-widest pt-4 pb-2">Cấu hình sàn</p> */}
+          {/* <Link to="/admin/categories" className="flex items-center px-3 py-2.5 rounded-lg text-[13.5px] transition hover:bg-gray-800 text-gray-400 hover:text-white">
             <ListTree size={16} className="mr-3 opacity-80" />
             <span className="flex-1">Danh mục phụ phẩm</span>
-          </Link>
-          <Link to="/admin/regions" className="flex items-center px-3 py-2.5 rounded-lg text-[13.5px] transition hover:bg-gray-800 text-gray-400 hover:text-white">
+          </Link> */}
+          {/* <Link to="/admin/regions" className="flex items-center px-3 py-2.5 rounded-lg text-[13.5px] transition hover:bg-gray-800 text-gray-400 hover:text-white">
             <MapPin size={16} className="mr-3 opacity-80" />
             <span className="flex-1">Khu vực địa lý</span>
-          </Link>
-          <Link to="/admin/settings" className="flex items-center px-3 py-2.5 rounded-lg text-[13.5px] transition hover:bg-gray-800 text-gray-400 hover:text-white">
+          </Link> */}
+          {/* <Link to="/admin/settings" className="flex items-center px-3 py-2.5 rounded-lg text-[13.5px] transition hover:bg-gray-800 text-gray-400 hover:text-white">
             <Settings size={16} className="mr-3 opacity-80" />
             <span className="flex-1">Cài đặt sàn</span>
-          </Link>
+          </Link> */}
         </nav>
 
         <div className="p-4 border-t border-gray-800 flex items-center gap-2.5">
