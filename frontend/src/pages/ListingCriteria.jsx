@@ -1,18 +1,31 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
-  Home, ArrowRightLeft, Navigation, Search, Bell, ShieldAlert, DollarSign, ListChecks, CheckCircle2, XCircle
+  Home, ArrowRightLeft, Navigation, Search, Bell, ShieldAlert, DollarSign, ListChecks, CheckCircle2, XCircle, ArrowLeft
 } from 'lucide-react';
 import BrandLogo from '../assets/images/logo/brand.png';
-
 
 const ListingCriteria = () => {
   const navigate = useNavigate();
 
+  // STATE ĐIỀU KHIỂN ĐĂNG NHẬP
+  const [userRole, setUserRole] = useState(localStorage.getItem('userRole'));
+  const [username, setUsername] = useState(localStorage.getItem('username'));
+  const [showUserDropdown, setShowUserDropdown] = useState(false);
+
+  const handleLogout = () => {
+    localStorage.removeItem('userRole');
+    localStorage.removeItem('username');
+    setUserRole(null);
+    setUsername(null);
+    setShowUserDropdown(false);
+    navigate('/');
+  };
+
   return (
     <div className="flex h-screen bg-gray-50 font-sans text-gray-800 relative">
 
-      {/* ================= SIDEBAR (Đồng bộ với Exchange) ================= */}
+      {/* ================= SIDEBAR ================= */}
       <aside className="w-64 bg-[#0a192f] text-white flex flex-col shrink-0 z-10">
         <nav className="flex-1 px-4 py-6 space-y-2">
           <NavItem icon={<Home size={20} />} label="Trang chủ" onClick={() => navigate('/')} />
@@ -28,27 +41,87 @@ const ListingCriteria = () => {
 
         {/* Top Header */}
         <header className="h-16 bg-white border-b flex items-center justify-between px-8 shrink-0 z-10">
-          <div className="flex space-x-6 text-sm font-medium text-gray-900">
-            <div className="h-16 flex items-center px-6 border-gray-700">
-              <img src={BrandLogo} alt="AquaMarket Logo" className="h-9 w-auto object-contain" />
-              <span className="text-xl font-bold tracking-wide">AquaTrade</span>
-            </div>
+          <div className="h-16 flex items-center px-6 border-b border-gray-700">
+            <img src={BrandLogo} alt="AquaMarket Logo" className="h-8 w-auto object-contain" />
+            <span className="text-xl font-bold tracking-wide ml-2">AquaTrade</span>
           </div>
           <div className="flex items-center space-x-4">
             <div className="relative">
               <input type="text" placeholder="Tìm kiếm..." className="bg-gray-100 border-none rounded-full pl-4 pr-10 py-1.5 text-sm focus:ring-2 focus:ring-teal-500 outline-none w-64" />
               <Search size={16} className="absolute right-4 top-2 text-gray-400" />
             </div>
-            <div className="w-8 h-8 bg-orange-200 text-orange-600 rounded-full flex items-center justify-center font-bold">U</div>
+
+            {/* KIỂM TRA ĐĂNG NHẬP */}
+            {userRole ? (
+              <div className="relative">
+                {/* NÚT AVATAR MỚI: TO HƠN, CÓ TÊN, CÓ MŨI TÊN CHỈ XUỐNG */}
+                <button
+                  onClick={() => setShowUserDropdown(!showUserDropdown)}
+                  className="flex items-center gap-2 p-1 pr-3 bg-white hover:bg-gray-50 border border-gray-200 rounded-full shadow-sm hover:shadow-md transition-all outline-none"
+                >
+                  {/* Vòng tròn Avatar lớn hơn (w-9 h-9) + màu sắc nổi bật + Dấu chấm xanh online */}
+                  <div className="w-9 h-9 bg-gradient-to-br from-orange-400 to-red-500 text-white rounded-full flex items-center justify-center font-bold text-sm uppercase relative shrink-0">
+                    {username ? username.charAt(0) : 'U'}
+                    <span className="absolute bottom-0 right-0 w-2.5 h-2.5 bg-green-500 border-2 border-white rounded-full"></span>
+                  </div>
+
+                  {/* Tên người dùng và nhãn (chỉ hiện trên màn hình to để tránh vỡ layout) */}
+                  <div className="flex flex-col text-left hidden sm:flex">
+                    <span className="text-[10px] text-gray-500 font-medium leading-none mb-0.5">Trang quản lý</span>
+                    <span className="text-xs font-bold text-gray-800 leading-none capitalize truncate max-w-[80px]">{username}</span>
+                  </div>
+
+                  {/* Icon Mũi tên (Dùng SVG thuần để bạn không cần import thêm thư viện) */}
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-gray-400 ml-1">
+                    <path d="m6 9 6 6 6-6" />
+                  </svg>
+                </button>
+
+                {/* Phần Dropdown menu giữ nguyên... */}
+                {showUserDropdown && (
+                  <div className="absolute right-0 mt-2 w-52 bg-white border border-gray-200 rounded-xl shadow-xl py-1.5 z-50 overflow-hidden">
+                    <div className="px-4 py-2 border-b border-gray-100 bg-gray-50/50">
+                      <p className="text-[10px] text-gray-400 font-bold uppercase tracking-wider">Tài khoản</p>
+                      <p className="text-sm font-bold text-gray-800 capitalize truncate mt-0.5">{username}</p>
+                    </div>
+                    <button
+                      onClick={() => { setShowUserDropdown(false); navigate(`/${userRole}`); }}
+                      className="w-full text-left px-4 py-2.5 text-xs font-bold text-gray-700 hover:bg-teal-50 hover:text-teal-600 transition-colors"
+                    >
+                      Trang quản lý ({userRole === 'admin' ? 'Admin' : userRole === 'seller' ? 'Người bán' : 'Người mua'})
+                    </button>
+                    <button
+                      onClick={handleLogout}
+                      className="w-full text-left px-4 py-2 text-xs font-bold text-red-500 hover:bg-red-50 border-t border-gray-100 transition-colors"
+                    >
+                      Đăng xuất
+                    </button>
+                  </div>
+                )}
+              </div>
+            ) : (
+              <div className="flex items-center gap-2">
+                <button onClick={() => navigate('/login')} className="px-4 py-1.5 border border-teal-600 text-teal-600 text-xs font-bold rounded-full hover:bg-teal-50 transition shadow-sm">Đăng nhập</button>
+                <button onClick={() => navigate('/register')} className="px-4 py-1.5 bg-teal-600 text-white text-xs font-bold rounded-full hover:bg-teal-700 transition shadow-sm">Đăng ký</button>
+              </div>
+            )}
+
           </div>
         </header>
 
         {/* NỘI DUNG CHÍNH: TIÊU CHÍ NIÊM YẾT */}
         <div className="flex-1 overflow-auto p-8 space-y-4 bg-gray-50/50">
 
-          {/* HEADER BANNER */}
           <section className="bg-white border border-gray-200 rounded-2xl p-8 shadow-sm relative overflow-hidden">
             <div className="absolute top-0 right-0 w-64 h-64 bg-teal-500/5 rounded-full blur-3xl -mr-20 -mt-20"></div>
+
+            <button
+              onClick={() => navigate('/exchange')}
+              className="flex items-center gap-1.5 text-teal-600 hover:text-teal-700 text-sm font-bold mb-6 transition-colors relative z-10 w-fit"
+            >
+              <ArrowLeft size={16} /> Quay lại Sàn Giao dịch
+            </button>
+
             <div className="flex justify-between items-start relative z-10">
               <div>
                 <span className="text-[10px] font-mono font-bold bg-gray-100 border border-gray-200 px-3 py-1 rounded text-gray-500 uppercase tracking-widest mb-4 inline-block">DOC · FC-SBP-2024 · REV 1.1</span>
@@ -69,7 +142,7 @@ const ListingCriteria = () => {
                 <span className="bg-red-100 text-red-700 px-3 py-1 rounded text-xs font-bold uppercase tracking-widest border border-red-200">Lớp 1</span>
                 <h2 className="text-lg font-bold text-red-700 flex items-center gap-2"><ShieldAlert size={20} /> Barrier An Toàn Sinh Học Bắt Buộc</h2>
               </div>
-              <span className="text-[11px] font-bold text-red-500 uppercase tracking-widest">Vi phạm Reject</span>
+              <span className="text-[11px] font-bold text-red-500 uppercase tracking-widest">Vi phạm = Reject ngay</span>
             </div>
             <div className="p-6">
               <div className="bg-red-50 border border-red-100 p-4 rounded-lg text-sm text-red-800 mb-6 leading-relaxed">
@@ -90,7 +163,6 @@ const ListingCriteria = () => {
             </div>
           </div>
 
-          {/* MŨI TÊN KẾT NỐI */}
           <Connector text="Đạt Lớp 1 → Kiểm tra Lớp 2" />
 
           {/* LỚP 2: KINH TẾ LOGISTICS (Màu Cam) */}
@@ -120,7 +192,6 @@ const ListingCriteria = () => {
             </div>
           </div>
 
-          {/* MŨI TÊN KẾT NỐI */}
           <Connector text="Đạt Lớp 2 → Kiểm tra Lớp 3" />
 
           {/* LỚP 3: CHẤT LƯỢNG (Màu Teal) */}
@@ -132,7 +203,6 @@ const ListingCriteria = () => {
               </div>
             </div>
             <div className="p-6 grid grid-cols-1 md:grid-cols-3 gap-6">
-              {/* Column A */}
               <div className="border border-orange-200 rounded-xl overflow-hidden">
                 <div className="bg-orange-50 p-4 border-b border-orange-100">
                   <span className="text-[10px] font-bold bg-orange-200 text-orange-700 px-2 py-1 rounded uppercase">Cấp A</span>
@@ -144,7 +214,6 @@ const ListingCriteria = () => {
                   <GradeRow label="Protein thô" val="≥ 38%" color="text-orange-600" />
                 </div>
               </div>
-              {/* Column B */}
               <div className="border border-teal-200 rounded-xl overflow-hidden">
                 <div className="bg-teal-50 p-4 border-b border-teal-100">
                   <span className="text-[10px] font-bold bg-teal-200 text-teal-800 px-2 py-1 rounded uppercase">Cấp B</span>
@@ -156,7 +225,6 @@ const ListingCriteria = () => {
                   <GradeRow label="Protein thô" val="≥ 28%" color="text-teal-600" />
                 </div>
               </div>
-              {/* Column C */}
               <div className="border border-blue-200 rounded-xl overflow-hidden">
                 <div className="bg-blue-50 p-4 border-b border-blue-100">
                   <span className="text-[10px] font-bold bg-blue-200 text-blue-800 px-2 py-1 rounded uppercase">Cấp C</span>
@@ -212,11 +280,15 @@ const ListingCriteria = () => {
 
 // ================= COMPONENT CON =================
 const NavItem = ({ icon, label, active, badge, onClick }) => (
-  <div onClick={onClick} className={`flex items-center px-4 py-2.5 rounded-lg cursor-pointer transition-colors ${active ? 'bg-teal-900 text-teal-400' : 'text-gray-300 hover:bg-gray-800 hover:text-white'}`}>
+  <button
+    onClick={onClick}
+    className={`w-full flex items-center px-4 py-2.5 rounded-lg transition-colors ${active ? 'bg-teal-900 text-teal-400' : 'text-gray-300 hover:bg-gray-800 hover:text-white'
+      }`}
+  >
     <div className="mr-3">{icon}</div>
-    <span className="flex-1 text-sm font-medium">{label}</span>
+    <span className="flex-1 text-sm font-medium text-left">{label}</span>
     {badge && <span className="text-xs bg-orange-500 text-white px-2 py-0.5 rounded-full">{badge}</span>}
-  </div>
+  </button>
 );
 
 const SpecCard = ({ code, title, val, note, colorClass, bgClass = "bg-gray-50" }) => (

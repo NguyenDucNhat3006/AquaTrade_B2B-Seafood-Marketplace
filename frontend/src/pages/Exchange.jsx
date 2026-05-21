@@ -12,6 +12,20 @@ import BrandLogo from '../assets/images/logo/brand.png';
 const Exchange = () => {
   const navigate = useNavigate();
 
+  // STATE ĐIỀU KHIỂN ĐĂNG NHẬP
+  const [userRole, setUserRole] = useState(localStorage.getItem('userRole'));
+  const [username, setUsername] = useState(localStorage.getItem('username'));
+  const [showUserDropdown, setShowUserDropdown] = useState(false);
+
+  const handleLogout = () => {
+    localStorage.removeItem('userRole');
+    localStorage.removeItem('username');
+    setUserRole(null);
+    setUsername(null);
+    setShowUserDropdown(false);
+    navigate('/');
+  };
+
   // STATE điều khiển Modal chi tiết
   const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
 
@@ -41,10 +55,9 @@ const Exchange = () => {
       {/* ================= SIDEBAR ================= */}
       <aside className="w-64 bg-[#0a192f] text-white flex flex-col shrink-0 z-10">
 
-
         <nav className="flex-1 px-4 py-6 space-y-2">
           <NavItem icon={<Home size={20} />} label="Trang chủ" onClick={() => navigate('/')} />
-          <NavItem icon={<ArrowRightLeft size={20} />} label="Sàn Giao dịch" active />
+          <NavItem icon={<ArrowRightLeft size={20} />} label="Sàn Giao dịch" active onClick={() => navigate('/exchange')} />
 
           <div className="border-t border-gray-700 mt-4 pt-4">
             <NavItem icon={<Navigation size={20} />} label="Theo dõi xe" badge="Mới" onClick={() => navigate('/route-optimization')} />
@@ -88,9 +101,61 @@ const Exchange = () => {
               />
               <Search size={16} className="absolute right-4 top-2 text-gray-400" />
             </div>
-            <div className="w-8 h-8 bg-orange-200 text-orange-600 rounded-full flex items-center justify-center font-bold">
-              U
-            </div>
+
+            {/* KIỂM TRA ĐĂNG NHẬP */}
+            {userRole ? (
+              <div className="relative">
+                {/* NÚT AVATAR MỚI: TO HƠN, CÓ TÊN, CÓ MŨI TÊN CHỈ XUỐNG */}
+                <button
+                  onClick={() => setShowUserDropdown(!showUserDropdown)}
+                  className="flex items-center gap-2 p-1 pr-3 bg-white hover:bg-gray-50 border border-gray-200 rounded-full shadow-sm hover:shadow-md transition-all outline-none"
+                >
+                  {/* Vòng tròn Avatar lớn hơn (w-9 h-9) + màu sắc nổi bật + Dấu chấm xanh online */}
+                  <div className="w-9 h-9 bg-gradient-to-br from-orange-400 to-red-500 text-white rounded-full flex items-center justify-center font-bold text-sm uppercase relative shrink-0">
+                    {username ? username.charAt(0) : 'U'}
+                    <span className="absolute bottom-0 right-0 w-2.5 h-2.5 bg-green-500 border-2 border-white rounded-full"></span>
+                  </div>
+
+                  {/* Tên người dùng và nhãn (chỉ hiện trên màn hình to để tránh vỡ layout) */}
+                  <div className="flex flex-col text-left hidden sm:flex">
+                    <span className="text-[10px] text-gray-500 font-medium leading-none mb-0.5">Trang quản lý</span>
+                    <span className="text-xs font-bold text-gray-800 leading-none capitalize truncate max-w-[80px]">{username}</span>
+                  </div>
+
+                  {/* Icon Mũi tên (Dùng SVG thuần để bạn không cần import thêm thư viện) */}
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-gray-400 ml-1">
+                    <path d="m6 9 6 6 6-6" />
+                  </svg>
+                </button>
+
+                {/* Phần Dropdown menu giữ nguyên... */}
+                {showUserDropdown && (
+                  <div className="absolute right-0 mt-2 w-52 bg-white border border-gray-200 rounded-xl shadow-xl py-1.5 z-50 overflow-hidden">
+                    <div className="px-4 py-2 border-b border-gray-100 bg-gray-50/50">
+                      <p className="text-[10px] text-gray-400 font-bold uppercase tracking-wider">Tài khoản</p>
+                      <p className="text-sm font-bold text-gray-800 capitalize truncate mt-0.5">{username}</p>
+                    </div>
+                    <button
+                      onClick={() => { setShowUserDropdown(false); navigate(`/${userRole}`); }}
+                      className="w-full text-left px-4 py-2.5 text-xs font-bold text-gray-700 hover:bg-teal-50 hover:text-teal-600 transition-colors"
+                    >
+                      Trang quản lý ({userRole === 'admin' ? 'Admin' : userRole === 'seller' ? 'Người bán' : 'Người mua'})
+                    </button>
+                    <button
+                      onClick={handleLogout}
+                      className="w-full text-left px-4 py-2 text-xs font-bold text-red-500 hover:bg-red-50 border-t border-gray-100 transition-colors"
+                    >
+                      Đăng xuất
+                    </button>
+                  </div>
+                )}
+              </div>
+            ) : (
+              <div className="flex items-center gap-2">
+                <button onClick={() => navigate('/login')} className="px-4 py-1.5 border border-teal-600 text-teal-600 text-xs font-bold rounded-full hover:bg-teal-50 transition shadow-sm">Đăng nhập</button>
+                <button onClick={() => navigate('/register')} className="px-4 py-1.5 bg-teal-600 text-white text-xs font-bold rounded-full hover:bg-teal-700 transition shadow-sm">Đăng ký</button>
+              </div>
+            )}
           </div>
         </header>
 
@@ -117,23 +182,22 @@ const Exchange = () => {
             </div>
           </section>
 
-
+          {/* Bản đồ Tối ưu Vận tải */}
           <div className="mt-8 bg-white border border-gray-200 rounded-xl overflow-hidden shadow-sm">
-            
+
             <div className="px-6 py-4 border-b border-gray-100 flex justify-between items-center bg-gray-50">
               <button
-                    onClick={() => navigate('/route-optimization')}
-                    className="flex items-center gap-1 bg-teal-50 text-teal-700 hover:bg-teal-100 border border-teal-200 px-3 py-1.5 rounded-lg text-xs font-bold transition-colors"
-                  >
-                    Xem chi tiết <ChevronRight size={14} />
-                  </button>
+                onClick={() => navigate('/route-optimization')}
+                className="flex items-center gap-1 bg-teal-50 text-teal-700 hover:bg-teal-100 border border-teal-200 px-3 py-1.5 rounded-lg text-xs font-bold transition-colors"
+              >
+                Xem chi tiết <ChevronRight size={14} />
+              </button>
               <h3 className="font-bold text-[15px] text-gray-900">Bản Đồ Lộ Trình Vận Chuyển & Phân Phối (MILP)</h3>
               <span className="text-[12px] font-mono text-teal-600 bg-teal-50 px-2 py-1 rounded-full">Trực tuyến</span>
             </div>
             <iframe src="/route-map.html" className="w-full h-[600px] border-none" title="Route Optimization Map"></iframe>
-            
-          </div>
 
+          </div>
 
           {/* Bảng Đơn hàng */}
           <section className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
@@ -245,14 +309,12 @@ const Exchange = () => {
 
                 {/* Cột Biểu đồ */}
                 <div className="col-span-1 flex flex-col gap-4">
-                  {/* Card Biểu đồ */}
                   <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4 flex-1 flex flex-col items-center">
                     <div className="w-full text-left mb-4">
                       <h3 className="font-bold text-gray-800 text-sm">Biểu đồ Tỷ lệ</h3>
                       <p className="text-[11px] text-gray-500">Kết quả Kiểm tra</p>
                     </div>
 
-                    {/* CSS Pie Chart */}
                     <div className="relative w-36 h-36 rounded-full mb-6 shadow-sm overflow-hidden"
                       style={{ background: 'conic-gradient(#ef4444 0% 25%, #22c55e 25% 100%)' }}>
                       <div className="absolute top-0 right-0 w-1/2 h-1/2 flex items-center justify-center">
@@ -263,14 +325,12 @@ const Exchange = () => {
                       </div>
                     </div>
 
-                    {/* Legend */}
                     <div className="flex gap-4 text-[11px] font-bold text-gray-600 w-full justify-center mt-auto">
                       <div className="flex items-center gap-1.5"><div className="w-2.5 h-2.5 bg-[#22c55e] rounded-sm"></div> Approved 75%</div>
                       <div className="flex items-center gap-1.5"><div className="w-2.5 h-2.5 bg-[#ef4444] rounded-sm"></div> Rejected 25%</div>
                     </div>
                   </div>
 
-                  {/* Nút CTA chuyển sang Listing Criteria */}
                   <button
                     onClick={() => {
                       setIsDetailModalOpen(false);
@@ -294,7 +354,6 @@ const Exchange = () => {
 };
 
 // ================= SUBCOMPONENTS =================
-
 const TopSummaryCard = ({ title, value, icon }) => (
   <div className="bg-white rounded-lg p-4 border border-gray-100 flex justify-between items-center shadow-sm">
     <div className="flex flex-col">

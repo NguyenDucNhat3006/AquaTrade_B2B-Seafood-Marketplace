@@ -9,6 +9,7 @@ export default function LoginPage() {
     const [identity, setIdentity] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
+
     const handleLogin = (e) => {
         e.preventDefault();
 
@@ -38,11 +39,27 @@ export default function LoginPage() {
 
             setTimeout(() => {
                 setSuccess(false);
-                if (matchedAccount.role === "buyer") navigate("/buyer");
-                else if (matchedAccount.role === "seller") navigate("/seller");
-                else if (matchedAccount.role === "admin") navigate("/admin");
+                // LƯU TRẠNG THÁI ĐĂNG NHẬP VÀO LOCALSTORAGE
+                localStorage.setItem('userRole', matchedAccount.role);
+                localStorage.setItem('username', matchedAccount.user);
+                
+                // ĐIỀU HƯỚNG VỀ TRANG CHỦ (Yêu cầu mới)
+                navigate("/");
             }, 1000);
         }, 1000);
+    };
+
+    // Hàm xử lý khi nhấn vào các nút Trải nghiệm nhanh
+    const handleQuickLogin = (role, user) => {
+        localStorage.setItem('userRole', role);
+        localStorage.setItem('username', user);
+        navigate("/");
+    };
+
+    const handleGuestLogin = () => {
+        localStorage.removeItem('userRole');
+        localStorage.removeItem('username');
+        navigate("/");
     };
 
     return (
@@ -111,7 +128,6 @@ export default function LoginPage() {
                                 <label className="text-sm font-semibold" htmlFor="identity">
                                     Username hoặc Email
                                 </label>
-
 
                                 <div className="relative group">
                                     <span className="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-gray-400">
@@ -228,7 +244,7 @@ export default function LoginPage() {
                         <div className="grid grid-cols-2 gap-3">
                             <button
                                 type="button"
-                                onClick={() => navigate("/buyer")}
+                                onClick={() => handleQuickLogin("buyer", "buyer")}
                                 className="flex flex-col items-center justify-center py-3 border border-teal-200 bg-teal-50 hover:bg-teal-100 rounded-xl transition-all group"
                             >
                                 <span className="material-symbols-outlined text-teal-600 mb-1 group-hover:scale-110 transition-transform">shopping_cart</span>
@@ -237,7 +253,7 @@ export default function LoginPage() {
 
                             <button
                                 type="button"
-                                onClick={() => navigate("/seller")}
+                                onClick={() => handleQuickLogin("seller", "seller")}
                                 className="flex flex-col items-center justify-center py-3 border border-orange-200 bg-orange-50 hover:bg-orange-100 rounded-xl transition-all group"
                             >
                                 <span className="material-symbols-outlined text-orange-600 mb-1 group-hover:scale-110 transition-transform">storefront</span>
@@ -246,7 +262,7 @@ export default function LoginPage() {
 
                             <button
                                 type="button"
-                                onClick={() => navigate("/admin")}
+                                onClick={() => handleQuickLogin("admin", "admin")}
                                 className="flex flex-col items-center justify-center py-3 border border-purple-200 bg-purple-50 hover:bg-purple-100 rounded-xl transition-all group"
                             >
                                 <span className="material-symbols-outlined text-purple-600 mb-1 group-hover:scale-110 transition-transform">admin_panel_settings</span>
@@ -255,7 +271,7 @@ export default function LoginPage() {
 
                             <button
                                 type="button"
-                                onClick={() => navigate("/buyer")}
+                                onClick={handleGuestLogin}
                                 className="flex flex-col items-center justify-center py-3 border border-gray-200 bg-gray-50 hover:bg-gray-100 rounded-xl transition-all group"
                             >
                                 <span className="material-symbols-outlined text-gray-600 mb-1 group-hover:scale-110 transition-transform">explore</span>

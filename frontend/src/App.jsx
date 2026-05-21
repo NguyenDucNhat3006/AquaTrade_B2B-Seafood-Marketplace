@@ -1,10 +1,10 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Link, Outlet, useLocation } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion'; // <-- Cập nhật import motion
-import { 
-  Fish, LayoutDashboard, BarChart3, ArrowRightLeft, Users, Package, 
-  AlertCircle, TestTube2, ClipboardList, ListTree, MapPin, Settings, 
-  BookOpen, Bell, Search 
+import {
+  Fish, LayoutDashboard, BarChart3, ArrowRightLeft, Users, Package,
+  AlertCircle, TestTube2, ClipboardList, ListTree, MapPin, Settings,
+  BookOpen, Bell, Search
 } from 'lucide-react';
 
 import LoginPage from './pages/login/LoginPage';
@@ -19,6 +19,7 @@ import ListingCriteria from './pages/ListingCriteria';
 import SellerDashboard from './pages/seller/SellerDashboard';
 import BuyerDashboard from './pages/buyer/BuyerDashboard';
 import AdminDashboard from './pages/admin/AdminDashboard';
+import OderMatching from './pages/admin/OrderMatching';
 import GradingStandards from './pages/admin/GradingStandards';
 import CategoryConfig from './pages/admin/CategoryConfig';
 import LabInput from './pages/admin/LabInput';
@@ -31,17 +32,9 @@ const AdminLayout = () => {
 
   return (
     <div className="flex h-screen bg-gray-50 font-sans text-gray-800">
-      
+
       {/* SIDEBAR NAVIGATION */}
       <aside className="w-60 bg-[#0a192f] text-gray-300 flex flex-col shrink-0 border-r border-gray-800 overflow-y-auto">
-
-        <div className="p-5 border-b border-gray-800 flex items-center gap-2">
-          <img src="/logo.png" alt="AquaTrade Logo" className="h-8 w-auto object-contain" />
-          <div className="leading-none">
-            <span className="text-[15px] font-black text-white block">AquaTrade</span>
-            <span className="text-[9px] font-mono text-gray-400 uppercase tracking-widest mt-1">Admin Console</span>
-          </div>
-        </div>
         <div className="m-4 p-2.5 bg-orange-900/30 border border-orange-500/30 rounded-lg flex items-center gap-2">
           <div className="w-2 h-2 bg-orange-500 rotate-45 animate-pulse shrink-0"></div>
           <p className="text-[10px] text-orange-400 font-mono uppercase tracking-widest">Admin Sàn — Role 5</p>
@@ -64,9 +57,9 @@ const AdminLayout = () => {
             <span className="flex-1">Người dùng</span>
             <span className="bg-red-500 text-white font-mono text-[9px] px-1.5 py-0.5 rounded-full font-bold">7</span>
           </Link>
-          <Link to="/admin/lots" className="flex items-center px-3 py-2.5 rounded-lg text-[13.5px] transition hover:bg-gray-800 text-gray-400 hover:text-white">
+          <Link to="/admin/oder-matching" className="flex items-center px-3 py-2.5 rounded-lg text-[13.5px] transition hover:bg-gray-800 text-gray-400 hover:text-white">
             <Package size={16} className="mr-3 opacity-80" />
-            <span className="flex-1">Lô hàng</span>
+            <span className="flex-1">Giao dịch khớp lệnh</span>
           </Link>
           <Link to="/admin/disputes" className="flex items-center px-3 py-2.5 rounded-lg text-[13.5px] transition hover:bg-gray-800 text-gray-400 hover:text-white">
             <AlertCircle size={16} className="mr-3 opacity-80" />
@@ -116,24 +109,24 @@ const AdminLayout = () => {
       <main className="flex-1 flex flex-col min-w-0">
         <header className="h-15 bg-white border-b border-gray-200 px-8 flex items-center justify-between sticky top-0 z-10 shrink-0">
           <div className="p-5 border-gray-800 flex items-center gap-2">
-                      <div classNam="w-8 h-8 bg-teal-400 rounded-lg flex items-center justify-center text-gray-900 shadow-lg shadow-teal-400/20">
-                        <img src={BrandLogo} alt="AquaMarket Logo" className="h-9 w-auto object-contain" />
-                      </div>
-                      <div className="leading-none">
-                        <span className="text-[15px] font-black text-black block">AquaMarket</span>
-                        <span className="text-[9px] font-mono text-gray-500 uppercase tracking-widest">Admin console</span>
-                      </div>
-                    </div>
+            <div classNam="w-8 h-8 bg-teal-400 rounded-lg flex items-center justify-center text-gray-900 shadow-lg shadow-teal-400/20">
+              <img src={BrandLogo} alt="AquaMarket Logo" className="h-9 w-auto object-contain" />
+            </div>
+            <div className="leading-none">
+              <span className="text-[15px] font-black text-black block">AquaMarket</span>
+              <span className="text-[9px] font-mono text-gray-500 uppercase tracking-widest">Admin console</span>
+            </div>
+          </div>
           <h1 className="text-[16px] font-bold text-gray-900">
             Hệ thống Quản trị AquaTrade
           </h1>
-          
+
           <div className="flex items-center gap-6">
             <div className="relative">
               <input type="text" placeholder="Tìm kiếm..." className="bg-gray-100 border border-gray-200 rounded-lg pl-9 pr-4 py-1.5 text-sm focus:ring-2 focus:ring-teal-500 outline-none w-64 transition" />
               <Search size={14} className="absolute left-3 top-2.5 text-gray-400" />
             </div>
-            
+
             <div className="text-[11px] text-gray-500 font-mono flex items-center gap-1.5">
               <span className="w-2 h-2 bg-green-500 rounded-full shadow-[0_0_8px_rgba(34,197,94,0.5)] animate-pulse"></span>
               Live · 14/05/2026
@@ -183,7 +176,7 @@ const AnimatedRoutes = () => {
     // mode="wait" giúp React xóa hẳn trang cũ xong mới bắt đầu render trang mới, triệt tiêu lỗi layout
     <AnimatePresence mode="wait">
       <Routes location={location} key={location.pathname}>
-        
+
         {/* Auth Pages */}
         <Route path="/login" element={<PageTransition><LoginPage /></PageTransition>} />
         <Route path="/register" element={<PageTransition><RegisterPage /></PageTransition>} />
@@ -196,7 +189,7 @@ const AnimatedRoutes = () => {
         <Route path="/exchange" element={<PageTransition><Exchange /></PageTransition>} />
         <Route path="/listing-criteria" element={<PageTransition><ListingCriteria /></PageTransition>} />
         <Route path="/route-optimization" element={<PageTransition><RouteOptimizationResult /></PageTransition>} />
-        
+
         {/* Dashboards */}
         <Route path="/seller" element={<PageTransition><SellerDashboard /></PageTransition>} />
         <Route path="/buyer" element={<PageTransition><BuyerDashboard /></PageTransition>} />
@@ -205,6 +198,7 @@ const AnimatedRoutes = () => {
         <Route path="/admin" element={<PageTransition><AdminLayout /></PageTransition>}>
           <Route index element={<AdminDashboard />} />
           <Route path="reports" element={<AquaMarketReports />} />
+          <Route path="oder-matching" element={<OderMatching />} />
           <Route path="grading-standards" element={<GradingStandards />} />
           <Route path="categories" element={<CategoryConfig />} />
           <Route path="lab-input" element={<LabInput />} />
