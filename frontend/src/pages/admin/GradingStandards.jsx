@@ -204,7 +204,7 @@ const GradingStandards = () => {
          <div className="flex gap-4">
             <Scale className="text-gray-400" size={32} />
             <div className="max-w-2xl text-xs text-gray-500 leading-relaxed">
-               <strong>Tuyên bố từ chối trách nhiệm (Disclaimer):</strong> Tài liệu này là Tiêu chuẩn cơ sở (TCCS) phục vụ giao dịch nội bộ AquaMarket. QCVN 01-190:2020 và các quy định của Nhà nước luôn được ưu tiên tuyệt đối. Sàn đóng vai trò trung gian kết nối và xác thực hình thức hồ sơ.
+               <strong>Tuyên bố từ chối trách nhiệm (Disclaimer):</strong> Tài liệu này là Tiêu chuẩn cơ sở (TCCS) phục vụ giao dịch nội bộ AquaTrade. QCVN 01-190:2020 và các quy định của Nhà nước luôn được ưu tiên tuyệt đối. Sàn đóng vai trò trung gian kết nối và xác thực hình thức hồ sơ.
             </div>
          </div>
          <div className="text-right shrink-0">

@@ -429,10 +429,8 @@ const BuyerDashboard = () => {
       {/* ================= SIDEBAR ================= */}
       <aside className="w-60 bg-[#0a192f] text-white flex flex-col shrink-0">
         <div className="h-16 flex items-center px-6 border-b border-gray-700">
-          <div className="w-8 h-8 bg-teal-500 rounded-lg flex items-center justify-center text-gray-900 shadow-lg shadow-teal-400/20">
-            <Fish size={18} strokeWidth={2.5} />
-          </div>
-          <span className="text-lg font-bold ml-2">AquaMarket</span>
+          <img src="/logo.png" alt="AquaTrade Logo" className="h-8 w-auto object-contain" />
+          <span className="text-lg font-bold ml-2">AquaTrade</span>
         </div>
         <nav className="flex-1 px-4 py-6 space-y-1">
           <NavItem label="Sàn giao dịch" active={activeTab === 'Sàn giao dịch'} onClick={() => setActiveTab('Sàn giao dịch')} icon={<Store size={16} />} />

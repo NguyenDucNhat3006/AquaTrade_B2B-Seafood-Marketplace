@@ -13,11 +13,9 @@ const SellerDashboard = () => {
       {/* SIDEBAR */}
       <aside className="w-56 bg-[#0a192f] text-gray-300 flex flex-col shrink-0 border-r border-gray-800 overflow-y-auto">
         <div className="p-5 border-b border-gray-800 flex items-center gap-2">
-          {/* <div className="w-8 h-8 bg-teal-400 rounded-lg flex items-center justify-center text-gray-900 shadow-lg shadow-teal-400/20">
-            <Fish size={18} strokeWidth={2.5} />
-          </div> */}
+          <img src="/logo.png" alt="AquaTrade Logo" className="h-8 w-auto object-contain" />
           <div className="leading-none">
-            <span className="text-[15px] font-black text-white block">AquaMarket</span>
+            <span className="text-[15px] font-black text-white block">AquaTrade</span>
             <span className="text-[9px] font-mono text-gray-500 uppercase tracking-widest">B2B · Người Bán</span>
           </div>
         </div>

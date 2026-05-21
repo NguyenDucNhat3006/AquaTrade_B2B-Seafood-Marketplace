@@ -56,9 +56,7 @@ export default function LoginPage() {
 
                 <div className="z-10 max-w-md">
                     <div className="flex items-center gap-3 mb-8">
-                        <span className="material-symbols-outlined text-[#71f8e4] text-4xl">
-                            waves
-                        </span>
+                        <img src="/logo.png" alt="AquaTrade Logo" className="h-12 w-auto object-contain" />
                         <h1 className="text-5xl font-bold tracking-tight">AquaTrade</h1>
                     </div>
 
@@ -82,9 +80,7 @@ export default function LoginPage() {
             {/* Mobile Header */}
             <header className="md:hidden w-full h-20 aqua-gradient flex items-center px-4">
                 <div className="flex items-center gap-2">
-                    <span className="material-symbols-outlined text-[#71f8e4] text-3xl">
-                        waves
-                    </span>
+                    <img src="/logo.png" alt="AquaTrade Logo" className="h-8 w-auto object-contain" />
                     <span className="text-2xl text-white font-bold">AquaTrade</span>
                 </div>
             </header>
