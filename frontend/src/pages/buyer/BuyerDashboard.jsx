@@ -355,6 +355,8 @@ const BuyerDashboard = () => {
   const [sortOrder, setSortOrder] = useState('asc');
   const [filterMoq, setFilterMoq] = useState('');
   const [filterSupply, setFilterSupply] = useState('');
+  const [savedLots, setSavedLots] = useState([]);
+  const [activeTab, setActiveTab] = useState('Sàn giao dịch');
 
   // Helpers
   const parsePrice = (priceStr) => parseInt(priceStr.replace(/\./g, ''), 10) || 0;
@@ -366,6 +368,11 @@ const BuyerDashboard = () => {
 
   // Derived Data
   const filteredLots = mockLots.filter(lot => {
+    // 0. Tab "Lô hàng yêu thích"
+    if (activeTab === 'Lô hàng yêu thích' && !savedLots.includes(lot.id)) {
+      return false;
+    }
+
     // 1. Search term
     if (searchTerm) {
       const term = searchTerm.toLowerCase();
@@ -428,11 +435,11 @@ const BuyerDashboard = () => {
           <span className="text-lg font-bold ml-2">AquaMarket</span>
         </div>
         <nav className="flex-1 px-4 py-6 space-y-1">
-          <NavItem label="Sàn giao dịch" active icon={<Store size={16} />} />
+          <NavItem label="Sàn giao dịch" active={activeTab === 'Sàn giao dịch'} onClick={() => setActiveTab('Sàn giao dịch')} icon={<Store size={16} />} />
           <NavItem label="Đơn hàng của tôi" badge="3" icon={<ShoppingCart size={16} />} />
           <NavItem label="Chi tiêu & Ngân sách" icon={<Wallet size={16} />} />
           <p className="px-4 text-[10px] text-gray-500 uppercase font-bold py-2 mt-6">Theo dõi</p>
-          <NavItem label="Lô hàng yêu thích" icon={<Heart size={16} />} />
+          <NavItem label="Lô hàng yêu thích" active={activeTab === 'Lô hàng yêu thích'} onClick={() => setActiveTab('Lô hàng yêu thích')} badge={savedLots.length > 0 ? savedLots.length.toString() : null} icon={<Heart size={16} />} />
           <NavItem label="Thông báo giá" icon={<BellRing size={16} />} />
         </nav>
         <div className="p-4 border-t border-gray-700 flex items-center gap-3">
@@ -449,7 +456,7 @@ const BuyerDashboard = () => {
         
         {/* HEADER */}
         <header className="h-15 bg-white border-b flex items-center gap-6 px-8 shrink-0">
-          <h1 className="text-[16px] font-bold whitespace-nowrap">Danh Sách Lô Hàng</h1>
+          <h1 className="text-[16px] font-bold whitespace-nowrap">{activeTab === 'Lô hàng yêu thích' ? 'Lô hàng yêu thích' : 'Danh Sách Lô Hàng'}</h1>
           <div className="flex-1 max-w-md relative">
             <input 
               value={searchTerm}
@@ -614,8 +621,16 @@ const BuyerDashboard = () => {
                          </span>
                        ))}
                      </div>
-                     <button className="flex items-center gap-1.5 px-3 py-1 border border-gray-200 rounded-lg text-gray-600 hover:bg-gray-50 text-[11px] font-medium">
-                       <Heart size={14} /> Lưu
+                     <button 
+                       onClick={() => {
+                         setSavedLots(prev => 
+                           prev.includes(selectedLot.id) 
+                             ? prev.filter(id => id !== selectedLot.id)
+                             : [...prev, selectedLot.id]
+                         );
+                       }}
+                       className={`flex items-center gap-1.5 px-3 py-1 border rounded-lg text-[11px] font-medium transition ${savedLots.includes(selectedLot.id) ? 'bg-pink-50 border-pink-200 text-pink-600' : 'border-gray-200 text-gray-600 hover:bg-gray-50'}`}>
+                       <Heart size={14} className={savedLots.includes(selectedLot.id) ? 'fill-current' : ''} /> {savedLots.includes(selectedLot.id) ? 'Đã lưu' : 'Lưu'}
                      </button>
                   </div>
 
@@ -783,8 +798,8 @@ const SelectFilter = ({ options, value, onChange }) => (
   </select>
 );
 
-const NavItem = ({ label, active, badge, icon }) => (
-  <a href="#" className={`flex items-center px-4 py-2.5 rounded-lg transition ${active ? 'bg-teal-500 text-white shadow-md font-bold' : 'text-gray-400 hover:bg-gray-800 hover:text-white'}`}>
+const NavItem = ({ label, active, badge, icon, onClick }) => (
+  <a href="#" onClick={(e) => { e.preventDefault(); if (onClick) onClick(); }} className={`flex items-center px-4 py-2.5 rounded-lg transition ${active ? 'bg-teal-500 text-white shadow-md font-bold' : 'text-gray-400 hover:bg-gray-800 hover:text-white'}`}>
     <span className={`mr-3 ${active ? 'opacity-100' : 'opacity-80'}`}>{icon}</span>
     <span className="flex-1 text-sm">{label}</span>
     {badge && <span className={`${active ? 'bg-white text-teal-600' : 'bg-orange-500 text-white'} text-[9px] font-bold px-2 py-0.5 rounded-full`}>{badge}</span>}
