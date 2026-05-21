@@ -753,8 +753,19 @@ const BuyerDashboard = () => {
                 </div>
               </div>
             </div>
-
           </div>
+
+          {/* MAP SECTION */}
+          {activeTab === 'Sàn giao dịch' && (
+              <div className="mt-8 bg-white border border-gray-200 rounded-xl overflow-hidden shadow-sm">
+                  <div className="px-6 py-4 border-b border-gray-100 flex justify-between items-center bg-gray-50">
+                      <h3 className="font-bold text-[15px] text-gray-900">Bản Đồ Lộ Trình Vận Chuyển & Phân Phối (MILP)</h3>
+                      <span className="text-[12px] font-mono text-teal-600 bg-teal-50 px-2 py-1 rounded-full">Trực tuyến</span>
+                  </div>
+                  <iframe src="/route-map.html" className="w-full h-[600px] border-none" title="Route Optimization Map"></iframe>
+              </div>
+          )}
+
         </div>
       </main>
     </div>
