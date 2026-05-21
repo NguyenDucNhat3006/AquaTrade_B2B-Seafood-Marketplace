@@ -88,7 +88,7 @@ const LandingPage = () => {
           <NavItem icon={<Home size={20} />} label="Trang chủ" active onClick={() => navigate('/')} />
           <NavItem icon={<ArrowRightLeft size={20} />} label="Sàn Giao dịch" onClick={() => navigate('/exchange')} />
           <div className="border-t border-gray-700 mt-4 pt-4">
-            <NavItem icon={<Navigation size={20} />} label="Theo dõi xe" badge="Mới" />
+            <NavItem icon={<Navigation size={20} />} label="Theo dõi xe" badge="Mới" onClick={() => navigate('/route-optimization')} />
           </div>
         </nav>
       </aside>

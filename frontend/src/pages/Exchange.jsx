@@ -9,7 +9,6 @@ import {
 import mapImg from '../assets/images/map/map-dong-bang-song-cu-long.png';
 import BrandLogo from '../assets/images/logo/brand.png';
 
-
 const Exchange = () => {
   const navigate = useNavigate();
 
@@ -41,12 +40,14 @@ const Exchange = () => {
 
       {/* ================= SIDEBAR ================= */}
       <aside className="w-64 bg-[#0a192f] text-white flex flex-col shrink-0 z-10">
+
+
         <nav className="flex-1 px-4 py-6 space-y-2">
           <NavItem icon={<Home size={20} />} label="Trang chủ" onClick={() => navigate('/')} />
           <NavItem icon={<ArrowRightLeft size={20} />} label="Sàn Giao dịch" active />
 
           <div className="border-t border-gray-700 mt-4 pt-4">
-            <NavItem icon={<Navigation size={20} />} label="Theo dõi xe" badge="Mới" />
+            <NavItem icon={<Navigation size={20} />} label="Theo dõi xe" badge="Mới" onClick={() => navigate('/route-optimization')} />
           </div>
         </nav>
 
@@ -56,7 +57,6 @@ const Exchange = () => {
             <Slider label="Hệ số tươi" value="1.00" />
             <Slider label="Tải trọng xe" value="100" />
             <Slider label="Phí vận hành" value="0.08" />
-            <Slider label="Phí vận hành" value="1.8" />
             <div className="flex items-center justify-between mt-2">
               <span className="text-gray-300">Cùng, cáp trời</span>
               <div className="w-8 h-4 bg-gray-500 rounded-full flex items-center px-1">
@@ -75,12 +75,9 @@ const Exchange = () => {
 
         {/* Top Header */}
         <header className="h-16 bg-white border-b flex items-center justify-between px-8 shrink-0 z-10">
-          <div className="flex space-x-6 text-sm font-medium text-gray-900">
-            <div className="h-16 flex items-center px-6  border-gray-700">
-              <img src={BrandLogo} alt="AquaMarket Logo" className="h-9 w-auto object-contain" />
-              <span className="text-xl font-bold tracking-wide">AquaTrade</span>
-            </div>
-
+          <div className="h-16 flex items-center px-6 border-b border-gray-700">
+            <img src={BrandLogo} alt="AquaMarket Logo" className="h-8 w-auto object-contain" />
+            <span className="text-xl font-bold tracking-wide ml-2">AquaTrade</span>
           </div>
           <div className="flex items-center space-x-4">
             <div className="relative">
@@ -123,12 +120,24 @@ const Exchange = () => {
           {/* Bản đồ Tối ưu Vận tải */}
           <div className="grid grid-cols-1 xl:grid-cols-1 gap-6">
             <section className="bg-white rounded-xl shadow-sm border border-gray-100 p-5 flex flex-col h-112.5">
+
+              {/* ĐÃ THÊM NÚT "XEM CHI TIẾT" Ở ĐÂY */}
               <div className="flex justify-between items-center mb-3">
                 <h2 className="text-lg font-bold text-gray-800">Bản đồ Tối ưu Vận tải</h2>
-                <select className="border border-gray-200 rounded px-2 py-1 text-xs text-gray-600 outline-none">
-                  <option>Công cụ ra quyết định</option>
-                  <option>Xem toàn tuyến</option>
-                </select>
+                <div className="flex items-center gap-3">
+                  <select className="border border-gray-200 rounded px-2 py-1 text-xs text-gray-600 outline-none">
+                    <option>Công cụ ra quyết định</option>
+                    <option>Xem toàn tuyến</option>
+                  </select>
+
+                  {/* Nút xem chi tiết gọi trang Route Optimization */}
+                  <button
+                    onClick={() => navigate('/route-optimization')}
+                    className="flex items-center gap-1 bg-teal-50 text-teal-700 hover:bg-teal-100 border border-teal-200 px-3 py-1.5 rounded-lg text-xs font-bold transition-colors"
+                  >
+                    Xem chi tiết <ChevronRight size={14} />
+                  </button>
+                </div>
               </div>
 
               <div className="relative flex-1 border border-gray-200 rounded-lg overflow-hidden bg-gray-100 cursor-move">
@@ -333,16 +342,12 @@ const Exchange = () => {
                       <p className="text-[11px] text-gray-500">Kết quả Kiểm tra</p>
                     </div>
 
-                    {/* CSS Pie Chart - ĐÃ FIX VỊ TRÍ NHÃN TƯƠNG ĐỐI HOÀN HẢO */}
+                    {/* CSS Pie Chart */}
                     <div className="relative w-36 h-36 rounded-full mb-6 shadow-sm overflow-hidden"
                       style={{ background: 'conic-gradient(#ef4444 0% 25%, #22c55e 25% 100%)' }}>
-
-                      {/* Box chứa Nhãn 25% (Chỉ định chính xác góc trên bên phải) */}
                       <div className="absolute top-0 right-0 w-1/2 h-1/2 flex items-center justify-center">
                         <span className="text-white font-bold text-xs">25%</span>
                       </div>
-
-                      {/* Box chứa Nhãn 75% (Chỉ định chính xác nửa dưới tâm biểu đồ) */}
                       <div className="absolute bottom-0 left-0 w-full h-1/2 flex items-center justify-center">
                         <span className="text-white font-bold text-xs">75%</span>
                       </div>
@@ -355,15 +360,15 @@ const Exchange = () => {
                     </div>
                   </div>
 
-                  {/* Nút CTA */}
+                  {/* Nút CTA chuyển sang Listing Criteria */}
                   <button
                     onClick={() => {
-                      setIsDetailModalOpen(false); // 1. Tắt popup hiện tại đi
-                      navigate('/listing-criteria'); // 2. Chuyển sang trang Tiêu chí Niêm Yết
+                      setIsDetailModalOpen(false);
+                      navigate('/listing-criteria');
                     }}
                     className="w-full bg-gradient-to-r from-emerald-400 to-blue-500 hover:from-emerald-500 hover:to-blue-600 text-white font-bold py-3.5 px-4 rounded-xl shadow-md flex justify-between items-center transition-all"
                   >
-                    <span>Xem chi tiết</span>
+                    <span>Xem tiêu chí</span>
                     <ChevronRight size={20} />
                   </button>
                 </div>
@@ -378,9 +383,8 @@ const Exchange = () => {
   );
 };
 
-// ================= SUBCOMPONENTS MỚI =================
+// ================= SUBCOMPONENTS =================
 
-// Card cho mục Tóm tắt đầu trang
 const TopSummaryCard = ({ title, value, icon }) => (
   <div className="bg-white rounded-lg p-4 border border-gray-100 flex justify-between items-center shadow-sm">
     <div className="flex flex-col">
@@ -393,7 +397,6 @@ const TopSummaryCard = ({ title, value, icon }) => (
   </div>
 );
 
-// Card cho KPI trong Modal
 const ModalKpiCard = ({ title, value, icon, color }) => (
   <div className="bg-white rounded-xl p-4 border border-gray-200 flex justify-between items-center shadow-sm">
     <div className="flex flex-col">
@@ -405,8 +408,6 @@ const ModalKpiCard = ({ title, value, icon, color }) => (
     </div>
   </div>
 );
-
-// ================= CÁC COMPONENT CŨ GIỮ NGUYÊN =================
 
 const Legend = ({ position }) => {
   const legendItems = [
@@ -470,11 +471,10 @@ const InfoLabel = ({ x, y, title, color, scale = 1, children }) => {
 };
 
 const NavItem = ({ icon, label, active, badge, onClick }) => (
-  <button 
-    onClick={onClick} 
-    className={`w-full flex items-center px-4 py-2.5 rounded-lg transition-colors ${
-      active ? 'bg-teal-900 text-teal-400' : 'text-gray-300 hover:bg-gray-800 hover:text-white'
-    }`}
+  <button
+    onClick={onClick}
+    className={`w-full flex items-center px-4 py-2.5 rounded-lg transition-colors ${active ? 'bg-teal-900 text-teal-400' : 'text-gray-300 hover:bg-gray-800 hover:text-white'
+      }`}
   >
     <div className="mr-3">{icon}</div>
     <span className="flex-1 text-sm font-medium text-left">{label}</span>

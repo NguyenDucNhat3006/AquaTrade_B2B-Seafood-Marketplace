@@ -14,6 +14,7 @@ import OtpPage from './pages/login/OtpPage';
 
 import LandingPage from './pages/LandingPage';
 import Exchange from './pages/Exchange';
+import RouteOptimizationResult from './pages/RouteOptimizationResult';
 import ListingCriteria from './pages/ListingCriteria';
 import SellerDashboard from './pages/seller/SellerDashboard';
 import BuyerDashboard from './pages/buyer/BuyerDashboard';
@@ -186,6 +187,7 @@ const AnimatedRoutes = () => {
         <Route path="/home" element={<PageTransition><LandingPage /></PageTransition>} />
         <Route path="/exchange" element={<PageTransition><Exchange /></PageTransition>} />
         <Route path="/listing-criteria" element={<PageTransition><ListingCriteria /></PageTransition>} />
+        <Route path="/route-optimization" element={<PageTransition><RouteOptimizationResult /></PageTransition>} />
         
         {/* Dashboards */}
         <Route path="/seller" element={<PageTransition><SellerDashboard /></PageTransition>} />
