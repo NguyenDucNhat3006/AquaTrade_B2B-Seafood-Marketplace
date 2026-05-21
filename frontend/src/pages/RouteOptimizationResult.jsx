@@ -520,7 +520,7 @@ export default function RouteOptimizationResult() {
         
         {/* Top Header */}
         <header className="h-16 bg-white border-b flex items-center justify-between px-8 shrink-0 z-10">
-          <div className="h-16 flex items-center px-6 border-b border-gray-700">
+          <div className="h-16 flex items-center px-6 border-b border-gray-700" onClick={() => navigate('/')} style={{ cursor:"pointer" }}>
           <img src={BrandLogo} alt="AquaMarket Logo" className="h-8 w-auto object-contain" />
           <span className="text-xl font-bold tracking-wide ml-2">AquaTrade</span>
         </div>

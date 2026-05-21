@@ -108,7 +108,7 @@ const AdminLayout = () => {
       {/* MAIN VIEW AREA */}
       <main className="flex-1 flex flex-col min-w-0">
         <header className="h-15 bg-white border-b border-gray-200 px-8 flex items-center justify-between sticky top-0 z-10 shrink-0">
-          <div className="p-5 border-gray-800 flex items-center gap-2">
+          <div className="p-5 border-gray-800 flex items-center gap-2" onClick={() => window.location.href = '/'} style={{ cursor: 'pointer' }}>
             <div classNam="w-8 h-8 bg-teal-400 rounded-lg flex items-center justify-center text-gray-900 shadow-lg shadow-teal-400/20">
               <img src={BrandLogo} alt="AquaMarket Logo" className="h-9 w-auto object-contain" />
             </div>
