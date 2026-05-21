@@ -117,113 +117,23 @@ const Exchange = () => {
             </div>
           </section>
 
-          {/* Bản đồ Tối ưu Vận tải */}
-          <div className="grid grid-cols-1 xl:grid-cols-1 gap-6">
-            <section className="bg-white rounded-xl shadow-sm border border-gray-100 p-5 flex flex-col h-112.5">
 
-              {/* ĐÃ THÊM NÚT "XEM CHI TIẾT" Ở ĐÂY */}
-              <div className="flex justify-between items-center mb-3">
-                <h2 className="text-lg font-bold text-gray-800">Bản đồ Tối ưu Vận tải</h2>
-                <div className="flex items-center gap-3">
-                  <select className="border border-gray-200 rounded px-2 py-1 text-xs text-gray-600 outline-none">
-                    <option>Công cụ ra quyết định</option>
-                    <option>Xem toàn tuyến</option>
-                  </select>
-
-                  {/* Nút xem chi tiết gọi trang Route Optimization */}
-                  <button
+          <div className="mt-8 bg-white border border-gray-200 rounded-xl overflow-hidden shadow-sm">
+            
+            <div className="px-6 py-4 border-b border-gray-100 flex justify-between items-center bg-gray-50">
+              <button
                     onClick={() => navigate('/route-optimization')}
                     className="flex items-center gap-1 bg-teal-50 text-teal-700 hover:bg-teal-100 border border-teal-200 px-3 py-1.5 rounded-lg text-xs font-bold transition-colors"
                   >
                     Xem chi tiết <ChevronRight size={14} />
                   </button>
-                </div>
-              </div>
-
-              <div className="relative flex-1 border border-gray-200 rounded-lg overflow-hidden bg-gray-100 cursor-move">
-                <TransformWrapper
-                  initialScale={1}
-                  minScale={0.5}
-                  maxScale={5}
-                  centerOnInit={true}
-                  wheel={{ step: 0.1 }}
-                >
-                  {(utils) => {
-                    const currentScale = utils.state?.scale || utils.transformState?.scale || 1;
-
-                    return (
-                      <>
-                        <div className="absolute top-2 right-2 z-30 flex flex-col gap-1">
-                          <button onClick={() => utils.zoomIn()} className="w-7 h-7 bg-white/90 hover:bg-white border border-gray-300 rounded shadow-sm text-gray-700 font-bold flex items-center justify-center transition-colors">+</button>
-                          <button onClick={() => utils.zoomOut()} className="w-7 h-7 bg-white/90 hover:bg-white border border-gray-300 rounded shadow-sm text-gray-700 font-bold flex items-center justify-center transition-colors">-</button>
-                          <button onClick={() => utils.resetTransform()} className="w-7 h-7 bg-white/90 hover:bg-white border border-gray-300 rounded shadow-sm text-gray-700 text-[10px] font-medium flex items-center justify-center transition-colors">Gốc</button>
-                        </div>
-
-                        <TransformComponent wrapperClass="!w-full !h-full" contentClass="!w-full !h-full">
-                          <div className="relative w-full h-full">
-                            <img
-                              src={mapImg}
-                              alt="Bản đồ Đồng Bằng Sông Cửu Long"
-                              className="w-full h-full object-cover select-none pointer-events-none"
-                            />
-
-                            {/* SVG Tuyến đường */}
-                            <svg className="absolute inset-0 w-full h-full z-0 pointer-events-none" viewBox="0 0 100 100" preserveAspectRatio="none">
-                              {routes.map((route, index) => (
-                                <path
-                                  key={`shadow-${index}`}
-                                  d={getPathData(route.points)}
-                                  fill="none" stroke="white" strokeWidth="1.2"
-                                  strokeLinecap="round" strokeLinejoin="round" className="opacity-70"
-                                />
-                              ))}
-                              {routes.map((route, index) => (
-                                <path
-                                  key={`line-${index}`}
-                                  d={getPathData(route.points)}
-                                  fill="none" stroke="currentColor" strokeWidth="0.6"
-                                  strokeLinecap="round" strokeLinejoin="round" className={route.color}
-                                />
-                              ))}
-                            </svg>
-
-                            {/* Điểm đánh dấu (Markers) */}
-                            {locations.map((loc, index) => (
-                              loc.label && <Marker key={`marker-${index}`} type={loc.type} x={loc.x} y={loc.y} label={loc.label} scale={currentScale} />
-                            ))}
-
-                            {/* Nhãn Xe (InfoLabels) */}
-                            <InfoLabel x={28} y={75} title="Xe 1" color="text-blue-700" scale={currentScale}>
-                              <div className="flex flex-col gap-0.5">
-                                <span><span className="font-bold text-blue-700">Xe 1:</span> Cà Mau {'->'} Hub Bạc Liêu</span>
-                                <span className="text-gray-500 text-[10px]">3.5 giờ | <span className="font-bold text-gray-800">Đạt 85% tải</span></span>
-                              </div>
-                            </InfoLabel>
-
-                            <InfoLabel x={36} y={55} title="Xe 1" color="text-blue-700" scale={currentScale}>
-                              <div className="flex flex-col gap-0.5">
-                                <span><span className="font-bold text-blue-700">Xe 1:</span> Bạc Liêu {'->'} Cần Thơ</span>
-                                <span className="text-gray-500 text-[10px]">2.0 giờ | <span className="font-bold text-gray-800">Đạt 90% tải</span></span>
-                              </div>
-                            </InfoLabel>
-
-                            <InfoLabel x={30} y={62} title="Xe 2" color="text-green-600" scale={currentScale}>
-                              <div className="flex flex-col gap-0.5">
-                                <span><span className="font-bold text-green-600">Xe 2:</span> Phú Tân {'->'} Long An</span>
-                                <span className="text-gray-500 text-[10px]">4.5 giờ | <span className="font-bold text-gray-800">Đạt 100% tải</span></span>
-                              </div>
-                            </InfoLabel>
-                          </div>
-                        </TransformComponent>
-                      </>
-                    );
-                  }}
-                </TransformWrapper>
-
-                <Legend position="top-2 left-2" />
-              </div>
-            </section>
+              <h3 className="font-bold text-[15px] text-gray-900">Bản Đồ Lộ Trình Vận Chuyển & Phân Phối (MILP)</h3>
+              <span className="text-[12px] font-mono text-teal-600 bg-teal-50 px-2 py-1 rounded-full">Trực tuyến</span>
+            </div>
+            <iframe src="/route-map.html" className="w-full h-[600px] border-none" title="Route Optimization Map"></iframe>
+            
           </div>
+
 
           {/* Bảng Đơn hàng */}
           <section className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
